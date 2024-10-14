@@ -214,8 +214,6 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-#define btnL1 Controller.ButtonL1
-
 void usercontrol(void) {
   // User control code here, inside the loop
   int time = 0;
