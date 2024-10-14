@@ -129,16 +129,12 @@ void pre_auton() {
   if (battery > 75) {
     Brain.Screen.clearScreen(green);
     Brain.Screen.setFillColor(green);
-  } else if (battery > 50) {
+  } else if (battery > 25) {
     Brain.Screen.clearScreen(yellow);
     Brain.Screen.setFillColor(yellow);
-  } else if (battery > 25) {
-    Brain.Screen.clearScreen(orange);
-    Brain.Screen.setFillColor(orange);
   } else {
     Brain.Screen.clearScreen(red);
     Brain.Screen.setFillColor(red);
-    
   }
 
   Brain.Screen.printAt(5, 20, "393W");
