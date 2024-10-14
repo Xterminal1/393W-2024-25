@@ -114,6 +114,8 @@ PORT3,     -PORT4,
  * be more descriptive, if you like.
  */
 
+int auton = 0;
+
 void pre_auton() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
@@ -121,8 +123,6 @@ void pre_auton() {
 
   imu.calibrate(3000);
   wait(3000, msec);
-
-  int auton = 0;
 
   // battery check
   int battery = Brain.Battery.capacity();
