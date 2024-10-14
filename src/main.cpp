@@ -121,7 +121,6 @@ void pre_auton() {
   vexcodeInit();
   default_constants();
 
-  // calibration of IMU
   imu.calibrate(3000);
   wait(3000, msec);
 
@@ -215,21 +214,35 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+#define btnL1 Controller.ButtonL1
+
 void usercontrol(void) {
   // User control code here, inside the loop
   int time = 0;
   Controller.Screen.clearScreen();
+  
   while (1) {
-    controls();
+    // chassis
+    arcade(true);
+
+    // intake
+    if (Controller.ButtonL1.pressing()) {
+      move_intake(11);
+    } else if (Controller.ButtonL2.pressing()) {
+      move_intake(-11);
+    } else {
+      move_intake(0);
+    }
 
     // motor temperature printing
     double chassis_temperature = (lf.temperature(celsius) + lm.temperature(celsius) + lb.temperature(celsius) + 
                                   rf.temperature(celsius) + rm.temperature(celsius) + rb.temperature(celsius)) / 6;
+
     if (time % 100 == 0) {
       Controller.Screen.setCursor(0, 0);
       Controller.Screen.print("DRIVE: %f", chassis_temperature);
       Controller.Screen.newLine();
-      Controller.Screen.print("INTAKE %f", intake.temperature(celsius));
+      Controller.Screen.print("INTAKE: %f", intake.temperature(celsius));
       // Controller.Screen.newLine();
       // Controller.Screen.print("LIFT %f", lift.temperature(celsius));
     }
@@ -240,17 +253,17 @@ void usercontrol(void) {
   }
 }
 
-bool toggle_mogo = false;
-bool toggle_doinker = false;
+bool mogo_state = false;
+bool doinker_state = false;
 
-void macro_mogo() {
-  toggle_mogo = !toggle_mogo;
-  mogo.set(toggle_mogo);
+void callback_mogo() {
+  mogo_state = !mogo_state;
+  mogo.set(mogo_state);
 }
 
-void macro_doinker() {
-  toggle_doinker = !toggle_doinker;
-  doinker.set(toggle_doinker);
+void callback_doinker() {
+  doinker_state = !doinker_state;
+  doinker.set(doinker_state);
 }
 
 //
@@ -258,8 +271,8 @@ void macro_doinker() {
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
-  Controller.ButtonR1.pressed(macro_mogo);
-  Controller.ButtonR2.pressed(macro_doinker);
+  Controller.ButtonR1.pressed(callback_mogo);
+  Controller.ButtonR2.pressed(callback_doinker);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);

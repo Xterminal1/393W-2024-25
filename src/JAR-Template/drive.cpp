@@ -738,25 +738,14 @@ void move_intake(int voltage) {
   intake.spin(fwd, voltage, volt);
 }
 
-void arcade() {
+void arcade(bool curve) {
   int forward = Controller.Axis3.position();
-  int x = Controller.Axis1.position();
-  int turn = int(abs(x) * x / 100);
+  int turn = Controller.Axis1.position();
 
-  L.spin(fwd, to_volt(forward + turn), volt);
-  R.spin(fwd, to_volt(forward - turn), volt);
-}
-
-void controls() {
-  // chassis
-  arcade();
-
-  // intake
-  if (Controller.ButtonL1.pressing()) {
-    move_intake(11);
-  } else if (Controller.ButtonL2.pressing()) {
-    move_intake(-11);
-  } else {
-    move_intake(0);
+  if (curve) {
+    int turn = int(abs(turn) * turn / 100);
   }
+
+  l.spin(fwd, to_volt(forward + turn), volt);
+  r.spin(fwd, to_volt(forward - turn), volt);
 }

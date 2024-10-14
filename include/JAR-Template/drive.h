@@ -156,4 +156,3 @@ public:
 
 void move_intake(int voltage);
 void arcade(bool curve);
-void controls();

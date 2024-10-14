@@ -63,7 +63,7 @@ void rl10() {
   // ring 4
 }
 
-void auto_SKILLS() {}
+void auto_skills_2() {}
 
 #pragma region
 // change to intake moving continously?
