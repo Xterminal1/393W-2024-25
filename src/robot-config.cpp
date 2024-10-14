@@ -55,25 +55,6 @@ digital_out mogo = digital_out(Brain.ThreeWirePort.PORT_MOGO);
 digital_out doinker = digital_out(Brain.ThreeWirePort.PORT_DOINKER);
 limit limit_switch = limit(Brain.ThreeWirePort.PORT_LIMIT);
 
-// motor LF = motor(PORT9, ratio6_1, true);
-// motor LM = motor(PORT2, ratio6_1, true);
-// motor LB = motor(PORT11, ratio6_1, true);
-// motor RF = motor(PORT6, ratio6_1, false);
-// motor RM = motor(PORT5, ratio6_1, false);
-// motor RB = motor(PORT4, ratio6_1, false);
-
-// motor intake_1 = motor(PORT7, ratio6_1, false);
-// motor intake_2 = motor(PORT8, ratio6_1, false);
-
-// inertial imu = inertial(PORT9);
-// digital_out mogo = digital_out(Brain.ThreeWirePort.A);
-// digital_out doinker = digital_out(Brain.ThreeWirePort.B);
-// limit limit_switch = limit(Brain.ThreeWirePort.C);
-
-// motor_group L = motor_group(LF, LM, LB);
-// motor_group R = motor_group(RF, RM, RB);
-// motor_group intake = motor_group(intake_1, intake_2);
-
 void vexcodeInit( void ) {
   // nothing to initialize
 }
