@@ -157,16 +157,20 @@ void pre_auton() {
     }
     
     if (auton == 0) {
-      Brain.Screen.printAt(5, 110, "Auton 1: Red Left    ");
+      Brain.Screen.printAt(5, 110, "Auton 1: Red Left         ");
     } else if (auton == 1) {
-      Brain.Screen.printAt(5, 110, "Auton 2: Red Right   ");
+      Brain.Screen.printAt(5, 110, "Auton 2: Red Right Quals  ");
     } else if (auton == 2) {
-      Brain.Screen.printAt(5, 110, "Auton 3: Blue Left   ");
+      Brain.Screen.printAt(5, 110, "Auton 3: Red Right Elims  ");
     } else if (auton == 3) {
-      Brain.Screen.printAt(5, 110, "Auton 4: Blue Right  ");
+      Brain.Screen.printAt(5, 110, "Auton 4: Blue Left Quals  ");
     } else if (auton == 4) {
-      Brain.Screen.printAt(5, 110, "Auton 5: Skills      ");
+      Brain.Screen.printAt(5, 110, "Auton 5: Blue Left Elims  ");
     } else if (auton == 5) {
+      Brain.Screen.printAt(5, 110, "Auton 6: Blue Right       ");
+    } else if (auton == 6) {
+      Brain.Screen.printAt(5, 110, "Auton 7: Skills           ");
+    } else if (auton == 7) {
       auton = 0;
     }
 
@@ -185,19 +189,19 @@ void autonomous(void) {
   imu.resetRotation();
 
   if (auton == 0) {
-
+    auto_red_left();
   } else if (auton == 1) {
-
+    auto_red_right_quals();
   } else if (auton == 2) {
-
+    auto_red_right_elims();
   } else if (auton == 3) {
-
+    auto_blue_left_quals();
   } else if (auton == 4) {
-
+    auto_blue_left_elims();
   } else if (auton == 5) {
-
+    auto_blue_right();
   } else if (auton == 6) {
-  
+    auto_skills();
   }
 }
 
@@ -226,8 +230,8 @@ void usercontrol(void) {
       Controller.Screen.print("DRIVE: %f", chassis_temperature);
       Controller.Screen.newLine();
       Controller.Screen.print("INTAKE %f", intake.temperature(celsius));
-      Controller.Screen.newLine();
-      Controller.Screen.print("LIFT %f", intake.temperature(celsius));
+      // Controller.Screen.newLine();
+      // Controller.Screen.print("LIFT %f", lift.temperature(celsius));
     }
     
     time ++;
