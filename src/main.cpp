@@ -45,10 +45,10 @@ ZERO_TRACKER_NO_ODOM,
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
 //Left Motors:
-motor_group(LF, LM, LB),
+motor_group(lf, lm, lb),
 
 //Right Motors:
-motor_group(RF, RM, RB),
+motor_group(rf, rm, rb),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
 PORT9,
@@ -219,8 +219,8 @@ void usercontrol(void) {
     controls();
 
     // motor temperature printing
-    double chassis_temperature = (LF.temperature(celsius) + LM.temperature(celsius) + LB.temperature(celsius) + 
-                                  RF.temperature(celsius) + RM.temperature(celsius) + RB.temperature(celsius)) / 6;
+    double chassis_temperature = (lf.temperature(celsius) + lm.temperature(celsius) + lb.temperature(celsius) + 
+                                  rf.temperature(celsius) + rm.temperature(celsius) + rb.temperature(celsius)) / 6;
     if (time % 100 == 0) {
       Controller.Screen.setCursor(0, 0);
       Controller.Screen.print("DRIVE: %f", chassis_temperature);
@@ -230,7 +230,7 @@ void usercontrol(void) {
       Controller.Screen.print("LIFT %f", intake.temperature(celsius));
     }
     
-    time += 1;
+    time ++;
     wait(1, msec);  // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
