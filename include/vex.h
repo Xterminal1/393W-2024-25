@@ -12,6 +12,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+//#include <string.h>
+
+// extra imports
 #include <string>
 #include <algorithm>
 #include <array>
@@ -19,7 +22,6 @@
 #include <sstream>
 #include <vector>
 #include <typeinfo>
-//#include <string.h>
 #include <iomanip>
 
 #include "v5.h"
