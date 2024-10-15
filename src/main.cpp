@@ -152,22 +152,23 @@ void pre_auton() {
       wait(200, msec);
     }
     
-    if (auton == 0) {
-      Brain.Screen.printAt(5, 110, "Auton 1: Red Left         ");
-    } else if (auton == 1) {
-      Brain.Screen.printAt(5, 110, "Auton 2: Red Right Quals  ");
-    } else if (auton == 2) {
-      Brain.Screen.printAt(5, 110, "Auton 3: Red Right Elims  ");
-    } else if (auton == 3) {
-      Brain.Screen.printAt(5, 110, "Auton 4: Blue Left Quals  ");
-    } else if (auton == 4) {
-      Brain.Screen.printAt(5, 110, "Auton 5: Blue Left Elims  ");
-    } else if (auton == 5) {
-      Brain.Screen.printAt(5, 110, "Auton 6: Blue Right       ");
-    } else if (auton == 6) {
-      Brain.Screen.printAt(5, 110, "Auton 7: Skills           ");
-    } else if (auton == 7) {
-      auton = 0;
+    switch (auton) {
+      case 0:
+        Brain.Screen.printAt(5, 110, "Auton 1: Red Left         ");
+      case 1:
+        Brain.Screen.printAt(5, 110, "Auton 2: Red Right Quals  ");
+      case 2:
+        Brain.Screen.printAt(5, 110, "Auton 3: Red Right Elims  ");
+      case 3:
+        Brain.Screen.printAt(5, 110, "Auton 4: Blue Left Quals  ");
+      case 4:
+        Brain.Screen.printAt(5, 110, "Auton 5: Blue Left Elims  ");
+      case 5:
+        Brain.Screen.printAt(5, 110, "Auton 6: Blue Right       ");
+      case 6:
+        Brain.Screen.printAt(5, 110, "Auton 7: Skills           ");
+      case 7:
+        auton = 0;
     }
   }
 }
@@ -183,21 +184,22 @@ void autonomous(void) {
   imu.resetHeading();
   imu.resetRotation();
 
-  if (auton == 0) {
-    auto_red_left();
-  } else if (auton == 1) {
-    auto_red_right_quals();
-  } else if (auton == 2) {
-    auto_red_right_elims();
-  } else if (auton == 3) {
-    auto_blue_left_quals();
-  } else if (auton == 4) {
-    auto_blue_left_elims();
-  } else if (auton == 5) {
-    auto_blue_right();
-  } else if (auton == 6) {
-    auto_skills();
-  }
+  switch (auton) {
+    case 0:
+      auto_red_left();
+    case 1:
+      auto_red_right_quals();
+    case 2:
+      auto_red_right_elims();
+    case 3:
+      auto_blue_left_quals();
+    case 4:
+      auto_blue_left_elims();
+    case 5:
+      auto_blue_right();
+    case 6:
+      auto_skills();
+  } 
 }
 
 /*---------------------------------------------------------------------------*/
@@ -212,8 +214,9 @@ void autonomous(void) {
 
 // new color sorter function, incomplete
 void color_sort(string fc) {
-  optic.integrationTime(50);
+  optic.integrationTime(5);
   optic.setLightPower(100);
+  optic.setLight(ledState::on);
 
   if (fc == "red") {
     #define COLOR red
@@ -225,11 +228,38 @@ void color_sort(string fc) {
   if (optic.isNearObject()) {
     if (optic.color() == COLOR) {
       move_intake(false);
-      wait(300, msec);
+      wait(500, msec);
       move_intake(true);
     }
   }
-  
+}
+
+void color_sort2() {
+
+  // // blue: 210-280
+  // // red: 350-30
+
+  // optic.integrationTime(5);
+  // optic.setLight(ledState::on);
+  // optic.setLightPower(100);
+
+  int intake_state = 0;
+  int intake_time = 0;
+
+  while (true) {
+    if ((intake_state == 0) && (optic.isNearObject())) {
+      if ((optic.hue() > 210) && (optic.hue() < 280)) {
+        intake_state = 0; // blue detected
+      } else if ((optic.hue() > 350) && (optic.hue() < 30)) {
+        intake_state = 1; // red detected
+      }
+    }
+
+    switch (intake_state) {
+      case 0:
+
+    }
+  }
 }
 
 void usercontrol(void) {
