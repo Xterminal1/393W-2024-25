@@ -154,5 +154,6 @@ public:
   void control_holonomic();
 };
 
+void move_intake(bool state);
 void move_intake(int voltage);
 void arcade(bool curve);

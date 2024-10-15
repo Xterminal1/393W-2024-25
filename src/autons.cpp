@@ -47,7 +47,7 @@ void rl10() {
   mogo.set(true);
 
   // ring 2
-  move_intake(9);
+  move_intake(true);
   chassis.turn_to_angle(-68); // turn -> r2
   // decrease if robot pushes ring away
   //                       |

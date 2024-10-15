@@ -12,12 +12,15 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <algorithm>
-#include <iostream>
-#include <iomanip>
-#include <sstream>
 #include <string>
+#include <algorithm>
+#include <array>
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <typeinfo>
+//#include <string.h>
+#include <iomanip>
 
 #include "v5.h"
 #include "v5_vcs.h"

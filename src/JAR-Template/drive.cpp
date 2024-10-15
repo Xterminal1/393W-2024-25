@@ -734,6 +734,16 @@ int Drive::position_track_task(){
   return(0);
 }
 
+void move_intake(bool state) {
+  int max = 11;
+  if (state) {
+    intake.spin(fwd, max, volt);
+  } 
+  else {
+    intake.spin(fwd, 0, volt);
+  }
+}
+
 void move_intake(int voltage) {
   intake.spin(fwd, voltage, volt);
 }

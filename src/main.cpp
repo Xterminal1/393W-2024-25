@@ -1,6 +1,7 @@
 #include "vex.h"
 
 using namespace vex;
+using namespace std;
 competition Competition;
 
 #pragma region
@@ -126,10 +127,10 @@ void pre_auton() {
 
   // battery check
   int battery = Brain.Battery.capacity();
-  if (battery > 75) {
+  if (battery > 60) {
     Brain.Screen.clearScreen(green);
     Brain.Screen.setFillColor(green);
-  } else if (battery > 25) {
+  } else if (battery > 30) {
     Brain.Screen.clearScreen(yellow);
     Brain.Screen.setFillColor(yellow);
   } else {
@@ -168,7 +169,6 @@ void pre_auton() {
     } else if (auton == 7) {
       auton = 0;
     }
-
   }
 }
 
@@ -210,36 +210,56 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+// new color sorter function, incomplete
+void color_sort(string fc) {
+  optic.integrationTime(50);
+  optic.setLightPower(100);
+
+  if (fc == "red") {
+    #define COLOR red
+  } else if (fc == "blue") {
+    #define COLOR blue
+  }
+
+  optic.objectDetectThreshold(100);
+  if (optic.isNearObject()) {
+    if (optic.color() == COLOR) {
+      move_intake(false);
+      wait(300, msec);
+      move_intake(true);
+    }
+  }
+  
+}
+
 void usercontrol(void) {
   // User control code here, inside the loop
   int time = 0;
   Controller.Screen.clearScreen();
-  
+  Controller.Screen.setCursor(0, 0);
+
   while (1) {
     // chassis
     arcade(true);
 
     // intake
     if (Controller.ButtonL1.pressing()) {
-      move_intake(11);
+      move_intake(true);
     } else if (Controller.ButtonL2.pressing()) {
-      move_intake(-11);
+      move_intake(true);
     } else {
-      move_intake(0);
+      move_intake(false);
     }
 
     // motor temperature printing
-    double chassis_temperature = (lf.temperature(celsius) + lm.temperature(celsius) + lb.temperature(celsius) + 
-                                  rf.temperature(celsius) + rm.temperature(celsius) + rb.temperature(celsius)) / 6;
+    double chassis_temperature = (lf.temperature(fahrenheit) + lm.temperature(fahrenheit) + lb.temperature(fahrenheit) + 
+                                  rf.temperature(fahrenheit) + rm.temperature(fahrenheit) + rb.temperature(fahrenheit)) / 6;
 
-    if (time % 100 == 0) {
-      Controller.Screen.setCursor(0, 0);
-      Controller.Screen.print("DRIVE: %f", chassis_temperature);
-      Controller.Screen.newLine();
-      Controller.Screen.print("INTAKE: %f", intake.temperature(celsius));
-      // Controller.Screen.newLine();
-      // Controller.Screen.print("LIFT %f", lift.temperature(celsius));
-    }
+    Controller.Screen.print("DRIVE:  %f", chassis_temperature);
+    Controller.Screen.newLine();
+    Controller.Screen.print("INTAKE: %f", intake.temperature(fahrenheit));
+    Controller.Screen.newLine();
+    Controller.Screen.print("LIFT:   %f", lift.temperature(fahrenheit));
     
     time ++;
     wait(1, msec);  // Sleep the task for a short amount of time to
