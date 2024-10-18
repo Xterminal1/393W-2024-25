@@ -366,6 +366,8 @@ void Drive::right_swing_to_angle(float angle, float swing_max_voltage, float swi
   }
 }
 
+//void Drive::move_lift_to_angle(float angle, float )
+
 /**
  * Depending on the drive style, gets the tracker's position.
  * 
@@ -734,19 +736,14 @@ int Drive::position_track_task(){
   return(0);
 }
 
-void move_intake(bool state) {
-  int max = 11;
-  if (state) {
-    intake.spin(fwd, max, volt);
-  } 
-  else {
-    intake.spin(fwd, 0, volt);
-  }
-}
-
 void move_intake(int voltage) {
   intake.spin(fwd, voltage, volt);
 }
+
+void move_intake(directionType dir) {
+  int max = 12;
+  intake.spin(dir, max, volt);
+} 
 
 void arcade(bool curve) {
   int forward = Controller.Axis3.position();

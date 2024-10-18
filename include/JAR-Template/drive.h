@@ -155,5 +155,5 @@ public:
 };
 
 void move_intake(bool state);
-void move_intake(int voltage);
+void move_intake(directionType dir);
 void arcade(bool curve);
