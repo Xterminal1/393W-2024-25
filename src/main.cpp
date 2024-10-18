@@ -122,6 +122,8 @@ void pre_auton() {
   vexcodeInit();
   default_constants();
 
+  optic.setLight(ledState::on);
+  optic.setLightPower(100);
   imu.calibrate(3000);
   wait(3000, msec);
 
@@ -212,52 +214,39 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-// new color sorter function, incomplete
-void color_sort(string fc) {
-  optic.integrationTime(5);
-  optic.setLightPower(100);
-  optic.setLight(ledState::on);
+void sort_ring(int intake_time) {
 
-  if (fc == "red") {
-    #define COLOR red
-  } else if (fc == "blue") {
-    #define COLOR blue
-  }
-
-  optic.objectDetectThreshold(100);
-  if (optic.isNearObject()) {
-    if (optic.color() == COLOR) {
-      move_intake(false);
-      wait(500, msec);
-      move_intake(true);
-    }
-  }
+  wait(intake_time, msec);
+  move_intake(false);
+  wait(300, msec);
+  move_intake(true);
 }
 
-void color_sort2() {
+void color_sort(string filter_color) {
 
-  // // blue: 210-280
-  // // red: 350-30
+  const int rl1 = 8;
+  const int rl2 = 15;
+  const int bl1 = 218;
+  const int bl2 = 230;
 
-  // optic.integrationTime(5);
-  // optic.setLight(ledState::on);
-  // optic.setLightPower(100);
-
-  int intake_state = 0;
-  int intake_time = 0;
+  optic.integrationTime(5);
 
   while (true) {
-    if ((intake_state == 0) && (optic.isNearObject())) {
-      if ((optic.hue() > 210) && (optic.hue() < 280)) {
-        intake_state = 0; // blue detected
-      } else if ((optic.hue() > 350) && (optic.hue() < 30)) {
-        intake_state = 1; // red detected
+    if ((intake.isSpinning()) && (optic.isNearObject())) {
+      
+      // if we are on blue team
+      if (filter_color == "red") {
+        if ((optic.hue() > rl1) && (optic.hue() < rl2)) {
+          sort_ring(200);
+        }
       }
-    }
 
-    switch (intake_state) {
-      case 0:
-
+      // if we are on red team
+      else if (filter_color == "blue") {
+        if ((optic.hue() > bl1) && (optic.hue() < bl2)) {
+          sort_ring(200);
+        }
+      }
     }
   }
 }
@@ -274,11 +263,11 @@ void usercontrol(void) {
 
     // intake
     if (Controller.ButtonL1.pressing()) {
-      move_intake(true);
+      move_intake(12);
     } else if (Controller.ButtonL2.pressing()) {
-      move_intake(true);
+      move_intake(-12);
     } else {
-      move_intake(false);
+      move_intake(0);
     }
 
     // motor temperature printing
