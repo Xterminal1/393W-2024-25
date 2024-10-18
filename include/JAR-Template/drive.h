@@ -76,6 +76,16 @@ public:
   float swing_settle_time;
   float swing_timeout;
 
+  // float lift_max_voltage;
+  // float lift_kp;
+  // float lift_ki;
+  // float lift_kd;
+  // float lift_starti;
+
+  // float lift_settle_error;
+  // float lift_settle_time;
+  // float lift_timeout;
+
   float boomerang_lead;
   float boomerang_setback;
 
@@ -93,10 +103,12 @@ public:
   void set_drive_constants(float drive_max_voltage, float drive_kp, float drive_ki, float drive_kd, float drive_starti);
   void set_heading_constants(float heading_max_voltage, float heading_kp, float heading_ki, float heading_kd, float heading_starti);
   void set_swing_constants(float swing_max_voltage, float swing_kp, float swing_ki, float swing_kd, float swing_starti);
+  //void set_lift_constants(float lift_max_voltage, float lift_kp, float lift_ki, float lift_kd, float lift_starti);
 
   void set_turn_exit_conditions(float turn_settle_error, float turn_settle_time, float turn_timeout);
   void set_drive_exit_conditions(float drive_settle_error, float drive_settle_time, float drive_timeout);
   void set_swing_exit_conditions(float swing_settle_error, float swing_settle_time, float swing_timeout);
+  //void set_lift_exit_conditions(float lift_settle_error, float lift_settle_time, float lift_timeout);
 
   void turn_to_angle(float angle);
   void turn_to_angle(float angle, float turn_max_voltage);
@@ -113,7 +125,8 @@ public:
   void left_swing_to_angle(float angle, float swing_max_voltage, float swing_settle_error, float swing_settle_time, float swing_timeout, float swing_kp, float swing_ki, float swing_kd, float swing_starti);
   void right_swing_to_angle(float angle);
   void right_swing_to_angle(float angle, float swing_max_voltage, float swing_settle_error, float swing_settle_time, float swing_timeout, float swing_kp, float swing_ki, float swing_kd, float swing_starti);
-  
+  //void lift_to_position(float position, float lift_max_voltage, float lift_settle_error, float lift_settle_time, float lift_timeout, float lift_kp, float lift_ki, float lift_kd, float lift_starti);
+
   Odom odom;
   float get_ForwardTracker_position();
   float get_SidewaysTracker_position();
@@ -157,6 +170,8 @@ public:
 void sort_ring(int intake_time);
 void color_sort(string filter_color);
 
+void lift_to_position(float position);
+void lift_to_position(float position, float lift_max_voltage, float lift_kp, float lift_ki, float lift_kd, float lift_starti, float lift_settle_error, float lift_settle_time, float lift_timeout);
 void move_intake(int voltage);
 void arcade(bool curve);
 void controls();

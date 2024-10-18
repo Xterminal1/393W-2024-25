@@ -1,4 +1,5 @@
 #include "vex.h"
+using namespace vex;
 
 // JAR template drive setup
 #pragma region
@@ -157,6 +158,14 @@ void Drive::set_swing_constants(float swing_max_voltage, float swing_kp, float s
   this->swing_starti = swing_starti;
 } 
 
+// void Drive::set_lift_constants(float lift_max_voltage, float lift_kp, float lift_ki, float lift_kd, float lift_starti) {
+//   this->lift_max_voltage = lift_max_voltage;
+//   this->lift_kp = lift_kp;
+//   this->lift_ki = lift_ki;
+//   this->lift_kd = lift_kd;
+//   this->lift_starti = lift_starti;
+// }
+
 /**
  * Resets default turn exit conditions.
  * The robot exits when error is less than settle_error for a duration of settle_time, 
@@ -204,6 +213,12 @@ void Drive::set_swing_exit_conditions(float swing_settle_error, float swing_sett
   this->swing_settle_time = swing_settle_time;
   this->swing_timeout = swing_timeout;
 }
+
+// void Drive::set_lift_exit_conditions(float lift_settle_error, float lift_settle_time, float lift_timeout) {
+//   this->lift_settle_error = lift_settle_error;
+//   this->lift_settle_time = lift_settle_time;
+//   this->lift_timeout = lift_timeout;
+// }
 
 /**
  * Gives the drive's absolute heading with Gyro correction.
@@ -366,8 +381,6 @@ void Drive::right_swing_to_angle(float angle, float swing_max_voltage, float swi
     task::sleep(10);
   }
 }
-
-//void Drive::move_lift_to_angle(float angle, float )
 
 /**
  * Depending on the drive style, gets the tracker's position.
@@ -773,6 +786,25 @@ void color_sort(string filter_color) {
   }
 }
 
+#define LIFT_MAX_VOLTAGE 12
+#define LIFT_KP 0.1
+#define LIFT_SETTLE_ERROR 1
+#define LIFT_SETTLE_TIME 300
+#define LIFT_TIMEOUT 3000
+
+void lift_to_position(float position) {
+  lift_to_position(position, LIFT_MAX_VOLTAGE, LIFT_KP, 0, 0, 0, LIFT_SETTLE_ERROR, LIFT_SETTLE_TIME, LIFT_TIMEOUT);
+}
+
+void lift_to_position(float position, float lift_max_voltage, float lift_kp, float lift_ki, float lift_kd, float lift_starti, float lift_settle_error, float lift_settle_time, float lift_timeout) {
+  PID liftPID(position - lift.position(), lift_kp, lift_ki, lift_kd, lift_starti, lift_settle_error, lift_settle_time, lift_timeout);
+  while(liftPID.is_settled() == false) {
+    float error = position - lift.position();
+    float output = liftPID.compute(error);
+    output = clamp(output, -lift_max_voltage, lift_max_voltage);
+    task::sleep(10);
+  }
+}
 
 void move_intake(int voltage) {
   intake.spin(fwd, voltage, volt);
@@ -802,6 +834,8 @@ void controls() {
   } else {
     move_intake(0);
   }
+
+  // lift
 
   // motor temperature printing
   double average_chassis_temperature = (lf.temperature(fahrenheit) + lm.temperature(fahrenheit) + lb.temperature(fahrenheit) + 
