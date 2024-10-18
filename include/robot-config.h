@@ -1,5 +1,3 @@
-using namespace vex;
-
 extern brain Brain;
 
 //To set up a motor called LeftFront here, you'd use

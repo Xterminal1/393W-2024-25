@@ -1,7 +1,5 @@
 #include "vex.h"
 
-using namespace vex;
-using namespace std;
 competition Competition;
 
 #pragma region
@@ -127,6 +125,8 @@ void pre_auton() {
   imu.calibrate(3000);
   wait(3000, msec);
 
+  Controller.Screen.setCursor(0, 0);
+
   // battery check
   int battery = Brain.Battery.capacity();
   if (battery > 60) {
@@ -214,75 +214,11 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void sort_ring(int intake_time) {
-
-  wait(intake_time, msec);
-  move_intake(false);
-  wait(300, msec);
-  move_intake(true);
-}
-
-void color_sort(string filter_color) {
-
-  const int rl1 = 8;
-  const int rl2 = 15;
-  const int bl1 = 218;
-  const int bl2 = 230;
-
-  optic.integrationTime(5);
-
-  while (true) {
-    if ((intake.isSpinning()) && (optic.isNearObject())) {
-      
-      // if we are on blue team
-      if (filter_color == "red") {
-        if ((optic.hue() > rl1) && (optic.hue() < rl2)) {
-          sort_ring(200);
-        }
-      }
-
-      // if we are on red team
-      else if (filter_color == "blue") {
-        if ((optic.hue() > bl1) && (optic.hue() < bl2)) {
-          sort_ring(200);
-        }
-      }
-    }
-  }
-}
-
 void usercontrol(void) {
-  // User control code here, inside the loop
-  int time = 0;
-  Controller.Screen.clearScreen();
-  Controller.Screen.setCursor(0, 0);
-
+  
   while (1) {
-    // chassis
-    arcade(true);
-
-    // intake
-    if (Controller.ButtonL1.pressing()) {
-      move_intake(12);
-    } else if (Controller.ButtonL2.pressing()) {
-      move_intake(-12);
-    } else {
-      move_intake(0);
-    }
-
-    // motor temperature printing
-    double chassis_temperature = (lf.temperature(fahrenheit) + lm.temperature(fahrenheit) + lb.temperature(fahrenheit) + 
-                                  rf.temperature(fahrenheit) + rm.temperature(fahrenheit) + rb.temperature(fahrenheit)) / 6;
-
-    Controller.Screen.print("DRIVE:  %f", chassis_temperature);
-    Controller.Screen.newLine();
-    Controller.Screen.print("INTAKE: %f", intake.temperature(fahrenheit));
-    Controller.Screen.newLine();
-    Controller.Screen.print("LIFT:   %f", lift.temperature(fahrenheit));
-    
-    time ++;
-    wait(1, msec);  // Sleep the task for a short amount of time to
-                    // prevent wasted resources.
+    controls();
+    wait(1, msec);
   }
 }
 
@@ -312,7 +248,6 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-  //initialize();
 
   // Prevent main from exiting with an infinite loop.
   while (true) {

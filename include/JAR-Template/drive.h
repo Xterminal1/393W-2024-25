@@ -154,6 +154,9 @@ public:
   void control_holonomic();
 };
 
-void move_intake(bool state);
-void move_intake(directionType dir);
+void sort_ring(int intake_time);
+void color_sort(string filter_color);
+
+void move_intake(int voltage);
 void arcade(bool curve);
+void controls();
