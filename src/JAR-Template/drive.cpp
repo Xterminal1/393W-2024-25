@@ -802,8 +802,10 @@ void lift_to_position(float position, float lift_max_voltage, float lift_kp, flo
     float error = position - lift.position();
     float output = liftPID.compute(error);
     output = clamp(output, -lift_max_voltage, lift_max_voltage);
+    lift.spin(fwd, output, volt);
     task::sleep(10);
   }
+  lift.stop(); // comment out if needed
 }
 
 void move_intake(int voltage) {
