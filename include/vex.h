@@ -34,8 +34,8 @@
 #include "JAR-Template/PID.h"
 #include "autons.h"
 
-using namespace vex;
-using namespace std;
+//using namespace vex;
+//using namespace std;
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

@@ -1,5 +1,6 @@
 #include "vex.h"
 
+using namespace vex;
 competition Competition;
 
 #pragma region
@@ -125,7 +126,7 @@ void pre_auton() {
   imu.calibrate(3000);
   wait(3000, msec);
 
-  Controller.Screen.setCursor(0, 0);
+  controller1.Screen.setCursor(0, 0);
 
   // battery check
   int battery = Brain.Battery.capacity();
@@ -215,7 +216,6 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-  
   while (1) {
     controls();
     wait(1, msec);
@@ -240,8 +240,8 @@ void callback_doinker() {
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
-  Controller.ButtonR1.pressed(callback_mogo);
-  Controller.ButtonR2.pressed(callback_doinker);
+  controller1.ButtonR1.pressed(callback_mogo);
+  controller1.ButtonR2.pressed(callback_doinker);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);

@@ -1,5 +1,6 @@
 #include "vex.h"
-using namespace vex;
+
+using namespace std;
 
 // JAR template drive setup
 #pragma region
@@ -797,9 +798,9 @@ void lift_to_position(float position) {
 }
 
 void lift_to_position(float position, float lift_max_voltage, float lift_kp, float lift_ki, float lift_kd, float lift_starti, float lift_settle_error, float lift_settle_time, float lift_timeout) {
-  PID liftPID(position - lift.position(), lift_kp, lift_ki, lift_kd, lift_starti, lift_settle_error, lift_settle_time, lift_timeout);
+  PID liftPID(position - lift.position(deg), lift_kp, lift_ki, lift_kd, lift_starti, lift_settle_error, lift_settle_time, lift_timeout);
   while(liftPID.is_settled() == false) {
-    float error = position - lift.position();
+    float error = position - lift.position(deg);
     float output = liftPID.compute(error);
     output = clamp(output, -lift_max_voltage, lift_max_voltage);
     lift.spin(fwd, output, volt);
@@ -812,40 +813,34 @@ void move_intake(int voltage) {
   intake.spin(fwd, voltage, volt);
 }
 
-void arcade(bool curve) {
-  int forward = Controller.Axis3.position();
-  int turn = Controller.Axis1.position();
-
-  if (curve) {
-    int turn = int(abs(turn) * turn / 100);
-  }
-
+void control_arcade(bool curve) {
+  int forward = controller1.Axis3.position();
+  int turn = controller1.Axis1.position();
+  if (curve)
+    turn = int(abs(turn) * turn / 100);
   l.spin(fwd, to_volt(forward + turn), volt);
   r.spin(fwd, to_volt(forward - turn), volt);
 }
 
 void controls() {
   // chassis
-  arcade(true);
+  control_arcade(true);
 
   // intake
-  if (Controller.ButtonL1.pressing()) {
+  if (controller1.ButtonL1.pressing()) {
     move_intake(12);
-  } else if (Controller.ButtonL2.pressing()) {
+  } else if (controller1.ButtonL2.pressing()) {
     move_intake(-12);
   } else {
     move_intake(0);
   }
 
-  // lift
-
   // motor temperature printing
-  double average_chassis_temperature = (lf.temperature(fahrenheit) + lm.temperature(fahrenheit) + lb.temperature(fahrenheit) + 
-                                rf.temperature(fahrenheit) + rm.temperature(fahrenheit) + rb.temperature(fahrenheit)) / 6;
+  double avg_chassis_temp = (l.temperature(fahrenheit) + r.temperature(fahrenheit)) / 2;
 
-  Controller.Screen.print("DRIVE:  %f", average_chassis_temperature);
-  Controller.Screen.newLine();
-  Controller.Screen.print("INTAKE: %f", intake.temperature(fahrenheit));
-  Controller.Screen.newLine();
-  Controller.Screen.print("LIFT:   %f", lift.temperature(fahrenheit));
+  controller1.Screen.print("DRIVE:  %f", avg_chassis_temp);
+  controller1.Screen.newLine();
+  controller1.Screen.print("INTAKE: %f", intake.temperature(fahrenheit));
+  controller1.Screen.newLine();
+  controller1.Screen.print("LIFT:   %f", lift.temperature(fahrenheit));
 }
