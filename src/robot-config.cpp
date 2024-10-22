@@ -21,17 +21,17 @@ controller controller1;
 #define REVERSE_INTAKE false
 #define REVERSE_LIFT false // change later
 
-#define PORT_LF PORT1
-#define PORT_LM PORT2
-#define PORT_LB PORT3
-#define PORT_RF PORT4
-#define PORT_RM PORT5
-#define PORT_RB PORT6
-#define PORT_INTAKE PORT7
-#define PORT_LIFT PORT8
+#define PORT_LF PORT3
+#define PORT_LM PORT4
+#define PORT_LB PORT5
+#define PORT_RF PORT6
+#define PORT_RM PORT7
+#define PORT_RB PORT8
+#define PORT_INTAKE PORT9
+#define PORT_LIFT PORT10
 
-#define PORT_IMU PORT9
-#define PORT_OPTICAL PORT10
+#define PORT_IMU PORT11
+#define PORT_OPTICAL PORT12
 #define PORT_MOGO Brain.ThreeWirePort.A
 #define PORT_DOINKER Brain.ThreeWirePort.B
 #define PORT_LIMIT Brain.ThreeWirePort.C
@@ -44,7 +44,7 @@ motor rf = motor(PORT_RF, BLUE, REVERSE_R);
 motor rm = motor(PORT_RM, BLUE, REVERSE_R);
 motor rb = motor(PORT_RB, BLUE, REVERSE_R);
 motor intake = motor(PORT_INTAKE, BLUE, REVERSE_INTAKE);
-motor lift = motor(PORT_LIFT, BLUE, REVERSE_LIFT);
+motor lift = motor(PORT_LIFT, GREEN, REVERSE_LIFT);
 motor_group l = motor_group(lf, lm, lb);
 motor_group r = motor_group(rf, rm, rb);
 
