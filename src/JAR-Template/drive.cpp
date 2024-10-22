@@ -788,7 +788,7 @@ void color_sort(string filter_color) {
 }
 
 #define LIFT_MAX_VOLTAGE 12
-#define LIFT_KP 0.1
+#define LIFT_KP 1
 #define LIFT_SETTLE_ERROR 1
 #define LIFT_SETTLE_TIME 300
 #define LIFT_TIMEOUT 3000
