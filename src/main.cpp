@@ -222,17 +222,40 @@ void usercontrol(void) {
   }
 }
 
-bool mogo_state = false;
-bool doinker_state = false;
+bool state = false;
+//bool mogo_state = false;
+//bool doinker_state = false;
 
-void callback_mogo() {
-  mogo_state = !mogo_state;
-  mogo.set(mogo_state);
+int lift_pos1 = 100;
+int lift_pos2 = 200;
+int lift_pos3 = 300;
+
+void mogo_control() {
+  state = !state;
+  mogo.set(state);
 }
 
-void callback_doinker() {
-  doinker_state = !doinker_state;
-  doinker.set(doinker_state);
+void doinker_control() {
+  state = !state;
+  doinker.set(state);
+}
+
+void lift_control_to_pos1() {
+  state = !state;
+  if (state) lift_to_position(lift_pos1);
+  else lift_to_position(0);
+}
+
+void lift_control_to_pos2() {
+  state = !state;
+  if (state) lift_to_position(lift_pos2);
+  else lift_to_position(0);
+}
+
+void lift_control_to_pos3() {
+  state = !state;
+  if (state) lift_to_position(lift_pos3);
+  else lift_to_position(0);
 }
 
 //
@@ -240,8 +263,12 @@ void callback_doinker() {
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
-  controller1.ButtonR1.pressed(callback_mogo);
-  controller1.ButtonR2.pressed(callback_doinker);
+  controller1.ButtonR1.pressed(mogo_control);
+  controller1.ButtonR2.pressed(doinker_control);
+
+  controller1.ButtonA.pressed(lift_control_to_pos1);
+  controller1.ButtonB.pressed(lift_control_to_pos2);
+  controller1.ButtonX.pressed(lift_control_to_pos3);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
@@ -254,3 +281,5 @@ int main() {
     wait(100, msec);
   }
 }
+
+// ports that dont work: 1, 2, 3
