@@ -21,17 +21,17 @@ controller controller1;
 #define REVERSE_INTAKE false
 #define REVERSE_LIFT false // change later
 
-#define PORT_LF PORT3
-#define PORT_LM PORT4
-#define PORT_LB PORT5
-#define PORT_RF PORT6
-#define PORT_RM PORT7
-#define PORT_RB PORT8
-#define PORT_INTAKE PORT9
-#define PORT_LIFT PORT10
+#define PORT_LF PORT4
+#define PORT_LM PORT5
+#define PORT_LB PORT6
+#define PORT_RF PORT7
+#define PORT_RM PORT8
+#define PORT_RB PORT9
+#define PORT_INTAKE PORT10
+#define PORT_LIFT PORT11
 
-#define PORT_IMU PORT11
-#define PORT_OPTICAL PORT12
+#define PORT_IMU PORT12
+#define PORT_OPTICAL PORT13
 #define PORT_MOGO Brain.ThreeWirePort.A
 #define PORT_DOINKER Brain.ThreeWirePort.B
 #define PORT_LIMIT Brain.ThreeWirePort.C

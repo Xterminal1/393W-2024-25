@@ -761,7 +761,7 @@ void sort_ring(int intake_time) {
   move_intake(12);
 }
 
-void color_sort(string filter_color) {
+void color_sort(std::string filter_color) {
   const int rl1 = 8;
   const int rl2 = 15;
   const int bl1 = 218;
@@ -813,18 +813,17 @@ void move_intake(int voltage) {
   intake.spin(fwd, voltage, volt);
 }
 
-void control_arcade(bool curve) {
+void control_arcade() {
   int forward = controller1.Axis3.position();
   int turn = controller1.Axis1.position();
-  if (curve)
-    turn = int(abs(turn) * turn / 100);
+  turn = int(abs(turn) * turn / 100);
   l.spin(fwd, to_volt(forward + turn), volt);
   r.spin(fwd, to_volt(forward - turn), volt);
 }
 
 void controls() {
   // chassis
-  control_arcade(true);
+  control_arcade();
 
   // intake
   if (controller1.ButtonL1.pressing()) {
@@ -836,11 +835,11 @@ void controls() {
   }
 
   // motor temperature printing
-  double avg_chassis_temp = (l.temperature(fahrenheit) + r.temperature(fahrenheit)) / 2;
+  // double avg_chassis_temp = (l.temperature(fahrenheit) + r.temperature(fahrenheit)) / 2;
 
-  controller1.Screen.print("DRIVE:  %f", avg_chassis_temp);
-  controller1.Screen.newLine();
-  controller1.Screen.print("INTAKE: %f", intake.temperature(fahrenheit));
-  controller1.Screen.newLine();
-  controller1.Screen.print("LIFT:   %f", lift.temperature(fahrenheit));
+  // controller1.Screen.print("DRIVE:  %f", avg_chassis_temp);
+  // controller1.Screen.newLine();
+  // controller1.Screen.print("INTAKE: %f", intake.temperature(fahrenheit));
+  // controller1.Screen.newLine();
+  // controller1.Screen.print("LIFT:   %f", lift.temperature(fahrenheit));
 }

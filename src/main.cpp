@@ -127,6 +127,7 @@ void pre_auton() {
   wait(3000, msec);
 
   controller1.Screen.setCursor(0, 0);
+  Brain.Screen.setPenColor(black);
 
   // battery check
   int battery = Brain.Battery.capacity();
@@ -155,23 +156,18 @@ void pre_auton() {
       wait(200, msec);
     }
     
-    switch (auton) {
-      case 0:
-        Brain.Screen.printAt(5, 110, "Auton 1: Red Left         ");
-      case 1:
-        Brain.Screen.printAt(5, 110, "Auton 2: Red Right Quals  ");
-      case 2:
-        Brain.Screen.printAt(5, 110, "Auton 3: Red Right Elims  ");
-      case 3:
-        Brain.Screen.printAt(5, 110, "Auton 4: Blue Left Quals  ");
-      case 4:
-        Brain.Screen.printAt(5, 110, "Auton 5: Blue Left Elims  ");
-      case 5:
-        Brain.Screen.printAt(5, 110, "Auton 6: Blue Right       ");
-      case 6:
-        Brain.Screen.printAt(5, 110, "Auton 7: Skills           ");
-      case 7:
-        auton = 0;
+    if (auton == 0) {
+      Brain.Screen.printAt(5, 110, "Auton 1: Red Left    ");
+    } else if (auton == 1) {
+      Brain.Screen.printAt(5, 110, "Auton 2: Red Right   ");
+    } else if (auton == 2) {
+      Brain.Screen.printAt(5, 110, "Auton 3: Blue Left   ");
+    } else if (auton == 3) {
+      Brain.Screen.printAt(5, 110, "Auton 4: Blue Right  ");
+    } else if (auton == 4) {
+      Brain.Screen.printAt(5, 110, "Auton 5: Skills      ");
+    } else if (auton == 5) {
+      auton = 0;
     }
   }
 }
@@ -218,7 +214,7 @@ void autonomous(void) {
 void usercontrol(void) {
   while (1) {
     controls();
-    wait(1, msec);
+    wait(20, msec);
   }
 }
 
@@ -255,7 +251,7 @@ void lift_control_to_pos2() {
 void lift_control_to_pos3() {
   state = !state;
   if (state) lift_to_position(lift_pos3);
-  else lift_to_position(0);
+  else lift_to_position(0); 
 }
 
 //
