@@ -754,60 +754,60 @@ int Drive::position_track_task(){
 #pragma endregion
 
 
-void sort_ring(int intake_time) {
-  wait(intake_time, msec);
-  move_intake(0);
-  wait(300, msec);
-  move_intake(12);
-}
+// void sort_ring(int intake_time) {
+//   wait(intake_time, msec);
+//   move_intake(0);
+//   wait(300, msec);
+//   move_intake(12);
+// }
 
-void color_sort(std::string filter_color) {
-  const int rl1 = 8;
-  const int rl2 = 15;
-  const int bl1 = 218;
-  const int bl2 = 230;
-  optic.integrationTime(5);
-  while (true) {
-    if ((intake.isSpinning()) && (optic.isNearObject())) {
+// void color_sort(std::string filter_color) {
+//   const int rl1 = 8;
+//   const int rl2 = 15;
+//   const int bl1 = 218;
+//   const int bl2 = 230;
+//   optic.integrationTime(5);
+//   while (true) {
+//     if ((intake.isSpinning()) && (optic.isNearObject())) {
       
-      // if we are on blue team
-      if (filter_color == "red") {
-        if ((optic.hue() > rl1) && (optic.hue() < rl2)) {
-          sort_ring(200);
-        }
-      }
+//       // if we are on blue team
+//       if (filter_color == "red") {
+//         if ((optic.hue() > rl1) && (optic.hue() < rl2)) {
+//           sort_ring(200);
+//         }
+//       }
 
-      // if we are on red team
-      else if (filter_color == "blue") {
-        if ((optic.hue() > bl1) && (optic.hue() < bl2)) {
-          sort_ring(200);
-        }
-      }
-    }
-  }
-}
+//       // if we are on red team
+//       else if (filter_color == "blue") {
+//         if ((optic.hue() > bl1) && (optic.hue() < bl2)) {
+//           sort_ring(200);
+//         }
+//       }
+//     }
+//   }
+// }
 
-#define LIFT_MAX_VOLTAGE 12
-#define LIFT_KP 1
-#define LIFT_SETTLE_ERROR 1
-#define LIFT_SETTLE_TIME 300
-#define LIFT_TIMEOUT 3000
+// #define LIFT_MAX_VOLTAGE 12
+// #define LIFT_KP 1
+// #define LIFT_SETTLE_ERROR 1
+// #define LIFT_SETTLE_TIME 300
+// #define LIFT_TIMEOUT 3000
 
-void lift_to_position(float position) {
-  lift_to_position(position, LIFT_MAX_VOLTAGE, LIFT_KP, 0, 0, 0, LIFT_SETTLE_ERROR, LIFT_SETTLE_TIME, LIFT_TIMEOUT);
-}
+// void lift_to_position(float position) {
+//   lift_to_position(position, LIFT_MAX_VOLTAGE, LIFT_KP, 0, 0, 0, LIFT_SETTLE_ERROR, LIFT_SETTLE_TIME, LIFT_TIMEOUT);
+// }
 
-void lift_to_position(float position, float lift_max_voltage, float lift_kp, float lift_ki, float lift_kd, float lift_starti, float lift_settle_error, float lift_settle_time, float lift_timeout) {
-  PID liftPID(position - lift.position(deg), lift_kp, lift_ki, lift_kd, lift_starti, lift_settle_error, lift_settle_time, lift_timeout);
-  while(liftPID.is_settled() == false) {
-    float error = position - lift.position(deg);
-    float output = liftPID.compute(error);
-    output = clamp(output, -lift_max_voltage, lift_max_voltage);
-    lift.spin(fwd, output, volt);
-    task::sleep(10);
-  }
-  lift.stop(); // comment out if needed
-}
+// void lift_to_position(float position, float lift_max_voltage, float lift_kp, float lift_ki, float lift_kd, float lift_starti, float lift_settle_error, float lift_settle_time, float lift_timeout) {
+//   PID liftPID(position - lift.position(deg), lift_kp, lift_ki, lift_kd, lift_starti, lift_settle_error, lift_settle_time, lift_timeout);
+//   while(liftPID.is_settled() == false) {
+//     float error = position - lift.position(deg);
+//     float output = liftPID.compute(error);
+//     output = clamp(output, -lift_max_voltage, lift_max_voltage);
+//     lift.spin(fwd, output, volt);
+//     task::sleep(10);
+//   }
+//   lift.stop(); // comment out if needed
+// }
 
 void move_intake(int voltage) {
   intake.spin(fwd, voltage, volt);

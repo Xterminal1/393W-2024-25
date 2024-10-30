@@ -51,7 +51,7 @@ motor_group(lf, lm, lb),
 motor_group(rf, rm, rb),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT9,
+PORT19,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -121,55 +121,8 @@ void pre_auton() {
   vexcodeInit();
   default_constants();
 
-  optic.setLight(ledState::on);
-  optic.setLightPower(100);
   imu.calibrate(3000);
   wait(3000, msec);
-
-  controller1.Screen.setCursor(0, 0);
-  Brain.Screen.setPenColor(black);
-
-  // battery check
-  int battery = Brain.Battery.capacity();
-  if (battery > 60) {
-    Brain.Screen.clearScreen(green);
-    Brain.Screen.setFillColor(green);
-  } else if (battery > 30) {
-    Brain.Screen.clearScreen(yellow);
-    Brain.Screen.setFillColor(yellow);
-  } else {
-    Brain.Screen.clearScreen(red);
-    Brain.Screen.setFillColor(red);
-  }
-
-  Brain.Screen.printAt(5, 20, "393W");
-  Brain.Screen.printAt(5, 40, "Battery: %d", battery);
-
-  // auton selector
-  Brain.Screen.printAt(5, 60, "");
-  Brain.Screen.printAt(5, 80, "Selected auton:");
-  Brain.Screen.setFont(mono30);
-
-  while (true) {
-    if (limit_switch.pressing()) {
-      auton++;
-      wait(200, msec);
-    }
-    
-    if (auton == 0) {
-      Brain.Screen.printAt(5, 110, "Auton 1: Red Left    ");
-    } else if (auton == 1) {
-      Brain.Screen.printAt(5, 110, "Auton 2: Red Right   ");
-    } else if (auton == 2) {
-      Brain.Screen.printAt(5, 110, "Auton 3: Blue Left   ");
-    } else if (auton == 3) {
-      Brain.Screen.printAt(5, 110, "Auton 4: Blue Right  ");
-    } else if (auton == 4) {
-      Brain.Screen.printAt(5, 110, "Auton 5: Skills      ");
-    } else if (auton == 5) {
-      auton = 0;
-    }
-  }
 }
 
 /**
@@ -183,22 +136,18 @@ void autonomous(void) {
   imu.resetHeading();
   imu.resetRotation();
 
-  switch (auton) {
-    case 0:
-      auto_red_left();
-    case 1:
-      auto_red_right_quals();
-    case 2:
-      auto_red_right_elims();
-    case 3:
-      auto_blue_left_quals();
-    case 4:
-      auto_blue_left_elims();
-    case 5:
-      auto_blue_right();
-    case 6:
-      auto_skills();
-  } 
+  int auton = 0;
+  if (auton == 0) {
+    auto_red_left();
+  } else if (auton == 1) {
+    // red right
+  } else if (auton == 2) {
+    // blue left
+  } else if (auton == 3) {
+    auto_blue_right();
+  } else if (auton == 4) {
+    // skills;
+  }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -222,9 +171,9 @@ bool state = false;
 //bool mogo_state = false;
 //bool doinker_state = false;
 
-int lift_pos1 = 100;
-int lift_pos2 = 200;
-int lift_pos3 = 300;
+// int lift_pos1 = 100;
+// int lift_pos2 = 200;
+// int lift_pos3 = 300;
 
 void mogo_control() {
   state = !state;
@@ -236,23 +185,23 @@ void doinker_control() {
   doinker.set(state);
 }
 
-void lift_control_to_pos1() {
-  state = !state;
-  if (state) lift_to_position(lift_pos1);
-  else lift_to_position(0);
-}
+// void lift_control_to_pos1() {
+//   state = !state;
+//   if (state) lift_to_position(lift_pos1);
+//   else lift_to_position(0);
+// }
 
-void lift_control_to_pos2() {
-  state = !state;
-  if (state) lift_to_position(lift_pos2);
-  else lift_to_position(0);
-}
+// void lift_control_to_pos2() {
+//   state = !state;
+//   if (state) lift_to_position(lift_pos2);
+//   else lift_to_position(0);
+// }
 
-void lift_control_to_pos3() {
-  state = !state;
-  if (state) lift_to_position(lift_pos3);
-  else lift_to_position(0); 
-}
+// void lift_control_to_pos3() {
+//   state = !state;
+//   if (state) lift_to_position(lift_pos3);
+//   else lift_to_position(0); 
+// }
 
 //
 // Main will set up the competition functions and callbacks.
@@ -262,9 +211,9 @@ int main() {
   controller1.ButtonR1.pressed(mogo_control);
   controller1.ButtonR2.pressed(doinker_control);
 
-  controller1.ButtonA.pressed(lift_control_to_pos1);
-  controller1.ButtonB.pressed(lift_control_to_pos2);
-  controller1.ButtonX.pressed(lift_control_to_pos3);
+  // controller1.ButtonA.pressed(lift_control_to_pos1);
+  // controller1.ButtonB.pressed(lift_control_to_pos2);
+  // controller1.ButtonX.pressed(lift_control_to_pos3);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);

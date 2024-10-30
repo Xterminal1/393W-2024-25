@@ -167,11 +167,11 @@ public:
   void control_holonomic();
 };
 
-void sort_ring(int intake_time);
-void color_sort(std::string filter_color);
+// void sort_ring(int intake_time);
+// void color_sort(std::string filter_color);
 
-void lift_to_position(float position);
-void lift_to_position(float position, float lift_max_voltage, float lift_kp, float lift_ki, float lift_kd, float lift_starti, float lift_settle_error, float lift_settle_time, float lift_timeout);
+// void lift_to_position(float position);
+// void lift_to_position(float position, float lift_max_voltage, float lift_kp, float lift_ki, float lift_kd, float lift_starti, float lift_settle_error, float lift_settle_time, float lift_timeout);
 void move_intake(int voltage);
 void control_arcade();
 void controls();
