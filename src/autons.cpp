@@ -88,6 +88,39 @@ void auto_red_left() {
   chassis.drive_distance(-35); // drive -> ladder
 }
 
+void auto_red_right() {
+  int intake_time = 350; // msec
+
+  // mogo 1 clamp
+  chassis.drive_distance(-24); // drive -> mogo
+  mogo.set(true); // clamp mogo
+
+  // preload / ring 1
+  move_intake(12); // intake preload
+  wait(intake_time, msec);
+
+  // ring 2 (partial intake)
+  chassis.drive_max_voltage = 5;
+  chassis.turn_to_angle(-105); // turn -> ring 2
+  chassis.drive_distance(22); // drive -> ring 2
+  wait(300, msec);
+  move_intake(0);
+
+  // mogo 1 unclamp
+  chassis.drive_max_voltage = 10;
+  chassis.turn_to_angle(160);
+  chassis.drive_distance(-22);
+  mogo.set(false);
+
+  // mogo 2 clamp
+  chassis.drive_distance(12);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(-26);
+  mogo.set(true);
+  move_intake(12);
+  
+}
+
 void rl10() {
   // start (x=-56.325, y=14.249, h=90h/0r)
   // intake front, mogo back

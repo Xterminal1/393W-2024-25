@@ -136,11 +136,11 @@ void autonomous(void) {
   imu.resetHeading();
   imu.resetRotation();
 
-  int auton = 0;
+  int auton = 1;
   if (auton == 0) {
     auto_red_left();
   } else if (auton == 1) {
-    // red right
+    auto_red_right();
   } else if (auton == 2) {
     // blue left
   } else if (auton == 3) {
@@ -168,12 +168,6 @@ void usercontrol(void) {
 }
 
 bool state = false;
-//bool mogo_state = false;
-//bool doinker_state = false;
-
-// int lift_pos1 = 100;
-// int lift_pos2 = 200;
-// int lift_pos3 = 300;
 
 void mogo_control() {
   state = !state;
@@ -185,23 +179,28 @@ void doinker_control() {
   doinker.set(state);
 }
 
-// void lift_control_to_pos1() {
-//   state = !state;
-//   if (state) lift_to_position(lift_pos1);
-//   else lift_to_position(0);
-// }
+void lift_to(int pos, int vel) {
+  lift.setVelocity(vel, percent);
+  lift.spinTo(pos, deg);
+}
 
-// void lift_control_to_pos2() {
-//   state = !state;
-//   if (state) lift_to_position(lift_pos2);
-//   else lift_to_position(0);
-// }
+int lift_grab_pos = 60;
+int lift_score_pos = 350;
 
-// void lift_control_to_pos3() {
-//   state = !state;
-//   if (state) lift_to_position(lift_pos3);
-//   else lift_to_position(0); 
-// }
+void lift_control_to_pos1() {
+  // state = !state;
+  // if (state) lift_to(0);
+  // else lift_to(0);
+  lift_to(0, 80);
+}
+
+void lift_control_to_pos2() {
+  lift_to(lift_grab_pos, 80);
+}
+
+void lift_control_to_pos3() {
+  lift_to(lift_score_pos, 90);
+}
 
 //
 // Main will set up the competition functions and callbacks.
@@ -211,9 +210,9 @@ int main() {
   controller1.ButtonR1.pressed(mogo_control);
   controller1.ButtonR2.pressed(doinker_control);
 
-  // controller1.ButtonA.pressed(lift_control_to_pos1);
-  // controller1.ButtonB.pressed(lift_control_to_pos2);
-  // controller1.ButtonX.pressed(lift_control_to_pos3);
+  controller1.ButtonA.pressed(lift_control_to_pos1);
+  controller1.ButtonX.pressed(lift_control_to_pos2);
+  controller1.ButtonY.pressed(lift_control_to_pos3);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
