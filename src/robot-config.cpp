@@ -28,7 +28,7 @@ controller controller1;
 #define PORT_RM PORT8
 #define PORT_RB PORT9
 #define PORT_INTAKE PORT10
-#define PORT_LIFT PORT11
+#define PORT_LIFT PORT18
 
 #define PORT_IMU PORT19
 #define PORT_OPTICAL PORT13

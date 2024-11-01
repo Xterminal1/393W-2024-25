@@ -13,6 +13,7 @@ void default_constants();
 void auto_blue_right();
 void auto_red_left();
 void auto_red_right();
+void auto_blue_left();
 // void auto_red_right_elims();
 // void auto_skills();
 

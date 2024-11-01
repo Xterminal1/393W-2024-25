@@ -36,24 +36,25 @@ void auto_blue_right() {
   wait(intake_time, msec);
 
   // ring 2
-  chassis.turn_to_angle(-112); // turn -> ring 2
-  chassis.drive_distance(19); // drive -> ring 2
+  chassis.turn_to_angle(-112); //-112
+  chassis.drive_distance(30); //30
+  wait(intake_time, msec);
 
   // ring 3
-  chassis.turn_to_angle(-175); // turn -> ring 3
-  chassis.drive_distance(18); // drive -> ring 3
+  chassis.turn_to_angle(-175); //-175
+  chassis.drive_distance(18); //18
   wait(intake_time, msec);
 
   // ring 4
-  chassis.drive_distance(-5); // drive bwd
-  chassis.turn_to_angle(-150); // turn -> ring 4
-  chassis.drive_distance(7); // drive -> ring 4
-  wait(150, msec);
+  chassis.drive_distance(-10);
+  chassis.turn_to_angle(165);
+  chassis.drive_distance(12);
+  wait(intake_time, msec);
 
-  // ladder touch
-  chassis.drive_distance(-31); // drive bwd
-  chassis.turn_to_angle(-45); // turn -> ladder
-  chassis.drive_distance(-35); // drive -> ladder
+  // // ladder touch
+  // chassis.drive_distance(-31); // drive bwd
+  // chassis.turn_to_angle(-45); // turn -> ladder
+  // chassis.drive_distance(-35); // drive -> ladder
 }
 
 void auto_red_left() {
@@ -79,8 +80,9 @@ void auto_red_left() {
   // ring 4
   chassis.drive_distance(-5); // drive bwd
   chassis.turn_to_angle(150); // turn -> ring 4
-  chassis.drive_distance(7); // drive -> ring 4
-  wait(150, msec);
+  chassis.drive_distance(8.5); // drive -> ring 4
+  chassis.drive_max_voltage = 6;
+  wait(500, msec);
 
   // ladder touch
   chassis.drive_distance(-31); // drive bwd
@@ -93,6 +95,7 @@ void auto_red_right() {
 
   // mogo 1 clamp
   chassis.drive_distance(-24); // drive -> mogo
+  wait(20, msec);
   mogo.set(true); // clamp mogo
 
   // preload / ring 1
@@ -100,25 +103,31 @@ void auto_red_right() {
   wait(intake_time, msec);
 
   // ring 2 (partial intake)
-  chassis.drive_max_voltage = 5;
-  chassis.turn_to_angle(-105); // turn -> ring 2
-  chassis.drive_distance(22); // drive -> ring 2
-  wait(300, msec);
+  chassis.turn_to_angle(-112); // turn -> ring 2
+  chassis.drive_distance(30); // drive -> ring 2
+  //wait(20, msec);
   move_intake(0);
 
   // mogo 1 unclamp
-  chassis.drive_max_voltage = 10;
+  chassis.turn_max_voltage = 6;
   chassis.turn_to_angle(160);
   chassis.drive_distance(-22);
   mogo.set(false);
+  chassis.turn_max_voltage = 10;
 
   // mogo 2 clamp
   chassis.drive_distance(12);
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(-26);
+  chassis.turn_to_angle(-5);
+  chassis.drive_distance(-23);
   mogo.set(true);
+  wait(50, msec);
   move_intake(12);
-  
+
+  // ladder touch
+  chassis.turn_to_angle(45);
+  chassis.drive_distance(29);
+  chassis.turn_to_angle(135);
+  chassis.drive_distance(27);
 }
 
 void rl10() {

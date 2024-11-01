@@ -136,13 +136,13 @@ void autonomous(void) {
   imu.resetHeading();
   imu.resetRotation();
 
-  int auton = 1;
+  int auton = 3;
   if (auton == 0) {
     auto_red_left();
   } else if (auton == 1) {
     auto_red_right();
   } else if (auton == 2) {
-    // blue left
+    auto_blue_left();
   } else if (auton == 3) {
     auto_blue_right();
   } else if (auton == 4) {
@@ -185,12 +185,9 @@ void lift_to(int pos, int vel) {
 }
 
 int lift_grab_pos = 60;
-int lift_score_pos = 350;
+int lift_score_pos = 450;
 
 void lift_control_to_pos1() {
-  // state = !state;
-  // if (state) lift_to(0);
-  // else lift_to(0);
   lift_to(0, 80);
 }
 
@@ -199,7 +196,7 @@ void lift_control_to_pos2() {
 }
 
 void lift_control_to_pos3() {
-  lift_to(lift_score_pos, 90);
+  lift_to(lift_score_pos, 100);
 }
 
 //
