@@ -136,7 +136,7 @@ void autonomous(void) {
   imu.resetHeading();
   imu.resetRotation();
 
-  int auton = 3;
+  int auton = 0;
   if (auton == 0) {
     auto_red_left();
   } else if (auton == 1) {
@@ -146,7 +146,7 @@ void autonomous(void) {
   } else if (auton == 3) {
     auto_blue_right();
   } else if (auton == 4) {
-    // skills;
+    auto_skills();
   }
 }
 

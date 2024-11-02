@@ -15,7 +15,7 @@ void auto_red_left();
 void auto_red_right();
 void auto_blue_left();
 // void auto_red_right_elims();
-// void auto_skills();
+void auto_skills();
 
 // test autons
 void drive_test();
