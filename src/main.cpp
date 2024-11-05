@@ -136,7 +136,7 @@ void autonomous(void) {
   imu.resetHeading();
   imu.resetRotation();
 
-  int auton = 0;
+  int auton = 4;
   if (auton == 0) {
     auto_red_left();
   } else if (auton == 1) {
