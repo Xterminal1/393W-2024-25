@@ -813,6 +813,26 @@ void move_intake(int voltage) {
   intake.spin(fwd, voltage, volt);
 }
 
+void lift_to(int pos, int vel) {
+  lift.setVelocity(vel, percent);
+  lift.spinTo(pos, deg);
+}
+
+int lift_grab_pos = 60;
+int lift_score_pos = 450;
+
+void lift_reset() {
+  lift_to(0, 80);
+}
+
+void lift_grab() {
+  lift_to(lift_grab_pos, 80);
+}
+
+void lift_score() {
+  lift_to(lift_score_pos, 100);
+}
+
 void control_arcade() {
   int forward = controller1.Axis3.position();
   int turn = controller1.Axis1.position();
@@ -833,13 +853,4 @@ void controls() {
   } else {
     move_intake(0);
   }
-
-  // motor temperature printing
-  // double avg_chassis_temp = (l.temperature(fahrenheit) + r.temperature(fahrenheit)) / 2;
-
-  // controller1.Screen.print("DRIVE:  %f", avg_chassis_temp);
-  // controller1.Screen.newLine();
-  // controller1.Screen.print("INTAKE: %f", intake.temperature(fahrenheit));
-  // controller1.Screen.newLine();
-  // controller1.Screen.print("LIFT:   %f", lift.temperature(fahrenheit));
 }

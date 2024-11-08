@@ -179,26 +179,6 @@ void doinker_control() {
   doinker.set(state);
 }
 
-void lift_to(int pos, int vel) {
-  lift.setVelocity(vel, percent);
-  lift.spinTo(pos, deg);
-}
-
-int lift_grab_pos = 60;
-int lift_score_pos = 450;
-
-void lift_control_to_pos1() {
-  lift_to(0, 80);
-}
-
-void lift_control_to_pos2() {
-  lift_to(lift_grab_pos, 80);
-}
-
-void lift_control_to_pos3() {
-  lift_to(lift_score_pos, 100);
-}
-
 //
 // Main will set up the competition functions and callbacks.
 //
@@ -207,9 +187,9 @@ int main() {
   controller1.ButtonR1.pressed(mogo_control);
   controller1.ButtonR2.pressed(doinker_control);
 
-  controller1.ButtonA.pressed(lift_control_to_pos1);
-  controller1.ButtonX.pressed(lift_control_to_pos2);
-  controller1.ButtonY.pressed(lift_control_to_pos3);
+  controller1.ButtonA.pressed(lift_reset);
+  controller1.ButtonX.pressed(lift_grab);
+  controller1.ButtonY.pressed(lift_score);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
