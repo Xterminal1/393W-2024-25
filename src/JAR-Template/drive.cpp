@@ -835,8 +835,10 @@ void lift_score() {
 
 void control_arcade() {
   int forward = controller1.Axis3.position();
-  int turn = controller1.Axis1.position();
-  turn = int(abs(turn) * turn / 100);
+  int x = controller1.Axis1.position();
+  int turn = x;
+  //int turn = int(abs(x) * x / 100);
+  //int turn = int(pow(x, 3) / 100);
   l.spin(fwd, to_volt(forward + turn), volt);
   r.spin(fwd, to_volt(forward - turn), volt);
 }
