@@ -33,6 +33,7 @@
 #include "JAR-Template/util.h"
 #include "JAR-Template/PID.h"
 #include "autons.h"
+#include "controls.h"
 
 //using namespace vex;
 //using namespace std;

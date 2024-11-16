@@ -172,29 +172,17 @@ void usercontrol(void) {
   }
 }
 
-bool state = false;
-
-void mogo_control() {
-  state = !state;
-  mogo.set(state);
-}
-
-void doinker_control() {
-  state = !state;
-  doinker.set(state);
-}
-
 //
 // Main will set up the competition functions and callbacks.
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
-  controller1.ButtonR1.pressed(mogo_control);
-  controller1.ButtonR2.pressed(doinker_control);
+  controller1.ButtonR1.pressed(controlMogo);
+  controller1.ButtonR2.pressed(controlDoinker);
 
-  controller1.ButtonA.pressed(lift_reset);
-  controller1.ButtonX.pressed(lift_grab);
-  controller1.ButtonY.pressed(lift_score);
+  controller1.ButtonA.pressed(resetLift);
+  controller1.ButtonX.pressed(liftGrab);
+  controller1.ButtonY.pressed(liftScore);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
@@ -207,5 +195,3 @@ int main() {
     wait(100, msec);
   }
 }
-
-// ports that dont work: 1, 2, 3
