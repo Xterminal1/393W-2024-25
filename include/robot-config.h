@@ -25,6 +25,5 @@ extern inertial imu;
 extern optical optic;
 extern digital_out mogo;
 extern digital_out doinker;
-extern limit limit_switch;
 
 void  vexcodeInit( void );

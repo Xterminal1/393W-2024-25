@@ -34,7 +34,6 @@ controller controller1;
 #define PORT_OPTICAL PORT13
 #define PORT_MOGO Brain.ThreeWirePort.A
 #define PORT_DOINKER Brain.ThreeWirePort.B
-#define PORT_LIMIT Brain.ThreeWirePort.C
 
 // motors/motor groups
 motor lf = motor(PORT_LF, BLUE, REVERSE_L);
@@ -53,7 +52,6 @@ inertial imu = inertial(PORT_IMU);
 optical optic = optical(PORT_OPTICAL);
 digital_out mogo = digital_out(PORT_MOGO);
 digital_out doinker = digital_out(PORT_DOINKER);
-limit limit_switch = limit(PORT_LIMIT);
 
 void vexcodeInit( void ) {
   // nothing to initialize
