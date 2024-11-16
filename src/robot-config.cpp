@@ -19,7 +19,7 @@ controller controller1;
 #define REVERSE_L true
 #define REVERSE_R false
 #define REVERSE_INTAKE false
-#define REVERSE_LIFT false // change later
+#define REVERSE_LIFT false
 
 #define PORT_LF PORT4
 #define PORT_LM PORT5

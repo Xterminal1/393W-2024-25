@@ -135,8 +135,10 @@ void pre_auton() {
 void autonomous(void) {
   imu.resetHeading();
   imu.resetRotation();
+  l.resetPosition();
+  r.resetPosition();
 
-  int auton = 4;
+  int auton = 5;
   if (auton == 0) {
     auto_red_left();
   } else if (auton == 1) {
@@ -147,6 +149,8 @@ void autonomous(void) {
     auto_blue_right();
   } else if (auton == 4) {
     auto_skills();
+  } else if (auton == 5) {
+    test();
   }
 }
 
@@ -161,6 +165,7 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
+  lift.setStopping(hold);
   while (1) {
     controls();
     wait(20, msec);
