@@ -8,22 +8,29 @@
  * exit conditions, check the docs.
  */
 
-void default_constants(){
-  // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
-  // constant: 47.0119216518, starti: 40, max_integral: 14.5
-  // Converting encoder units to inches: https://www.desmos.com/calculator/5xmwm3qp4b
-  // Calculating Euclidean distances: https://www.desmos.com/calculator/mh9umhcuo3
-  chassis.set_drive_constants(10, 0.8, 0.01, 3, 0); // 12, 0.8, 0, 3, 0 0.85
-  chassis.set_heading_constants(6, 0.1, 0, 0, 0); // 6, 0.1, 0, 0, 0
-  chassis.set_turn_constants(10, 0.8, 0, 7, 15); // 12, 12, 0.5, 0.03, 3, 15
-  chassis.set_swing_constants(12, 0.8, 0, 7, 15); // 12, 0.2, 0, 0.1, 15
+// constant: 47.0119216518, starti: 40, max_integral: 14.5
+// Converting encoder units to inches: https://www.desmos.com/calculator/5xmwm3qp4b
+// Calculating Euclidean distances: https://www.desmos.com/calculator/mh9umhcuo3
 
-  // Each exit condition set is in the form of (settle_error, settle_time, timeout).
+void default_constants() {
+  // PID gains
+  chassis.set_drive_constants(10, 1.2, 0, 8, 0);  
+  //chassis.set_drive_constants(10, .8, .01, 3, 0);
+  //chassis.set_drive_constants(10, .8, 0, 3, .85); 
+  chassis.set_heading_constants(6, .1, 0, 0, 0);
+  chassis.set_turn_constants(10, .9, 0, 7, 15);
+  //chassis.set_turn_constants(10, .8, 0, 7, 15);
+  //chassis.set_turn_constants(12, .5, .03, 3, 15);
+  chassis.set_swing_constants(12, 1, .01, 6, 15);
+  //chassis.set_swing_constants(12, .2, 0, .1, 15);
+
+  // exit conditions
   chassis.set_drive_exit_conditions(1.5, 300, 4000);
-  chassis.set_turn_exit_conditions(1, 300, 1000); // 1, 300, 1000
-  chassis.set_swing_exit_conditions(1, 300, 3000);
+  chassis.set_turn_exit_conditions(1, 300, 1000);
+  chassis.set_swing_exit_conditions(1, 200, 3000);
 }
 
+#pragma region
 void auto_blue_right() {
   int intake_time = 350; // msec
 
@@ -43,7 +50,7 @@ void auto_blue_right() {
   wait(intake_time, msec);
 
   // ring 3
-  chassis.turn_to_angle(180); //-175
+  chassis.turn_to_angle(-170); //-175
   chassis.drive_distance(12); //18
   wait(intake_time, msec);
 
@@ -56,8 +63,8 @@ void auto_blue_right() {
   // ladder touch
   chassis.drive_distance(-20); // drive bwd
   chassis.turn_to_angle(115); // turn -> ladder
-  chassis.drive_distance(35); // drive -> ladder
-  wait(50, msec);
+  chassis.drive_distance(37); // drive -> ladder
+  wait(100, msec);
   l.stop();
   r.stop();
 
@@ -81,7 +88,7 @@ void auto_red_left() {
   chassis.drive_distance(29); // drive -> ring 2
 
   // ring 3
-  chassis.turn_to_angle(180);
+  chassis.turn_to_angle(170);
   chassis.drive_distance(12);
   wait(2000, msec);
 
@@ -92,8 +99,8 @@ void auto_red_left() {
 
   // ladder touch
   chassis.drive_distance(-20); // drive bwd
-  chassis.turn_to_angle(-115); // turn -> ladder
-  chassis.drive_distance(35); // drive -> ladder
+  // chassis.turn_to_angle(-115); // turn -> ladder
+  // chassis.drive_distance(37); // drive -> ladder
   wait(50, msec);
   l.stop();
   r.stop();
@@ -252,40 +259,22 @@ void auto_skills() {
 
 
 }
+#pragma endregion
 
-void rl10() {
-  // start (x=-56.325, y=14.249, h=90h/0r)
-  // intake front, mogo back
 
-  int intake_time = 250;
+// december 7th autos
+void redLeft() {}
+void redRight() {}
+void blueLeft() {}
+void blueRight() {}
 
-  // preload to ally stake
-  chassis.turn_to_angle(-50); // turn -> ally stake
-  chassis.drive_distance(-2.387); // drive -> ally stake if lift
-  // chassis.drive_distance(-8.538); if no lift
-  // [move lift to ally stake position or intake]
+void skills() {}
 
-  // mogo 1
-  chassis.drive_distance(27.65); // drive -> m1 gl
-  chassis.turn_to_angle(210); // turn -> m1
-  chassis.drive_distance(-7.906); // drive -> m1
-  mogo.set(true);
-
-  // ring 2
-  move_intake(true);
-  chassis.turn_to_angle(-68); // turn -> r2
-  // decrease if robot pushes ring away
-  //                       |
-  //                       |
-  //                       V
-  chassis.drive_distance(14.6); // drive -> r2
-  wait(intake_time, msec);
-
-  // ring 3
-  chassis.turn_to_angle(-3);
-  chassis.drive_distance(13.616);
-  wait(intake_time, msec);
-  // ring 4
+void test() {
+  //drive_test();
+  //turn_test();
+  //swing_test();
+  full_test();
 }
 
 #pragma region
