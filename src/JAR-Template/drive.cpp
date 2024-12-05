@@ -329,6 +329,7 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
   float start_average_position = (get_left_position_in()+get_right_position_in())/2.0;
   float average_position = start_average_position;
   while(drivePID.is_settled() == false){
+    float absHeading = get_absolute_heading();
     average_position = (get_left_position_in()+get_right_position_in())/2.0;
     float drive_error = distance+start_average_position-average_position;
     float heading_error = reduce_negative_180_to_180(heading - get_absolute_heading());
@@ -339,7 +340,8 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
     heading_output = clamp(heading_output, -heading_max_voltage, heading_max_voltage);
 
     drive_with_voltage(drive_output+heading_output, drive_output-heading_output);
-    //std::cout << average_position << '\n';
+    //std::cout << "Pos: " << average_position << '\n';
+    std::cout << "Angle: " << absHeading << '\n';
     task::sleep(10);
   }
 }
@@ -758,36 +760,3 @@ int Drive::position_track_task(){
 
 #pragma endregion
 
-
-// void sort_ring(int intake_time) {
-//   wait(intake_time, msec);
-//   move_intake(0);
-//   wait(300, msec);
-//   move_intake(12);
-// }
-
-// void color_sort(std::string filter_color) {
-//   const int rl1 = 8;
-//   const int rl2 = 15;
-//   const int bl1 = 218;
-//   const int bl2 = 230;
-//   optic.integrationTime(5);
-//   while (true) {
-//     if ((intake.isSpinning()) && (optic.isNearObject())) {
-      
-//       // if we are on blue team
-//       if (filter_color == "red") {
-//         if ((optic.hue() > rl1) && (optic.hue() < rl2)) {
-//           sort_ring(200);
-//         }
-//       }
-
-//       // if we are on red team
-//       else if (filter_color == "blue") {
-//         if ((optic.hue() > bl1) && (optic.hue() < bl2)) {
-//           sort_ring(200);
-//         }
-//       }
-//     }
-//   }
-// }

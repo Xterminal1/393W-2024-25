@@ -7,10 +7,14 @@ void resetLift();
 void liftGrab();
 void liftScore();
 
-bool state;
 void controlMogo();
 void controlDoinker();
 
 void arcade();
+void sort_ring(int intake_time);
+void color_sort(std::string filter_color);
+
+void filterRed();
+void filterBlue();
 
 void controls();

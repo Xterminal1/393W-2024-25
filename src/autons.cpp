@@ -14,11 +14,11 @@
 
 void default_constants() {
   // PID gains
-  chassis.set_drive_constants(10, 1.2, 0, 8, 0);  
+  chassis.set_drive_constants(12, 1.2, 0, 8, 0);  
   //chassis.set_drive_constants(10, .8, .01, 3, 0);
   //chassis.set_drive_constants(10, .8, 0, 3, .85); 
-  chassis.set_heading_constants(6, .1, 0, 0, 0);
-  chassis.set_turn_constants(10, .9, 0, 7, 15);
+  chassis.set_heading_constants(6, .1, 0, 0, 0); // correctional PID
+  chassis.set_turn_constants(12, .9, 0, 7, 15);
   //chassis.set_turn_constants(10, .8, 0, 7, 15);
   //chassis.set_turn_constants(12, .5, .03, 3, 15);
   chassis.set_swing_constants(12, 1, .01, 6, 15);
@@ -41,7 +41,7 @@ void auto_blue_right() {
 
   // preload / ring 1
   chassis.turn_max_voltage = 6;
-  move_intake(12); // intake preload
+  moveIntake(12); // intake preload
   wait(intake_time, msec);
 
   // ring 2
@@ -80,7 +80,7 @@ void auto_red_left() {
 
   // preload / ring 1
   chassis.turn_max_voltage = 6;
-  move_intake(12); // intake preload
+  moveIntake(12); // intake preload
   wait(200, msec);
 
   // ring 2
@@ -115,13 +115,13 @@ void auto_red_right() {
   mogo.set(true); // clamp mogo
 
   // preload / ring 1
-  move_intake(12); // intake preload
+  moveIntake(12); // intake preload
   wait(450, msec);
 
   // ring 2 (partial intake)
   chassis.turn_to_angle(-112); // turn -> ring 2
   chassis.drive_distance(29); // drive -> ring 2
-  move_intake(0);
+  moveIntake(0);
 
   // mogo 1 unclamp
   chassis.turn_max_voltage = 6;
@@ -136,7 +136,7 @@ void auto_red_right() {
   chassis.turn_max_voltage = 10;
   mogo.set(true);
   wait(50, msec);
-  move_intake(12);
+  moveIntake(12);
 
   // ladder touch
   chassis.turn_to_angle(45);
@@ -155,13 +155,13 @@ void auto_blue_left() {
 
   // preload / ring 1
   chassis.turn_max_voltage = 6;
-  move_intake(12); // intake preload
+  moveIntake(12); // intake preload
   wait(200, msec);
 
   // ring 2 (partial intake)
   chassis.turn_to_angle(112); // turn -> ring 2
   chassis.drive_distance(29); // drive -> ring 2
-  move_intake(0);
+  moveIntake(0);
 
   // mogo 1 unclamp
   chassis.turn_max_voltage = 6;
@@ -176,7 +176,7 @@ void auto_blue_left() {
   chassis.turn_max_voltage = 6;
   mogo.set(true);
   wait(300, msec);
-  move_intake(12);
+  moveIntake(12);
 
   // ladder touch
   chassis.turn_to_angle(-45);
@@ -187,94 +187,376 @@ void auto_blue_left() {
 
 void auto_skills() {
   int intake_time = 350;
-  chassis.drive_max_voltage = 12;
+  // chassis.drive_kp = 0.8;
+  // chassis.drive_ki = 0.03;
+  // chassis.drive_kd = 5;
+  // chassis.turn_kp = 0.8;
+  // chassis.turn_ki = 0;
+  // chassis.turn_kd = 7;
+  //chassis.turn_kd = 8;
   chassis.turn_max_voltage = 9;
-  chassis.drive_kp = 0.8;
-  chassis.drive_ki = 0.03;
-  chassis.drive_kd = 5;
-  chassis.turn_kp = 0.8;
-  chassis.turn_ki = 0;
-  chassis.turn_kd = 7;
 
   // alliance stake
-  move_intake(12);
+  moveIntake(12);
   wait(500, msec);
 
   // mogo 1 clamp
   chassis.drive_distance(13);
-  move_intake(0);
+  moveIntake(0);
   chassis.turn_to_angle(90);
-  chassis.drive_distance(-12);
+  chassis.drive_distance(-13);
   mogo.set(true);
   wait(500, msec);
 
   // ring 1
-  move_intake(12);
+  moveIntake(12);
   chassis.drive_max_voltage = 6;
   chassis.turn_to_angle(-25);
   chassis.drive_distance(27.5); 
+  wait(500, msec);
 
   // ring 2
   chassis.turn_to_angle(-90);
   chassis.drive_distance(28);
+  wait(500, msec);
 
   // ring 3
-  chassis.turn_to_angle(-18);
-  chassis.drive_distance(31);
+  chassis.turn_to_angle(-17);
+  chassis.drive_distance(29);
+  wait(500, msec);
 
   // ring 4
   chassis.drive_distance(-37);
-  chassis.turn_to_angle(165);
-  chassis.drive_distance(20);
+  chassis.turn_to_angle(175);
+  chassis.drive_distance(13);
+  wait(1000, msec);
 
   // ring 5
-  chassis.turn_to_angle(-173);
-  chassis.drive_distance(14.5);
-  wait(1000, msec);
+  chassis.drive_distance(15);
+  wait(1500, msec);
 
   // ring 6
   chassis.turn_to_angle(-45);
   chassis.drive_distance(12);
   wait(1000, msec);
 
-  // mogo 1 unclamp -> corner
+  // mogo unclamp -> corner
   chassis.turn_to_angle(25);
-  wait(2000, msec);
-  chassis.drive_distance(-8);
+  chassis.drive_distance(-9);
   mogo.set(false);
-  move_intake(-12);
+  moveIntake(-12);
+
+
+  // ring 5
+  // chassis.turn_to_angle(-173);
+  // chassis.drive_distance(14.5);
+  // wait(1000, msec);
+
+  // ring 6
+  // chassis.turn_to_angle(-45);
+  // chassis.drive_distance(12);
+  // wait(1000, msec);
+
+  // mogo 1 unclamp -> corner
+  // chassis.turn_to_angle(25);
+  // wait(2000, msec);
+  // chassis.drive_distance(-8);
+  // mogo.set(false);
+  // moveIntake(-12);
 
   // mogo 2 clamp
-  chassis.drive_distance(10);
-  move_intake(0);
-  chassis.drive_max_voltage = 4;
-  chassis.turn_to_angle(-90);
-  chassis.drive_distance(-71);
-  mogo.set(true);
-  move_intake(12);
+  // chassis.drive_distance(10);
+  // moveIntake(0);
+  // chassis.drive_max_voltage = 4;
+  // chassis.turn_to_angle(-90);
+  // chassis.drive_distance(-71);
+  // mogo.set(true);
+  // moveIntake(12);
 
-  // ring 1
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(29);
-
-
+  // // ring 1
+  // chassis.turn_to_angle(90);
+  // chassis.drive_distance(29);
 }
 #pragma endregion
 
+void arcs() { chassis.set_heading_constants(10, .6, .001, 3, 0); }
+void correction() { chassis.set_heading_constants(6, .1, 0, 0, 0); }
 
-// december 7th autos
-void redLeft() {}
-void redRight() {}
-void blueLeft() {}
-void blueRight() {}
+void redLeft() {
+  thread colorSorting = thread(filterBlue);
 
-void skills() {}
+  // mogo 1 clamp
+  chassis.drive_distance(-22); // drive -> mogo
+  wait(10, msec);
+  mogo.set(true); // clamp mogo
+
+  // rings 1 & 2
+  chassis.turn_kd = 8;
+  chassis.drive_max_voltage = 6;
+  chassis.turn_to_angle(147); // turn -> ring 2
+  chassis.turn_kd = 7; 
+  moveIntake(12);
+  wait(200, msec);
+  chassis.drive_distance(30); // drive -> ring 2
+  wait(600, msec);
+
+  // ring 3
+  chassis.drive_distance(-8); // drive bwd -> align w/ ring 3
+  chassis.drive_max_voltage = 8;
+  chassis.turn_to_angle(126); // turn -> ring 3
+  chassis.drive_distance(12); // drive -> ring 3
+  chassis.drive_max_voltage = 10;
+  wait(500, msec);
+
+  // ring 4
+  chassis.drive_distance(-20); // drive bwd -> align w/ ring 4
+  wait(1500, msec);
+  arcs(); // enable arc turns
+  chassis.drive_distance(30, 29); // swing -> intake ring 4
+  wait(800, msec);
+
+  // ladder touch
+  //chassis.drive_distance(-23, 88); // drive -> ladder
+  chassis.turn_to_angle(-115); // turn -> ladder
+  chassis.drive_distance(35); // drive -> ladder
+  wait(200, msec);
+  l.stop();
+  r.stop();
+}
+
+void blueRight() {
+  thread colorSorting = thread(filterRed);
+
+  // mogo 1 clamp
+  chassis.drive_distance(-22); // drive -> mogo
+  wait(10, msec);
+  mogo.set(true); // clamp mogo
+
+  // rings 1 & 2
+  chassis.turn_kd = 8;
+  chassis.drive_max_voltage = 6;
+  chassis.turn_to_angle(-147); // turn -> ring 2
+  chassis.turn_kd = 7; 
+  moveIntake(12);
+  wait(200, msec);
+  chassis.drive_distance(30); // drive -> ring 2
+  wait(600, msec);
+
+  // ring 3
+  chassis.drive_distance(-8); // drive bwd -> align w/ ring 3
+  chassis.drive_max_voltage = 8;
+  chassis.turn_to_angle(-126); // turn -> ring 3
+  chassis.drive_distance(12); // drive -> ring 3
+  chassis.drive_max_voltage = 10;
+  wait(500, msec);  
+
+  // ring 4
+  chassis.drive_distance(-20); // drive bwd -> align w/ ring 4
+  wait(1000, msec);
+  arcs(); // enable arc turns
+  chassis.drive_distance(30, -29); // swing -> intake ring 4
+  wait(800, msec);
+
+  // ladder touch
+  chassis.turn_to_angle(115); // turn -> ladder
+  chassis.drive_distance(35); // drive -> ladder
+  wait(200, msec);
+  l.stop();
+  r.stop();
+}
+
+void detectRing() {
+  while (!optic.isNearObject()) {
+    moveIntake(12);
+    wait(5, msec);
+  }
+  moveIntake(0);
+}
+
+void detectRing2() {
+  int rl1 = 8;
+  int rl2 = 15;
+  int count = 0;
+  while (!optic.isNearObject()) {
+    if (count >= 3000) { // timeout
+      break;
+    }
+    moveIntake(12);
+    wait(1, msec);
+    count += 1;
+  }
+}
+
+void redRight() {
+  thread colorSorting = thread(filterBlue);
+
+  // mogo 1 clamp
+  chassis.drive_distance(-28.5);
+  chassis.drive_max_voltage = 9;
+  chassis.turn_to_angle(-28);
+  chassis.drive_distance(-20.5);
+  mogo.set(true);
+  chassis.drive_max_voltage = 12;
+  
+  // preload / ring 1
+  chassis.turn_to_angle(19);
+  moveIntake(12);
+  wait(800, msec);
+  
+  // partially intake ring 2
+  chassis.drive_max_voltage = 6;
+  chassis.drive_distance(14);
+  detectRing();
+  chassis.drive_max_voltage = 12;
+
+  // drop mogo 1 near corner
+  chassis.turn_to_angle(151);
+  chassis.drive_distance(-21);
+  mogo.set(false);
+  wait(300, msec);
+  
+  // clamp mogo 2
+  chassis.drive_distance(19);
+  chassis.turn_to_angle(-98);
+  chassis.drive_distance(-15);
+  mogo.set(true);
+
+  // ladder touch
+  chassis.turn_to_angle(-67);
+  moveIntake(12);
+  chassis.drive_distance(-20);
+}
+
+void blueLeft() {
+  thread colorSorting = thread(filterRed);
+
+  // mogo 1 clamp
+  chassis.drive_distance(-28.5);
+  chassis.drive_max_voltage = 9;
+  chassis.turn_to_angle(28);
+  chassis.drive_distance(-20.5);
+  mogo.set(true);
+  chassis.drive_max_voltage = 12;
+  
+  // preload / ring 1
+  chassis.turn_to_angle(-19);
+  moveIntake(12);
+  wait(800, msec);
+
+  // partially intake ring 2
+  chassis.drive_max_voltage = 6;
+  chassis.drive_distance(14);
+  detectRing();
+  chassis.drive_max_voltage = 12;
+
+  // drop mogo 1 near corner
+  chassis.turn_to_angle(-151);
+  chassis.drive_distance(-21);
+  mogo.set(false);
+  wait(300, msec);
+
+  // clamp mogo 2
+  chassis.drive_distance(19);
+  chassis.turn_to_angle(98);
+  chassis.drive_distance(-15);
+  mogo.set(true);
+
+  // ladder touch
+  chassis.turn_to_angle(67);
+  moveIntake(12);
+  chassis.drive_distance(-20);
+}
+
+void skills() {
+  chassis.turn_kd = 8.5;
+
+  // alliance stake
+  moveIntake(12);
+  wait(500, msec);
+
+  // mogo 1 clamp
+  chassis.drive_distance(13.5);
+  moveIntake(0);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(-13);
+  mogo.set(true);
+  wait(500, msec);
+
+  // ring 1
+  chassis.drive_max_voltage = 6;
+  chassis.turn_to_angle(-23);
+  moveIntake(12);
+  chassis.drive_distance(45);
+  
+  // ring 2
+  chassis.turn_to_angle(-75);
+  chassis.drive_distance(30);
+  detectRing2();
+  //wait(2500, msec);
+
+  // ring 3
+  chassis.drive_distance(-26);
+  //wait(1000, msec);
+  arcs();
+  chassis.drive_max_voltage = 10;
+  chassis.drive_distance(35, -175);
+  detectRing2();
+  //wait(1000, msec);
+
+  // ring 4
+  correction();
+  chassis.turn_to_angle(180);
+  chassis.drive_max_voltage = 6;
+  chassis.drive_distance(20);
+  //wait(1000, msec);
+  detectRing2();
+
+  // ring 5
+  //chassis.turn_to_angle(180);
+  chassis.drive_distance(12);
+  //wait(1000, msec);
+  detectRing2();
+  wait(200, msec);
+
+  // ring 6
+  chassis.turn_to_angle(-55);
+  //chassis.drive_distance(15);
+  //wait(1000, msec);
+  //detectRing2();
+
+  // ring 7
+  // chassis.turn_to_angle(10);
+  // chassis.drive_distance(-7);
+  // mogo.set(false);
+
+  // ring 2
+  // chassis.turn_to_angle(-58);
+  // chassis.drive_distance(36);
+  // detectRing2();
+
+  // ring 2
+  //chassis.turn_to_angle(-90);
+}
 
 void test() {
   //drive_test();
   //turn_test();
   //swing_test();
-  full_test();
+  //full_test();
+  moveIntake(12);
+  detectRing2();
+
+  chassis.turn_to_angle(90);
+  detectRing2();
+
+  chassis.turn_to_angle(180);
+  detectRing2();
+
+  chassis.turn_to_angle(-90);
+  detectRing2();
+
+  chassis.turn_to_angle(0);
+  detectRing2();
 }
 
 #pragma region

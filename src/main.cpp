@@ -116,6 +116,19 @@ PORT3,     -PORT4,
 
 int auton = 0;
 
+void telemetry() {
+  while (1) {
+    float pos = (chassis.get_right_position_in() + chassis.get_left_position_in()) / 2;
+    std::cout << "Position: " << pos << std::endl;
+    std::cout << "Angle:    " << chassis.get_absolute_heading() << std::endl;
+    std::cout << "Temp:     " << intake.temperature(temperatureUnits::fahrenheit) << std::endl;
+    std::cout << "Vel:      " << intake.voltage() << std::endl;
+    std::cout << "Vel 2:    " << intake.velocity(pct) << std::endl;
+    std::cout << "" << std::endl;
+    wait(75, msec);
+  }
+}
+
 void pre_auton() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
@@ -123,6 +136,8 @@ void pre_auton() {
 
   imu.calibrate(3000);
   wait(3000, msec);
+
+  telemetry();
 }
 
 /**
@@ -138,20 +153,31 @@ void autonomous(void) {
   l.resetPosition();
   r.resetPosition();
 
-  int auton = 5;
-  if (auton == 0) {
-    auto_red_left();
-  } else if (auton == 1) {
-    auto_red_right();
-  } else if (auton == 2) {
-    auto_blue_left();
-  } else if (auton == 3) {
-    auto_blue_right();
-  } else if (auton == 4) {
-    auto_skills();
-  } else if (auton == 5) {
-    test();
+  optic.setLight(ledState::on);
+  optic.setLightPower(100, percent);
+
+  int auton = 4;
+
+  if (auton == 4) {
+    optic.setLight(ledState::off);
+    optic.setLightPower(0, percent);
+  } else {
+    optic.setLight(ledState::on);
+    optic.setLightPower(100, percent);
   }
+
+  if (auton == 0)
+    redLeft();
+  else if (auton == 1)
+    redRight();
+  else if (auton == 2)
+    blueLeft();
+  else if (auton == 3)
+    blueRight();
+  else if (auton == 4)
+    auto_skills();
+  else if (auton == 5)
+    test();
 }
 
 /*---------------------------------------------------------------------------*/

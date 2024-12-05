@@ -8,16 +8,18 @@ extern Drive chassis;
 void default_constants();
 
 // autons
-// void auto_blue_left_quals();
-// void auto_blue_left_elims();
 void auto_blue_right();
 void auto_red_left();
 void auto_red_right();
 void auto_blue_left();
-void autoBlueLeft();
-// void auto_red_right_elims();
 void auto_skills();
 void test();
+
+void redLeft();
+void redRight();
+void blueRight();
+void blueLeft();
+void skills();
 
 // test autons
 void drive_test();

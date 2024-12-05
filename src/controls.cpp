@@ -7,15 +7,9 @@ void moveLift(int pos, int vel) {
     lift.spinTo(pos, deg);
 }
 
-int resetVel = 80;
-int grabPos = 60;
-int grabVel = 80;
-int scorePos = 450;
-int scoreVel = 100;
-
-void resetLift() { moveLift(0, resetVel); }
-void liftGrab() { moveLift(grabPos, grabVel); }
-void liftScore() { moveLift(scorePos, scoreVel); }
+void resetLift() { moveLift(0, 100); }
+void liftGrab() { moveLift(90, 100); }
+void liftScore() { moveLift(450, 100); }
 
 bool state = false;
 
@@ -30,11 +24,55 @@ void controlDoinker() {
 }
 
 void arcade() {
-    int forward = controller1.Axis3.position();
-    int turn = controller1.Axis1.position();
-    l.spin(fwd, to_volt(forward + turn), volt);
-    r.spin(fwd, to_volt(forward - turn), volt);
+  int forward = controller1.Axis3.position();
+  int turn = controller1.Axis1.position();
+  l.spin(fwd, to_volt(forward + turn), volt);
+  r.spin(fwd, to_volt(forward - turn), volt);
 }
+
+
+void sort_ring(int intake_time) {
+  wait(intake_time, msec);
+  moveIntake(-12);
+  wait(300, msec);
+  moveIntake(12);
+}
+
+//200, 500
+
+void color_sort(std::string filter_color) {
+  const int rl1 = 8;//350
+  const int rl2 = 15;//10
+  const int bl1 = 210;//220
+  const int bl2 = 230;//250
+  optic.integrationTime(5);
+  
+  while (true) {
+
+    optic.setLight(ledState::on);
+    optic.setLightPower(100);
+    
+    if (optic.isNearObject()) {
+      
+      // if we are on blue team
+      if (filter_color == "red") {
+        if ((optic.hue() > rl1) && (optic.hue() < rl2)) {
+          sort_ring(200);
+        }
+      }
+
+      // if we are on red team
+      else if (filter_color == "blue") {
+        if ((optic.hue() > bl1) && (optic.hue() < bl2)) {
+          sort_ring(200);
+        }
+      }
+    }
+  }
+}
+
+void filterRed() { color_sort("red"); }
+void filterBlue() { color_sort("blue"); }
 
 void controls() {
     // chassis
@@ -47,5 +85,5 @@ void controls() {
         moveIntake(-12);
     else
         moveIntake(0);
-
 }
+
