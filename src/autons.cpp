@@ -213,39 +213,49 @@ void auto_skills() {
   chassis.drive_max_voltage = 6;
   chassis.turn_to_angle(-25);
   chassis.drive_distance(27.5); 
-  wait(500, msec);
+  wait(1500, msec);
 
   // ring 2
   chassis.turn_to_angle(-90);
   chassis.drive_distance(28);
-  wait(500, msec);
+  wait(1000, msec);
 
   // ring 3
   chassis.turn_to_angle(-17);
   chassis.drive_distance(29);
-  wait(500, msec);
+  wait(1500, msec);
 
   // ring 4
   chassis.drive_distance(-37);
-  chassis.turn_to_angle(175);
-  chassis.drive_distance(13);
-  wait(1000, msec);
+  chassis.turn_to_angle(165);
+  chassis.drive_distance(17);
+  wait(2000, msec);
 
   // ring 5
+  chassis.turn_to_angle(175);
   chassis.drive_distance(15);
-  wait(1500, msec);
+  wait(2000, msec);
 
   // ring 6
-  chassis.turn_to_angle(-45);
-  chassis.drive_distance(12);
+  chassis.turn_to_angle(-52);
+  chassis.drive_distance(14);
   wait(1000, msec);
 
   // mogo unclamp -> corner
-  chassis.turn_to_angle(25);
-  chassis.drive_distance(-9);
+  chassis.turn_to_angle(30);
+  chassis.drive_distance(-8);
   mogo.set(false);
   moveIntake(-12);
+  wait(1000, msec);
 
+  // mogo 2
+  chassis.drive_distance(7);
+  moveIntake(0);
+  chassis.turn_to_angle(-90);
+  chassis.drive_max_voltage = 4;
+  chassis.drive_distance(-71);
+  mogo.set(true);
+  moveIntake(12);
 
   // ring 5
   // chassis.turn_to_angle(-173);
@@ -267,7 +277,7 @@ void auto_skills() {
   // mogo 2 clamp
   // chassis.drive_distance(10);
   // moveIntake(0);
-  // chassis.drive_max_voltage = 4;
+
   // chassis.turn_to_angle(-90);
   // chassis.drive_distance(-71);
   // mogo.set(true);

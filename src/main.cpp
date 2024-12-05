@@ -156,7 +156,7 @@ void autonomous(void) {
   optic.setLight(ledState::on);
   optic.setLightPower(100, percent);
 
-  int auton = 4;
+  int auton = 2;
 
   if (auton == 4) {
     optic.setLight(ledState::off);
