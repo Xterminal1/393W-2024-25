@@ -328,7 +328,7 @@ void redLeft() {
   // ladder touch
   //chassis.drive_distance(-23, 88); // drive -> ladder
   chassis.turn_to_angle(-115); // turn -> ladder
-  chassis.drive_distance(35); // drive -> ladder
+  chassis.drive_distance(40); // drive -> ladder
   wait(200, msec);
   l.stop();
   r.stop();
@@ -369,7 +369,7 @@ void blueRight() {
 
   // ladder touch
   chassis.turn_to_angle(115); // turn -> ladder
-  chassis.drive_distance(35); // drive -> ladder
+  chassis.drive_distance(40); // drive -> ladder
   wait(200, msec);
   l.stop();
   r.stop();
@@ -401,7 +401,7 @@ void redRight() {
   thread colorSorting = thread(filterBlue);
 
   // mogo 1 clamp
-  chassis.drive_distance(-28.5);
+  chassis.drive_distance(-26.5);
   chassis.drive_max_voltage = 9;
   chassis.turn_to_angle(-28);
   chassis.drive_distance(-20.5);
@@ -427,21 +427,23 @@ void redRight() {
   
   // clamp mogo 2
   chassis.drive_distance(19);
-  chassis.turn_to_angle(-98);
+  chassis.turn_to_angle(-105);//-98
   chassis.drive_distance(-15);
   mogo.set(true);
 
   // ladder touch
   chassis.turn_to_angle(-67);
   moveIntake(12);
-  chassis.drive_distance(-20);
+  wait(500, msec);
+  moveIntake(0);
+  chassis.drive_distance(-25);
 }
 
 void blueLeft() {
-  thread colorSorting = thread(filterRed);
+  //thread colorSorting = thread(filterRed);
 
   // mogo 1 clamp
-  chassis.drive_distance(-28.5);
+  chassis.drive_distance(-26.5);
   chassis.drive_max_voltage = 9;
   chassis.turn_to_angle(28);
   chassis.drive_distance(-20.5);
@@ -474,7 +476,9 @@ void blueLeft() {
   // ladder touch
   chassis.turn_to_angle(67);
   moveIntake(12);
-  chassis.drive_distance(-20);
+  wait(500, msec);
+  moveIntake(0);
+  chassis.drive_distance(-25);
 }
 
 void skills() {
