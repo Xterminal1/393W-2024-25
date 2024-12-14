@@ -54,16 +54,16 @@ motor_group(rf, rm, rb),
 PORT19,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
-3.25,
+WHEEL_DIAMETER,
 
 //External ratio, must be in decimal, in the format of input teeth/output teeth.
 //If your motor has an 84-tooth gear and your wheel has a 60-tooth gear, this value will be 1.4.
 //If the motor drives the wheel directly, this value is 1:
-0.75,
+GEAR_RATIO,
 
 //Gyro scale, this is what your gyro reads when you spin the robot 360 degrees.
 //For most cases 360 will do fine here, but this scale factor can be very helpful when precision is necessary.
-360,
+IMU_SCALE,
 
 /*---------------------------------------------------------------------------*/
 /*                                  PAUSE!                                   */
@@ -116,19 +116,6 @@ PORT3,     -PORT4,
 
 int auton = 0;
 
-void telemetry() {
-  while (1) {
-    float pos = (chassis.get_right_position_in() + chassis.get_left_position_in()) / 2;
-    std::cout << "Position: " << pos << std::endl;
-    std::cout << "Angle:    " << chassis.get_absolute_heading() << std::endl;
-    std::cout << "Temp:     " << intake.temperature(temperatureUnits::fahrenheit) << std::endl;
-    std::cout << "Vel:      " << intake.voltage() << std::endl;
-    std::cout << "Vel 2:    " << intake.velocity(pct) << std::endl;
-    std::cout << "" << std::endl;
-    wait(75, msec);
-  }
-}
-
 void pre_auton() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
@@ -136,8 +123,6 @@ void pre_auton() {
 
   imu.calibrate(3000);
   wait(3000, msec);
-
-  telemetry();
 }
 
 /**
@@ -147,24 +132,49 @@ void pre_auton() {
  * autons.cpp and declared in autons.h.
  */
 
-void autonomous(void) {
-  imu.resetHeading();
-  imu.resetRotation();
+void resetMotors() {
   l.resetPosition();
   r.resetPosition();
+  intake.resetPosition();
+  lift.resetPosition();
+}
 
+void resetIMU() {
+  imu.resetHeading();
+  imu.resetRotation();
+}
+
+void setOptical() {
   optic.setLight(ledState::on);
   optic.setLightPower(100, percent);
+}
 
-  int auton = 4;
+void deactivatePistons() {
+  mogo.set(false);
+  doinker.set(false);
+}
 
-  if (auton == 4) {
-    optic.setLight(ledState::off);
-    optic.setLightPower(0, percent);
-  } else {
-    optic.setLight(ledState::on);
-    optic.setLightPower(100, percent);
+void telemetry() {
+  while (1) {
+    float pos = (chassis.get_right_position_in() + chassis.get_left_position_in()) / 2;
+    cout << "Position: " << pos << endl;
+    cout << "Angle:    " << chassis.get_absolute_heading() << endl;
+    cout << "Temp:     " << intake.temperature(temperatureUnits::fahrenheit) << endl;
+    cout << "Vel:      " << intake.voltage() << endl;
+    cout << "Vel 2:    " << intake.velocity(pct) << endl;
+    cout << "" << endl;
+    wait(75, msec);
   }
+}
+
+void autonomous(void) {
+  resetMotors();
+  resetIMU();
+  setOptical();
+  deactivatePistons();
+  //telemetry();
+
+  int auton = 0;
 
   if (auton == 0)
     redLeft();
@@ -175,7 +185,7 @@ void autonomous(void) {
   else if (auton == 3)
     blueRight();
   else if (auton == 4)
-    auto_skills();
+    skills();
   else if (auton == 5)
     test();
 }
@@ -203,10 +213,10 @@ void usercontrol(void) {
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
-  controller1.ButtonR1.pressed(controlMogo);
-  controller1.ButtonR2.pressed(controlDoinker);
+  controller1.ButtonR1.pressed(mogoControl);
+  controller1.ButtonR2.pressed(doinkerControl);
 
-  controller1.ButtonA.pressed(resetLift);
+  controller1.ButtonA.pressed(liftReset);
   controller1.ButtonX.pressed(liftGrab);
   controller1.ButtonY.pressed(liftScore);
 
