@@ -36,7 +36,7 @@
 #include "controls.h"
 
 //using namespace vex;
-using namespace std;
+//using namespace std;
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \

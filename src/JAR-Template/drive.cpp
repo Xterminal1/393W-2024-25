@@ -340,8 +340,8 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
     heading_output = clamp(heading_output, -heading_max_voltage, heading_max_voltage);
 
     drive_with_voltage(drive_output+heading_output, drive_output-heading_output);
-    //std::cout << "Pos: " << average_position << '\n';
-    std::cout << "Angle: " << absHeading << '\n';
+    std::cout << "Pos: " << average_position << '\n';
+    //std::cout << "Angle: " << absHeading << '\n';
     task::sleep(10);
   }
 }
@@ -759,4 +759,3 @@ int Drive::position_track_task(){
 }
 
 #pragma endregion
-

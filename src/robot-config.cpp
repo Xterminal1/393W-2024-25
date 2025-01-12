@@ -18,19 +18,19 @@ controller controller1;
 
 #define REVERSE_L true
 #define REVERSE_R false
-#define REVERSE_INTAKE false
-#define REVERSE_LIFT false
+#define REVERSE_INTAKE true
+#define REVERSE_LIFT true
 
-#define PORT_LF PORT4
-#define PORT_LM PORT5
-#define PORT_LB PORT6
-#define PORT_RF PORT7
-#define PORT_RM PORT8
-#define PORT_RB PORT9
+#define PORT_LF PORT14
+#define PORT_LM PORT15
+#define PORT_LB PORT17
+#define PORT_RF PORT11
+#define PORT_RM PORT12
+#define PORT_RB PORT13
 #define PORT_INTAKE PORT10
-#define PORT_LIFT PORT18
+#define PORT_LIFT PORT9
 
-#define PORT_IMU PORT19
+#define PORT_IMU PORT18
 #define PORT_OPTICAL PORT17
 #define PORT_MOGO Brain.ThreeWirePort.A
 #define PORT_DOINKER Brain.ThreeWirePort.B

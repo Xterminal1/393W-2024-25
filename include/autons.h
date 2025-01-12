@@ -6,6 +6,10 @@ extern Drive chassis;
 void default_constants();
 
 // autons
+void red_right();
+void blue_left();
+void red_left();
+void blue_right();
 void redLeft();
 void redRight();
 void blueRight();
@@ -17,7 +21,7 @@ void test();
 // lateral PID controller
 #define DRIVE_MAX 12
 #define DRIVE_KP 1.2
-#define DRIVE_KI 0
+#define DRIVE_KI 0.02
 #define DRIVE_KD 8
 #define DRIVE_STARTI 0
 #define DRIVE_SETTLE_ERROR 1.5
@@ -33,9 +37,9 @@ void test();
 
 // angular PID controller
 #define TURN_MAX 12
-#define TURN_KP 0.9
+#define TURN_KP 0.6
 #define TURN_KI 0
-#define TURN_KD 7
+#define TURN_KD 4
 #define TURN_STARTI 15
 #define TURN_SETTLE_ERROR 1
 #define TURN_SETTLE_TIME 300

@@ -51,7 +51,7 @@ motor_group(lf, lm, lb),
 motor_group(rf, rm, rb),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT19,
+PORT18,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 WHEEL_DIAMETER,
@@ -116,10 +116,25 @@ PORT3,     -PORT4,
 
 int auton = 0;
 
+
+void telemetry() {
+  while (1) {
+    float pos = (chassis.get_right_position_in() + chassis.get_left_position_in()) / 2;
+    std::cout << "Position: " << pos << std::endl;
+    std::cout << "Angle:    " << chassis.get_absolute_heading() << std::endl;
+    std::cout << "Temp:     " << intake.temperature(celsius) << std::endl;
+    std::cout << "Vel:      " << intake.voltage() << std::endl;
+    std::cout << "Vel 2:    " << intake.velocity(pct) << std::endl << std::endl;
+    wait(75, msec);
+  }
+}
+
 void pre_auton() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
   default_constants();
+
+  telemetry();
 
   imu.calibrate(3000);
   wait(3000, msec);
@@ -132,58 +147,32 @@ void pre_auton() {
  * autons.cpp and declared in autons.h.
  */
 
-void resetMotors() {
-  l.resetPosition();
-  r.resetPosition();
-  intake.resetPosition();
-  lift.resetPosition();
-}
-
-void resetIMU() {
-  imu.resetHeading();
-  imu.resetRotation();
-}
-
-void setOptical() {
-  optic.setLight(ledState::on);
-  optic.setLightPower(100, percent);
-}
-
-void deactivatePistons() {
-  mogo.set(false);
-  doinker.set(false);
-}
-
-void telemetry() {
-  while (1) {
-    float pos = (chassis.get_right_position_in() + chassis.get_left_position_in()) / 2;
-    cout << "Position: " << pos << endl;
-    cout << "Angle:    " << chassis.get_absolute_heading() << endl;
-    cout << "Temp:     " << intake.temperature(temperatureUnits::fahrenheit) << endl;
-    cout << "Vel:      " << intake.voltage() << endl;
-    cout << "Vel 2:    " << intake.velocity(pct) << endl;
-    cout << "" << endl;
-    wait(75, msec);
-  }
+void wait_and_clamp() {
+  wait(700, msec);
+  mogo.set(true);
 }
 
 void autonomous(void) {
-  resetMotors();
-  resetIMU();
-  setOptical();
-  deactivatePistons();
+  l.resetPosition();
+  r.resetPosition();
+  lift.resetPosition();
+  imu.resetHeading();
+  imu.resetRotation();
+  optic.setLight(ledState::on);
+  optic.setLightPower(100, percent);
   //telemetry();
 
-  int auton = 0;
+  int auton = 2;
 
-  if (auton == 0)
+  if (auton == 0) {
     redLeft();
+  }
   else if (auton == 1)
-    redRight();
+    red_right();
   else if (auton == 2)
-    blueLeft();
+    blue_left();
   else if (auton == 3)
-    blueRight();
+    blue_right();
   else if (auton == 4)
     skills();
   else if (auton == 5)
@@ -201,7 +190,7 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-  lift.setStopping(hold);
+  //lift.setStopping(hold);
   while (1) {
     controls();
     wait(20, msec);
@@ -213,12 +202,12 @@ void usercontrol(void) {
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
-  controller1.ButtonR1.pressed(mogoControl);
-  controller1.ButtonR2.pressed(doinkerControl);
+  controller1.ButtonR1.pressed(mogo_control);
+  controller1.ButtonR2.pressed(doinker_control);
 
-  controller1.ButtonA.pressed(liftReset);
-  controller1.ButtonX.pressed(liftGrab);
-  controller1.ButtonY.pressed(liftScore);
+  controller1.ButtonA.pressed(lift_reset);
+  controller1.ButtonX.pressed(lift_grab);
+  controller1.ButtonY.pressed(lift_score);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
