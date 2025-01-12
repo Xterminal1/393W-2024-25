@@ -131,7 +131,6 @@ void controls() {
   }
 
   // lift
-
   if (controller1.ButtonUp.pressing()) {
     lift.spin(fwd, 6, volt);
   } else if (controller1.ButtonDown.pressing()) {

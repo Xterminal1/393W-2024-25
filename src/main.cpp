@@ -162,7 +162,7 @@ void autonomous(void) {
   optic.setLightPower(100, percent);
   //telemetry();
 
-  int auton = 2;
+  int auton = 3;
 
   if (auton == 0) {
     redLeft();
