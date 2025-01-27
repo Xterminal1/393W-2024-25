@@ -34,9 +34,11 @@
 #include "JAR-Template/PID.h"
 #include "autons.h"
 #include "controls.h"
+#include "optical.h"
+#include "constants.h"
 
 //using namespace vex;
-//using namespace std;
+using namespace std;
 
 #define waitUntil(condition)                                                   \
   do {                                                                         \
@@ -45,9 +47,3 @@
 
 #define repeat(iterations)                                                     \
   for (int iterator = 0; iterator < iterations; iterator++)
-
-
-// constants
-#define WHEEL_DIAMETER 3.25
-#define GEAR_RATIO 0.75
-#define IMU_SCALE 360

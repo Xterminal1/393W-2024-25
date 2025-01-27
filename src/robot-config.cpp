@@ -31,7 +31,7 @@ controller controller1;
 #define PORT_LIFT PORT9
 
 #define PORT_IMU PORT18
-#define PORT_OPTICAL PORT17
+#define PORT_OPTICAL PORT20
 #define PORT_MOGO Brain.ThreeWirePort.A
 #define PORT_DOINKER Brain.ThreeWirePort.B
 

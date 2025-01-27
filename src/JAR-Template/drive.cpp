@@ -74,9 +74,9 @@ int SidewaysTracker_port, float SidewaysTracker_diameter, float SidewaysTracker_
  * @param rightVoltage Voltage out of 12.
  */
 
-void Drive::drive_with_voltage(float leftVoltage, float rightVoltage){
-  DriveL.spin(fwd, leftVoltage, volt);
-  DriveR.spin(fwd, rightVoltage,volt);
+void Drive::drive_with_voltage(float left_voltage, float right_voltage){
+  DriveL.spin(fwd, left_voltage, volt);
+  DriveR.spin(fwd, right_voltage,volt);
 }
 
 /**
@@ -270,11 +270,29 @@ void Drive::drive_stop(vex::brakeType mode){
  * @param angle Desired angle in degrees.
  */
 
-void Drive::turn_to_angle(float angle){
+void Drive::turn(float angle){
+  // if (angle <= 60) {
+  //   chassis.turn_kd = 2.8;
+  // } else if (angle <= 120) {
+  //   chassis.turn_kd = 3.2;
+  // } else if (angle <= 180) {
+  //   chassis.turn_kd = 3.8;
+  // }
   turn_to_angle(angle, turn_max_voltage, turn_settle_error, turn_settle_time, turn_timeout, turn_kp, turn_ki, turn_kd, turn_starti);
 }
 
-void Drive::turn_to_angle(float angle, float turn_max_voltage){
+// void Drive::turn(float angle, float turn_max_voltage){
+//   turn_to_angle(angle, turn_max_voltage, turn_settle_error, turn_settle_time, turn_timeout, turn_kp, turn_ki, turn_kd, turn_starti);
+// }
+
+void Drive::turn(float angle, float type) {
+  if (type == s) {
+    chassis.turn_kd = s;
+  } else if (type == m) {
+    chassis.turn_kd = m;
+  } else if (type == x) {
+    chassis.turn_kd = x;
+  }
   turn_to_angle(angle, turn_max_voltage, turn_settle_error, turn_settle_time, turn_timeout, turn_kp, turn_ki, turn_kd, turn_starti);
 }
 
@@ -290,7 +308,7 @@ void Drive::turn_to_angle(float angle, float turn_max_voltage, float turn_settle
     float output = turnPID.compute(error);
     output = clamp(output, -turn_max_voltage, turn_max_voltage);
     drive_with_voltage(output, -output);
-    std::cout << absHeading << '\n';
+    //std::cout << absHeading << '\n';
     task::sleep(10);
   }
 }
@@ -307,12 +325,20 @@ void Drive::turn_to_angle(float angle, float turn_max_voltage, float turn_settle
  * @param heading Desired heading in degrees.
  */
 
-void Drive::drive_distance(float distance){
+void Drive::move(float distance){
   drive_distance(distance, get_absolute_heading(), drive_max_voltage, heading_max_voltage, drive_settle_error, drive_settle_time, drive_timeout, drive_kp, drive_ki, drive_kd, drive_starti, heading_kp, heading_ki, heading_kd, heading_starti);
 }
 
-void Drive::drive_distance(float distance, float heading){
+void Drive::arc(float distance, float heading){
   drive_distance(distance, heading, drive_max_voltage, heading_max_voltage, drive_settle_error, drive_settle_time, drive_timeout, drive_kp, drive_ki, drive_kd, drive_starti, heading_kp, heading_ki, heading_kd, heading_starti);
+}
+
+void Drive::move(float distance, float max_voltage) {
+  drive_distance(distance, get_absolute_heading(), max_voltage, heading_max_voltage, drive_settle_error, drive_settle_time, drive_timeout, drive_kp, drive_ki, drive_kd, drive_starti, heading_kp, heading_ki, heading_kd, heading_starti);
+}
+
+void Drive::move(float distance, float max_voltage, float timeout) {
+  drive_distance(distance, get_absolute_heading(), max_voltage, heading_max_voltage, drive_settle_error, drive_settle_time, timeout, drive_kp, drive_ki, drive_kd, drive_starti, heading_kp, heading_ki, heading_kd, heading_starti);
 }
 
 void Drive::drive_distance(float distance, float heading, float drive_max_voltage, float heading_max_voltage){
@@ -340,8 +366,9 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
     heading_output = clamp(heading_output, -heading_max_voltage, heading_max_voltage);
 
     drive_with_voltage(drive_output+heading_output, drive_output-heading_output);
-    std::cout << "Pos: " << average_position << '\n';
-    //std::cout << "Angle: " << absHeading << '\n';
+    //std::cout << "Pos: " << average_position << std::endl;
+    //std::cout << "Ang: " << imu.heading() << std::endl;
+    //std::cout << "Vel: " << drive_output << std::endl << std::endl;
     task::sleep(10);
   }
 }
@@ -387,6 +414,14 @@ void Drive::right_swing_to_angle(float angle, float swing_max_voltage, float swi
     DriveL.stop(hold);
     //std::cout << absHeading << '\n';
     task::sleep(10);
+  }
+}
+
+void Drive::swing(int direction, float angle) {
+  if (direction == LEFT) {
+    left_swing_to_angle(angle);
+  } else if (direction == RIGHT) {
+    right_swing_to_angle(angle);
   }
 }
 

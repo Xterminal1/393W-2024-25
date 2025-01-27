@@ -91,7 +91,7 @@ public:
 
   Drive(enum::drive_setup drive_setup, motor_group DriveL, motor_group DriveR, int gyro_port, float wheel_diameter, float wheel_ratio, float gyro_scale, int DriveLF_port, int DriveRF_port, int DriveLB_port, int DriveRB_port, int ForwardTracker_port, float ForwardTracker_diameter, float ForwardTracker_center_distance, int SidewaysTracker_port, float SidewaysTracker_diameter, float SidewaysTracker_center_distance);
 
-  void drive_with_voltage(float leftVoltage, float rightVoltage);
+  void drive_with_voltage(float left_voltage, float right_voltage);
 
   float get_absolute_heading();
 
@@ -110,13 +110,16 @@ public:
   void set_swing_exit_conditions(float swing_settle_error, float swing_settle_time, float swing_timeout);
   //void set_lift_exit_conditions(float lift_settle_error, float lift_settle_time, float lift_timeout);
 
-  void turn_to_angle(float angle);
-  void turn_to_angle(float angle, float turn_max_voltage);
+  void turn(float angle);
+  //void turn(float angle, float turn_max_voltage);
+  void turn(float angle, float type);
   void turn_to_angle(float angle, float turn_max_voltage, float turn_settle_error, float turn_settle_time, float turn_timeout);
   void turn_to_angle(float angle, float turn_max_voltage, float turn_settle_error, float turn_settle_time, float turn_timeout, float turn_kp, float turn_ki, float turn_kd, float turn_starti);
 
-  void drive_distance(float distance);
-  void drive_distance(float distance, float heading);
+  void move(float distance);
+  void arc(float distance, float heading);
+  void move(float distance, float max_voltage);
+  void move(float distance, float max_voltage, float timeout);
   void drive_distance(float distance, float heading, float drive_max_voltage, float heading_max_voltage);
   void drive_distance(float distance, float heading, float drive_max_voltage, float heading_max_voltage, float drive_settle_error, float drive_settle_time, float drive_timeout);
   void drive_distance(float distance, float heading, float drive_max_voltage, float heading_max_voltage, float drive_settle_error, float drive_settle_time, float drive_timeout, float drive_kp, float drive_ki, float drive_kd, float drive_starti, float heading_kp, float heading_ki, float heading_kd, float heading_starti);
@@ -126,6 +129,8 @@ public:
   void right_swing_to_angle(float angle);
   void right_swing_to_angle(float angle, float swing_max_voltage, float swing_settle_error, float swing_settle_time, float swing_timeout, float swing_kp, float swing_ki, float swing_kd, float swing_starti);
   //void lift_to_position(float position, float lift_max_voltage, float lift_settle_error, float lift_settle_time, float lift_timeout, float lift_kp, float lift_ki, float lift_kd, float lift_starti);
+
+  void swing(int direction, float angle);
 
   Odom odom;
   float get_ForwardTracker_position();

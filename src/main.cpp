@@ -116,16 +116,32 @@ PORT3,     -PORT4,
 
 int auton = 0;
 
-
 void telemetry() {
   while (1) {
     float pos = (chassis.get_right_position_in() + chassis.get_left_position_in()) / 2;
-    std::cout << "Position: " << pos << std::endl;
-    std::cout << "Angle:    " << chassis.get_absolute_heading() << std::endl;
-    std::cout << "Temp:     " << intake.temperature(celsius) << std::endl;
-    std::cout << "Vel:      " << intake.voltage() << std::endl;
-    std::cout << "Vel 2:    " << intake.velocity(pct) << std::endl << std::endl;
-    wait(75, msec);
+    std::cout << "position:         " << pos << std::endl;
+    std::cout << "heading:          " << chassis.get_absolute_heading() << std::endl << std::endl;
+    //std::cout << "velocity:         " << (l.voltage() + r.voltage()) / 2 << std::endl << std::endl;
+
+    // std::cout << "output:           " << chassis.
+    //std::cout << "drive temp:       " << l.temperature() << std::endl;
+    //std::cout << "intake temp:      " << intake.temperature(celsius) << std::endl;
+    //std::cout << "intake vel:       " << intake.voltage() << std::endl;
+    //std::cout << "lift position:    " << lift.position(deg) << std::endl;
+    
+    // if (mogo.value()) {
+    //   std::cout << "mogo:             " << "extended" << std::endl;
+    // } else {
+    //   std::cout << "mogo:             " << "retracted" << std::endl;
+    // }
+
+    // if (doinker.value()) {
+    //   std::cout << "doinker:          " << "extended" << std::endl;
+    // } else {
+    //   std::cout << "doinker:          " << "retracted" << std::endl << std::endl;
+    // }
+    
+    wait(500, msec);
   }
 }
 
@@ -138,6 +154,11 @@ void pre_auton() {
 
   imu.calibrate(3000);
   wait(3000, msec);
+
+  optic.setLight(ledState::on);
+  optic.setLightPower(100);
+
+  
 }
 
 /**
@@ -147,22 +168,15 @@ void pre_auton() {
  * autons.cpp and declared in autons.h.
  */
 
-void wait_and_clamp() {
-  wait(700, msec);
-  mogo.set(true);
-}
-
 void autonomous(void) {
   l.resetPosition();
   r.resetPosition();
   lift.resetPosition();
   imu.resetHeading();
   imu.resetRotation();
-  optic.setLight(ledState::on);
-  optic.setLightPower(100, percent);
   //telemetry();
 
-  int auton = 3;
+  int auton = 4;
 
   if (auton == 0) {
     redLeft();
@@ -173,8 +187,34 @@ void autonomous(void) {
     blue_left();
   else if (auton == 3)
     blue_right();
-  else if (auton == 4)
-    skills();
+  else if (auton == 4) {
+    // mogo.set(true);
+    // move_intake(12);
+    // thread t = thread(filter_red);
+    //chassis.turn_to_angle(30);
+
+    
+    //chassis.turn_kd = 3.2; // 90
+    //chassis.turn_kd = 2.8; // 45    
+
+    //chassis.turn(20);
+    //chassis.turn(45);
+    //chassis.turn(90);
+    //chassis.turn(135);
+    //chassis.turn(180);
+    //chassis.turn_to_angle(225);
+    //chassis.turn_to_angle(0);
+
+    // chassis.turn_to_angle(5);
+    // chassis.turn_to_angle(20); // +15
+    // chassis.turn_to_angle(50); // +30
+    // chassis.turn_to_angle(95); // +45
+    // chassis.turn_to_angle(185); // +90
+    // chassis.turn_to_angle(320); // +135
+    // chassis.turn_to_angle(499); // +180
+    autoSkills();
+    autoskills();
+  }
   else if (auton == 5)
     test();
 }
@@ -190,8 +230,18 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-  //lift.setStopping(hold);
+  Brain.Screen.clearScreen();
+  Brain.Screen.setFont(mono60);
+  Brain.Screen.setCursor(2.5, 1);
+  Brain.Screen.print("ATTACK");   
+  // Brain.Screen.setFont(mono30);
+  // Brain.Screen.setCursor(5, 1);
+  // Brain.Screen.print("auton not working...");
+  // Brain.Screen.setCursor(8, 1);
+  // Brain.Screen.print("attack");
+  
   while (1) {
+    
     controls();
     wait(20, msec);
   }
