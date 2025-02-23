@@ -1,13 +1,13 @@
 #include "vex.h"
 
-void filter_ring() {
-  wait(300, msec);
+void filterRing(float intakeTime) {
+  wait(intakeTime, msec);//160
   move_intake(-12);
-  wait(300, msec);
+  wait(100, msec);
   move_intake(12);
 }
 
-void get_ring(std::string targetColor) {
+void getRing(std::string targetColor, float intakeTime) {
   optic.integrationTime(5);
   while (1) {
     optic.setLight(ledState::on);
@@ -18,20 +18,20 @@ void get_ring(std::string targetColor) {
       // if we are on blue team
       if (targetColor == "red") {
         if ((optic.hue() > RED_LOWER_LIM) && (optic.hue() < RED_UPPER_LIM)) {
-          filter_ring();
+          filterRing(intakeTime);
         }
       }
       // if we are on red team
       else if (targetColor == "blue") {
         if ((optic.hue() > BLUE_LOWER_LIM) && (optic.hue() < BLUE_UPPER_LIM)) {
-          filter_ring();
+          filterRing(intakeTime);
         }
       }
     }
   }
 }
 
-void detect_and_stop_ring() {
+void detectStopRing() {
   while (!optic.isNearObject()) {
     move_intake(12);
     wait(5, msec);
@@ -39,7 +39,7 @@ void detect_and_stop_ring() {
   move_intake(0);
 }
 
-void detect_ring() {
+void detectRing() {
   int run_time = 0;
   while (!optic.isNearObject()) {
     if (run_time >= 3000) { // timeout
@@ -51,5 +51,18 @@ void detect_ring() {
   }
 }
 
-void filter_red() { get_ring("red"); }
-void filter_blue() { get_ring("blue"); }
+void detectRedRing() {
+  int run_time = 0;
+  while (!((optic.hue() > RED_LOWER_LIM) && (optic.hue() < RED_UPPER_LIM))) {
+    // if (run_time >= 3000) { // timeout
+    //   break;
+    // }
+    move_intake(12);
+    //wait(1, msec);
+    //run_time += 1;
+  }
+}
+
+void filterRed() { getRing("red", 100); }
+void filterBlue() { getRing("blue", 100); }
+void filterBlueSlow() { getRing("blue", 370); }

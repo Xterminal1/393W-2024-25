@@ -329,6 +329,10 @@ void Drive::move(float distance){
   drive_distance(distance, get_absolute_heading(), drive_max_voltage, heading_max_voltage, drive_settle_error, drive_settle_time, drive_timeout, drive_kp, drive_ki, drive_kd, drive_starti, heading_kp, heading_ki, heading_kd, heading_starti);
 }
 
+// voidDrive::chainedMove(float distance){
+
+// }
+
 void Drive::arc(float distance, float heading){
   drive_distance(distance, heading, drive_max_voltage, heading_max_voltage, drive_settle_error, drive_settle_time, drive_timeout, drive_kp, drive_ki, drive_kd, drive_starti, heading_kp, heading_ki, heading_kd, heading_starti);
 }
@@ -371,6 +375,8 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
     //std::cout << "Vel: " << drive_output << std::endl << std::endl;
     task::sleep(10);
   }
+  // l.stop(coast);
+  // r.stop(coast);
 }
 
 /**

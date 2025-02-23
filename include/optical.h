@@ -1,12 +1,10 @@
 #include "vex.h"
 
-void filter_ring();
-void get_ring(std::string sorted_color);
+void detectRing();
+void detectStopRing();
+void detectRedRing();
+//void detectRing2(std::string action);
 
-void detect_ring();
-void detect_and_stop_ring();
-void detectRing2(std::string action);
-
-void filter_red();
-void filter_blue();
-
+void filterRed();
+void filterBlue();
+void filterBlueSlow();

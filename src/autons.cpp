@@ -28,75 +28,105 @@ void default_constants() {
 void arcs() { chassis.set_heading_constants(ARC_MAX, ARC_KP, ARC_KI, ARC_KD, ARC_STARTI); }
 void correction() { chassis.set_heading_constants(HEADING_MAX, HEADING_KP, HEADING_KI, HEADING_KD, HEADING_STARTI); }
 
-void redLeft() {
-  thread t = thread(filter_blue);
+// void move10() {chassis.move(25, 5.5); }
 
-  // mogo 1 clamp
-  chassis.move(-19); // drive -> mogo
-  chassis.turn(27);
-  chassis.move(-6);
-  wait(10, msec);
-  mogo.set(true); // clamp mogo
-  move_intake(12);
-  wait(500, msec);
-  chassis.drive_max_voltage = 10;
+// void waitDetect() {detect_ring3();}
 
-  // rings 1 & 2
-  chassis.turn(149);
-  chassis.move(23);
-  wait(500, msec);
+// void extras() {
+//   waitDetect();
+//   wait(15, msec);
+//   lift_grab();
+// }
 
-  // ring 3
-  chassis.move(-5);
-  chassis.turn(130);
-  chassis.move(8.5);
-  wait(500, msec);
+// void runit() {
+//   thread m10 = thread(move10);
+//   extras();
+//   // waitDetect();
+//   // wait(200, msec);
+//   // lift_grab();
+//   //move_intake(0);
+// }
 
-  // ring 4
-  chassis.move(-20);
-  wait(500, msec);
-  arcs(); // enable arc turns
-  chassis.arc(22.5, 29);
+// void redLeft() {
+//   thread abdal = thread(filter_blue);
+  
+//   chassis.turn_kd = 3.8;
+//   chassis.drive_settle_error = 0.5;
+//   chassis.drive_settle_time = 100;
+//   chassis.turn_settle_time = 150;
+//   intake.setMaxTorque(100, percent);
 
-  // LADDER TOUCH
-  chassis.turn(-107);
-  chassis.move(42);
+//   // mogo 1 clamp
+//   chassis.move(-19); // drive -> mogo
+//   chassis.turn(27);
+//   chassis.move(-6);
+//   mogo.set(true); // clamp mogo
+//   move_intake(12);
+//   wait(300, msec);
 
-  // chassis.turn_kd = 8;
-  // chassis.drive_max_voltage = 6;
-  // chassis.turn_to_angle(147); // turn -> ring 2
-  // chassis.turn_kd = 7; 
-  // move_intake(12);
-  // wait(200, msec);
-  // chassis.drive_distance(30); // drive -> ring 2
-  // wait(600, msec);
+//   // rings 1 & 2
+//   chassis.turn(149);
+//   chassis.move(23);
+//   //wait(500, msec);
 
-  // // ring 3
-  // chassis.drive_distance(-8); // drive bwd -> align w/ ring 3
-  // chassis.drive_max_voltage = 8;
-  // chassis.turn_to_angle(126); // turn -> ring 3
-  // chassis.drive_distance(12); // drive -> ring 3
-  // chassis.drive_max_voltage = 10;
-  // wait(500, msec);
+//   // ring 3
+//   chassis.move(-5);
+//   chassis.turn(130);
+//   chassis.move(8.5);
+//   //wait(500, msec);
 
-  // // ring 4
-  // chassis.drive_distance(-20); // drive bwd -> align w/ ring 4
-  // wait(1500, msec);
-  // arcs(); // enable arc turns
-  // chassis.drive_distance(30, 29); // swing -> intake ring 4
-  // wait(800, msec);
+//   // ring 4
+//   chassis.move(-20);
+//   //wait(500, msec);
+//   arcs(); // enable arc turns
+//   chassis.arc(18, 50);//22.5,29
 
-  // // ladder touch
-  // //chassis.drive_distance(-23, 88); // drive -> ladder
-  // chassis.turn_to_angle(-115); // turn -> ladder
-  // chassis.drive_distance(40); // drive -> ladder
-  // wait(200, msec);
-  // l.stop();
-  // r.stop();
-}
+//   // ring 5 -> ally stake
+//   chassis.turn(-57);
+//   chassis.move(38);
+//   runit();
+//   // turn 300
+//   // driv
 
-void blueRight() {
-  thread t = thread(filter_red);
+//   // LADDER TOUCH
+//   // chassis.turn(-107);
+//   // chassis.move(42);
+
+//   // chassis.turn_kd = 8;
+//   // chassis.drive_max_voltage = 6;
+//   // chassis.turn_to_angle(147); // turn -> ring 2
+//   // chassis.turn_kd = 7; 
+//   // move_intake(12);
+//   // wait(200, msec);
+//   // chassis.drive_distance(30); // drive -> ring 2
+//   // wait(600, msec);
+
+//   // // ring 3
+//   // chassis.drive_distance(-8); // drive bwd -> align w/ ring 3
+//   // chassis.drive_max_voltage = 8;
+//   // chassis.turn_to_angle(126); // turn -> ring 3
+//   // chassis.drive_distance(12); // drive -> ring 3
+//   // chassis.drive_max_voltage = 10;
+//   // wait(500, msec);
+
+//   // // ring 4
+//   // chassis.drive_distance(-20); // drive bwd -> align w/ ring 4
+//   // wait(1500, msec);
+//   // arcs(); // enable arc turns
+//   // chassis.drive_distance(30, 29); // swing -> intake ring 4
+//   // wait(800, msec);
+
+//   // // ladder touch
+//   // //chassis.drive_distance(-23, 88); // drive -> ladder
+//   // chassis.turn_to_angle(-115); // turn -> ladder
+//   // chassis.drive_distance(40); // drive -> ladder
+//   // wait(200, msec);
+//   // l.stop();
+//   // r.stop();
+// }
+
+void blueRight2() {
+  thread t = thread(filterRed);
 
   // mogo 1 clamp
   chassis.move(-19); // drive -> mogo
@@ -137,7 +167,7 @@ void blueRight() {
 }
 
 void redRight() {
-  thread t = thread(filter_blue);
+  thread t = thread(filterBlue);
 
   // mogo 1 clamp
   chassis.move(-26.5);
@@ -152,7 +182,7 @@ void redRight() {
   
   // partially intake ring 2
   chassis.move(14, 6);
-  detect_and_stop_ring();
+  detectStopRing();
 
   // drop mogo 1 near corner
   chassis.turn(151);
@@ -190,7 +220,7 @@ void blueLeft() {
 
   // partially intake ring 2
   chassis.move(14, 6);
-  detect_and_stop_ring();
+  detectStopRing();
 
   // drop mogo 1 near corner
   chassis.turn(-151);
@@ -321,19 +351,19 @@ void test() {
   //swing_test();
   //full_test();
   move_intake(12);
-  detect_ring();
+  detectRing();
 
   chassis.turn(90);
   move_intake(12);
 
   chassis.turn(180);
-  detect_ring();
+  detectRing();
 
   chassis.turn(-90);
-  detect_ring();
+  detectRing();
 
   chassis.turn(0);
-  detect_ring();
+  detectRing();
 }
 
 void red_left() {
@@ -439,7 +469,7 @@ void blue_right() {
   // l.stop();
   // r.stop();
 
-  thread t = thread(filter_red);
+  thread t = thread(filterRed);
 
   // mogo 1 clamp
   chassis.move(-19); // drive -> mogo
@@ -475,7 +505,7 @@ void blue_right() {
 }
 
 void red_right() {
-  thread t = thread(filter_blue);
+  thread t = thread(filterBlue);
 
   // mogo 1 clamp
   chassis.move(-19); // drive -> mogo
@@ -499,7 +529,7 @@ void red_right() {
 }
 
 void blue_left() {
-  thread t = thread(filter_red);
+  thread t = thread(filterRed);
 
   // mogo 1 clamp
   chassis.move(-19); // drive -> mogo
@@ -547,54 +577,104 @@ void autoSkills() {
   wait(500, msec);
 
   // mogo 1
-  chassis.move(-8);
+  chassis.move(-9.75);
   thread resetLift = thread(lift_reset);
   chassis.turn(-90);
   chassis.move(-18, 3);
   mogo.set(true);
-  wait(500, msec);
+  //wait(500, msec);
   thread runIntake = thread(moveIntake);
 
   // ring 2
-  chassis.turn(167); // chnage turn laterl
+  chassis.turn(163);//167
   chassis.move(21);
-  wait(1000, msec);
+  //wait(500, msec);
 
   // ring 3
-  chassis.turn(129);
+  chassis.turn(129);//125
   chassis.move(43, 6);
-  wait(1000, msec);
+  //wait(500, msec);//1000
 
   // rings 4
-  chassis.move(-12);
+  chassis.move(-12.5);
   chassis.turn(0);
-  chassis.move(10, 7);
-  wait(1500, msec);
+  chassis.move(10);
+  //wait(1000, msec);//1k, 1500
 
   // ring 5
-  chassis.move(20, 7);
-  wait(1500, msec); 
+  chassis.move(25);//20
+  //wait(1500, msec); //1500
 
   // ring 6
-  chassis.move(20, 7);
-  wait(1500, msec);
+  chassis.move(18);
+  //wait(1500, msec);//1500
 
   // ring 7
-  chassis.turn(118);
+  chassis.turn(130);//120, 118
   chassis.move(9.5);
-  wait(1000, msec);
+  //wait(1000, msec);
 
   // unclamp mogo 1 -> corner
-  chassis.turn(209);
-  chassis.move(-15);
-  wait(1000, msec);
+  chassis.turn(-142);//212,207
+  chassis.move(-9.5);//-8
+  //wait(500, msec); <- see if needed later after standoffs added
   move_intake(-12);
   mogo.set(false);
-  chassis.turn(230);
+  //chassis.turn(230);
 
   // mogo 2
-  chassis.move(20);
+  chassis.move(11);//7.5
   chassis.turn(90);
+  chassis.move(-50);
+  chassis.move(-20, 4);
+  mogo.set(true);
+  wait(200, msec);
+
+  // ring 8
+  thread moi = thread(moveIntake);
+  chassis.turn(-167);//165, 108
+  chassis.move(21);//20
+  //wait(1000, msec);
+
+  // ring 9
+  chassis.turn(-129);//230, 140
+  chassis.move(43, 6);
+  //wait(1000, msec);
+
+  // ring 10
+  chassis.move(-12.5);
+  chassis.turn(0);
+  chassis.move(10);
+  //wait(1500, msec);//1k, 1500
+
+  // ring 11
+  chassis.move(25);//20
+  //wait(1500, msec); //1500
+
+  // ring 12
+  chassis.move(18);
+  //wait(1500, msec);//1500
+
+  // ring 13
+  chassis.turn(-130);//120, 118
+  chassis.move(9.5);
+  //wait(1000, msec);
+
+  // mogo 2 unclamo
+  chassis.turn(142);//212,207
+  chassis.move(-9.5);//-8
+  //wait(500, msec); <- see if needed later after standoffs added
+  move_intake(-12);
+  mogo.set(false);
+  //chassis.turn(230);
+
+  // hang tier 1
+  // chassis.move(60);
+  // chassis.turn(-38);
+  // chassis.move(-12, 3, 10000);
+
+  // NOTE
+  // increase distance for rings 4, 5 , and 6
 
   // ring 5
   //chassis.move(12);
@@ -658,5 +738,4 @@ void autoskills() {
   wait(1000, msec);
   move_intake(-8);
   mogo.set(false);
-
 }

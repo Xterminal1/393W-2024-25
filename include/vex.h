@@ -36,6 +36,7 @@
 #include "controls.h"
 #include "optical.h"
 #include "constants.h"
+#include "statesAutons.h"
 
 //using namespace vex;
 using namespace std;

@@ -120,7 +120,9 @@ void telemetry() {
   while (1) {
     float pos = (chassis.get_right_position_in() + chassis.get_left_position_in()) / 2;
     std::cout << "position:         " << pos << std::endl;
-    std::cout << "heading:          " << chassis.get_absolute_heading() << std::endl << std::endl;
+    std::cout << "heading:          " << chassis.get_absolute_heading() << std::endl;
+    std::cout << "drive:            " << l.temperature(celsius) << std::endl;
+    std::cout << "intake:           " << intake.temperature(celsius) << std::endl << std::endl;
     //std::cout << "velocity:         " << (l.voltage() + r.voltage()) / 2 << std::endl << std::endl;
 
     // std::cout << "output:           " << chassis.
@@ -157,8 +159,6 @@ void pre_auton() {
 
   optic.setLight(ledState::on);
   optic.setLightPower(100);
-
-  
 }
 
 /**
@@ -176,46 +176,19 @@ void autonomous(void) {
   imu.resetRotation();
   //telemetry();
 
-  int auton = 4;
+  int auton = 0;
 
   if (auton == 0) {
     redLeft();
-  }
-  else if (auton == 1)
+  } else if (auton == 1) {
     red_right();
-  else if (auton == 2)
-    blue_left();
-  else if (auton == 3)
-    blue_right();
-  else if (auton == 4) {
-    // mogo.set(true);
-    // move_intake(12);
-    // thread t = thread(filter_red);
-    //chassis.turn_to_angle(30);
-
-    
-    //chassis.turn_kd = 3.2; // 90
-    //chassis.turn_kd = 2.8; // 45    
-
-    //chassis.turn(20);
-    //chassis.turn(45);
-    //chassis.turn(90);
-    //chassis.turn(135);
-    //chassis.turn(180);
-    //chassis.turn_to_angle(225);
-    //chassis.turn_to_angle(0);
-
-    // chassis.turn_to_angle(5);
-    // chassis.turn_to_angle(20); // +15
-    // chassis.turn_to_angle(50); // +30
-    // chassis.turn_to_angle(95); // +45
-    // chassis.turn_to_angle(185); // +90
-    // chassis.turn_to_angle(320); // +135
-    // chassis.turn_to_angle(499); // +180
+  } else if (auton == 2) {
+    blue_left(); 
+  } else if (auton == 3) {
+    blueRight();
+  } else if (auton == 4) {
     autoSkills();
-    autoskills();
-  }
-  else if (auton == 5)
+  } else if (auton == 5)
     test();
 }
 
@@ -233,16 +206,60 @@ void usercontrol(void) {
   Brain.Screen.clearScreen();
   Brain.Screen.setFont(mono60);
   Brain.Screen.setCursor(2.5, 1);
-  Brain.Screen.print("ATTACK");   
-  // Brain.Screen.setFont(mono30);
-  // Brain.Screen.setCursor(5, 1);
-  // Brain.Screen.print("auton not working...");
-  // Brain.Screen.setCursor(8, 1);
-  // Brain.Screen.print("attack");
-  
+  Brain.Screen.print("393W");   
+
+  bool newL1 = false;
+  bool newL2 = false;
+  bool newR1 = false;
+  bool newR2 = false;
+
   while (1) {
     
-    controls();
+    // chassis
+    int forward = controller1.Axis3.position();
+    int turn = controller1.Axis1.position();
+    l.spin(fwd, to_volt(forward + turn), volt);
+    r.spin(fwd, to_volt(forward - turn), volt);
+
+    // intake
+
+    if (controller1.ButtonL1.pressing()) {
+      newL1 = true;
+    } else {
+      newL1 = false;
+    }
+
+    if (controller1.ButtonL2.pressing()) {
+      newL2 = true;
+    } else {
+      newL2 = false;
+    }
+    
+    // lift
+    if (((controller1.ButtonL1.pressing() && newL2 || (newL1 && controller1.ButtonL2.pressing())) || ((newL1 && newL2) || (controller1.ButtonL1.pressing()) && (controller1.ButtonL2.pressing())))) {
+      lift.spin(fwd, 6, volt);
+      move_intake(0);
+    // } else if (((controller1.ButtonR1.pressing() && newR2 || (newR1 && controller1.ButtonR2.pressing())) || ((newR1 && newR2) || (controller1.ButtonR1.pressing()) && (controller1.ButtonR2.pressing())))) {
+    //   lift.spin(fwd, -6, volt);
+    //   move_intake(0);
+    //   doinker.set(false);
+    } else if (controller1.ButtonL1.pressing()) {
+      move_intake(12);
+    } else if (controller1.ButtonL2.pressing()) {
+      move_intake(-12);
+    } else {
+      move_intake(0);
+      lift.stop(hold);
+    } 
+
+    if (controller1.ButtonA.pressing()) {
+      move_lift(0, 100);
+    } else if (controller1.ButtonX.pressing()) {
+      move_lift(115, 100);
+    } else if (controller1.ButtonY.pressing()) {
+      move_lift(635, 100);
+    }
+
     wait(20, msec);
   }
 }
@@ -255,9 +272,9 @@ int main() {
   controller1.ButtonR1.pressed(mogo_control);
   controller1.ButtonR2.pressed(doinker_control);
 
-  controller1.ButtonA.pressed(lift_reset);
-  controller1.ButtonX.pressed(lift_grab);
-  controller1.ButtonY.pressed(lift_score);
+  // controller1.ButtonA.pressed(lift_reset);
+  // controller1.ButtonX.pressed(lift_grab);
+  // controller1.ButtonY.pressed(lift_score);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);

@@ -7,7 +7,7 @@ void move_chassis(float left, float right) {
 
 float curve(float i, float scale) {
   if (scale != 0)
-    return pow(2.718, (scale * ((abs(i) - 127))) / 1000 ) * i;
+    return (pow(2.718, (scale * ((std::fabs(x) - 100))) / 1000 ) * i);
   return i;
 }
 
@@ -42,8 +42,8 @@ void controls() {
   // chassis
   int forward = controller1.Axis3.position();
   int turn = controller1.Axis1.position();
-  //int turn = (abs(x) * x) / 100;
-  //int turn = curve(x, 15);
+  //int turn = (pow(i, 1.5)) / 100;
+  //int turn = curve(i, 5.1);
   l.spin(fwd, to_volt(forward + turn), volt);
   r.spin(fwd, to_volt(forward - turn), volt);
 
@@ -56,19 +56,39 @@ void controls() {
     move_intake(0);
   }
 
+  // if (((con.get_digital(E_CONTROLLER_DIGITAL_R1) && NEWR2) || (NEWR1 && con.get_digital(E_CONTROLLER_DIGITAL_R2))) || ((NEWR1 && NEWR2) || (con.get_digital(E_CONTROLLER_DIGITAL_R1) && con.get_digital(E_CONTROLLER_DIGITAL_R2)))){
+  //     //Double Press action
+  //     INTAKE.move(127);
+  //     HOOKS.move(-95);
+  //   // HOOKS.move(-127);
+  //   } else if  (con.get_digital(E_CONTROLLER_DIGITAL_R1)) {
+	// 		INTAKE.move(-127);
+  //     HOOKS.move(-127);
+	// 	} else if (con.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+	// 		INTAKE.move(127);
+  //    HOOKS.move(127);
+	// 	} else {
+	// 		INTAKE.move(0);
+  //     HOOKS.move(0);
+	// 	}
+
+
+
+  //thread tc = thread(filter_red);
+
   // lift
-  // if (controller1.ButtonUp.pressing()) {
-  //   lift.spin(fwd, 6, volt);
-  // } else if (controller1.ButtonDown.pressing()) {
-  //   lift.spin(fwd, -6, volt);
-  // } else if (controller1.ButtonA.pressing()) {
-  //   move_lift(0, 100);
-  // } else if (controller1.ButtonX.pressing()) {
-  //   move_lift(115, 100);
-  // } else if (controller1.ButtonY.pressing()) {
-  //   move_lift(635, 100);
-  // }
-  // else {
-  //   lift.stop(hold);
-  // }
+  if (controller1.ButtonUp.pressing()) {
+    lift.spin(fwd, 6, volt);
+  } else if (controller1.ButtonDown.pressing()) {
+    lift.spin(fwd, -6, volt);
+  } else if (controller1.ButtonA.pressing()) {
+    move_lift(0, 100);
+  } else if (controller1.ButtonX.pressing()) {
+    move_lift(115, 100);
+  } else if (controller1.ButtonY.pressing()) {
+    move_lift(635, 100);
+  }
+  else {
+    lift.stop(hold);
+  }
 }

@@ -12,10 +12,11 @@ void red_left();
 void blue_right();
 void redLeft();
 void redRight();
-void blueRight();
+//void blueRight();
 void blueLeft();
 //void skills();
 void test();
+void arcs();
 
 void autoSkills();
 void autoskills();

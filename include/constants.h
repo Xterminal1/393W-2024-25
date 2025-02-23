@@ -60,15 +60,6 @@
 #define m 3.2
 #define x 3.8
 
-// #define TURN_MAX 12
-// #define TURN_KP 0.6
-// #define TURN_KI 0
-// #define TURN_KD 4
-// #define TURN_STARTI 15
-// #define TURN_SETTLE_ERROR 1
-// #define TURN_SETTLE_TIME 300
-// #define TURN_TIMEOUT 1000
-
 // swing PID controller
 #define SWING_MAX 12
 #define SWING_KP 1
