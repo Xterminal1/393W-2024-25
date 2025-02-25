@@ -20,3 +20,6 @@ void arcs();
 
 void autoSkills();
 void autoskills();
+
+void stopIntake();
+void moveIntake();

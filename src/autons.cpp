@@ -44,7 +44,7 @@ void correction() { chassis.set_heading_constants(HEADING_MAX, HEADING_KP, HEADI
 //   // waitDetect();
 //   // wait(200, msec);
 //   // lift_grab();
-//   //move_intake(0);
+//   //moveIntake(0);
 // }
 
 // void redLeft() {
@@ -61,7 +61,7 @@ void correction() { chassis.set_heading_constants(HEADING_MAX, HEADING_KP, HEADI
 //   chassis.turn(27);
 //   chassis.move(-6);
 //   mogo.set(true); // clamp mogo
-//   move_intake(12);
+//   moveIntake(12);
 //   wait(300, msec);
 
 //   // rings 1 & 2
@@ -96,7 +96,7 @@ void correction() { chassis.set_heading_constants(HEADING_MAX, HEADING_KP, HEADI
 //   // chassis.drive_max_voltage = 6;
 //   // chassis.turn_to_angle(147); // turn -> ring 2
 //   // chassis.turn_kd = 7; 
-//   // move_intake(12);
+//   // moveIntake(12);
 //   // wait(200, msec);
 //   // chassis.drive_distance(30); // drive -> ring 2
 //   // wait(600, msec);
@@ -138,7 +138,7 @@ void blueRight2() {
   chassis.drive_max_voltage = 6;
   chassis.move(-147); // turn -> ring 2
   chassis.turn_kd = 7; 
-  move_intake(12);
+  moveIntake(12);
   wait(200, msec);
   chassis.move(30); // drive -> ring 2
   wait(600, msec);
@@ -177,7 +177,7 @@ void redRight() {
   
   // preload / ring 1
   chassis.turn(19);
-  move_intake(12);
+  moveIntake(12);
   wait(800, msec);
   
   // partially intake ring 2
@@ -198,9 +198,9 @@ void redRight() {
 
   // ladder touch
   chassis.turn(-67);
-  move_intake(12);
+  moveIntake(12);
   wait(500, msec);
-  move_intake(0);
+  moveIntake(0);
   chassis.move(-25);
 }
 
@@ -215,7 +215,7 @@ void blueLeft() {
   
   // preload / ring 1
   chassis.turn(-19);
-  move_intake(12);
+  moveIntake(12);
   wait(800, msec);
 
   // partially intake ring 2
@@ -236,9 +236,9 @@ void blueLeft() {
 
   // ladder touch
   chassis.turn(67);
-  move_intake(12);
+  moveIntake(12);
   wait(500, msec);
-  move_intake(0);
+  moveIntake(0);
   chassis.move(-25);
 }
 
@@ -254,19 +254,19 @@ void blueLeft() {
 //   chassis.turn_max_voltage = 9;
 
 //   // alliance stake
-//   move_intake(12);
+//   moveIntake(12);
 //   wait(500, msec);
 
 //   // mogo 1 clamp
 //   chassis.drive_distance(13);
-//   move_intake(0);
+//   moveIntake(0);
 //   chassis.turn_to_angle(90);
 //   chassis.drive_distance(-13);
 //   mogo.set(true);
 //   wait(500, msec);
 
 //   // ring 1
-//   move_intake(12);
+//   moveIntake(12);
 //   chassis.drive_max_voltage = 6;
 //   chassis.turn_to_angle(-25);
 //   chassis.drive_distance(27.5); 
@@ -302,17 +302,17 @@ void blueLeft() {
 //   chassis.turn_to_angle(30);
 //   chassis.drive_distance(-8);
 //   mogo.set(false);
-//   move_intake(-12);
+//   moveIntake(-12);
 //   wait(1000, msec);
 
 //   // mogo 2
 //   chassis.drive_distance(7);
-//   move_intake(0);
+//   moveIntake(0);
 //   chassis.turn_to_angle(-90);
 //   chassis.drive_max_voltage = 4;
 //   chassis.drive_distance(-71);
 //   mogo.set(true);
-//   move_intake(12);
+//   moveIntake(12);
 
 //   // ring 5
 //   // chassis.turn_to_angle(-173);
@@ -350,11 +350,11 @@ void test() {
   //turn_test();
   //swing_test();
   //full_test();
-  move_intake(12);
+  moveIntake(12);
   detectRing();
 
   chassis.turn(90);
-  move_intake(12);
+  moveIntake(12);
 
   chassis.turn(180);
   detectRing();
@@ -369,12 +369,12 @@ void test() {
 void red_left() {
   // preload -> alliance stake
   lift_grab();
-  move_intake(12);
+  moveIntake(12);
   wait(500, msec);
   chassis.turn(-50);
-  move_intake(0);
+  moveIntake(0);
   chassis.move(4.5);
-  move_lift(620, 100);
+  moveLift(620, 100);
   wait(500, msec);
 
   // clamp mogo
@@ -385,7 +385,7 @@ void red_left() {
   thread liftReset = thread(lift_reset);
   mogo.set(true);
   wait(500, msec);
-  move_intake(12);
+  moveIntake(12);
 
   // // ring 2
   //chassis.turn_max_voltage = 12;
@@ -421,12 +421,12 @@ void red_left() {
 void blue_right() {
 // preload -> alliance stake
   // lift_grab();
-  // move_intake(12);
+  // moveIntake(12);
   // wait(500, msec);
   // chassis.turn_to_angle(50);
-  // move_intake(0);
+  // moveIntake(0);
   // chassis.drive_distance(4.5);
-  // move_lift(620, 100);
+  // moveLift(620, 100);
   // wait(500, msec);
 
   // // clamp mogo
@@ -437,7 +437,7 @@ void blue_right() {
   // chassis.drive_distance(-32);
   // mogo.set(true);
   // wait(500, msec);
-  // move_intake(12);
+  // moveIntake(12);
 
   // // // ring 2
   // chassis.turn_max_voltage = 12;
@@ -477,7 +477,7 @@ void blue_right() {
   chassis.move(-6);
   wait(10, msec);
   mogo.set(true); // clamp mogo
-  move_intake(12);
+  moveIntake(12);
   wait(500, msec);
   chassis.drive_max_voltage = 10;
 
@@ -513,7 +513,7 @@ void red_right() {
   chassis.move(-6);
   wait(10, msec);
   mogo.set(true); // clamp mogo
-  move_intake(12);
+  moveIntake(12);
   wait(500, msec);
   chassis.drive_max_voltage = 10;
 
@@ -538,7 +538,7 @@ void blue_left() {
   chassis.move(-6);
   wait(10, msec);
   mogo.set(true); // clamp mogo
-  move_intake(12);
+  moveIntake(12);
   wait(500, msec);
   chassis.drive_max_voltage = 10;
 
@@ -560,20 +560,20 @@ void blue_left() {
 #pragma region
 
 void stopIntake() {
-  move_intake(0);
+  moveIntake(0);
 }
 
 void moveIntake() {
-  move_intake(12);
+  moveIntake(12);
 }
 
 void autoSkills() {
   // preload -> ally stake
-  move_lift(LIFT_GRAB_POS, 100);
-  move_intake(12);
+  moveLift(LIFT_GRAB_POS, 100);
+  moveIntake(12);
   wait(500, msec);
-  move_intake(0);
-  move_lift(LIFT_SCORE_POS, 100);
+  moveIntake(0);
+  moveLift(LIFT_SCORE_POS, 100);
   wait(500, msec);
 
   // mogo 1
@@ -618,7 +618,7 @@ void autoSkills() {
   chassis.turn(-142);//212,207
   chassis.move(-9.5);//-8
   //wait(500, msec); <- see if needed later after standoffs added
-  move_intake(-12);
+  moveIntake(-12);
   mogo.set(false);
   //chassis.turn(230);
 
@@ -664,7 +664,7 @@ void autoSkills() {
   chassis.turn(142);//212,207
   chassis.move(-9.5);//-8
   //wait(500, msec); <- see if needed later after standoffs added
-  move_intake(-12);
+  moveIntake(-12);
   mogo.set(false);
   //chassis.turn(230);
 
@@ -736,6 +736,6 @@ void autoskills() {
   chassis.turn(-209);
   chassis.move(-15);
   wait(1000, msec);
-  move_intake(-8);
+  moveIntake(-8);
   mogo.set(false);
 }

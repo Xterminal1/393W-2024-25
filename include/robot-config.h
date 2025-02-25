@@ -24,6 +24,6 @@ extern motor_group r;
 extern inertial imu;
 extern optical optic;
 extern digital_out mogo;
-extern digital_out doinker;
+extern digital_out doink;
 
 void  vexcodeInit( void );

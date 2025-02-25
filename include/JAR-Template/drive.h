@@ -172,5 +172,14 @@ public:
   void control_holonomic();
 };
 
-// void sort_ring(int intake_time);
-// void color_sort(std::string filter_color);
+// chassis
+void moveChassis(float left, float right);
+
+// intake
+void moveIntake(float volts);
+
+// lift
+void moveLift(float position, float vel);
+void lift_reset();
+void lift_grab();
+void lift_score();

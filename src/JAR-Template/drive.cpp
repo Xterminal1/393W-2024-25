@@ -800,3 +800,29 @@ int Drive::position_track_task(){
 }
 
 #pragma endregion
+
+void moveChassis(float left, float right) {
+  l.spin(fwd, left, volt);
+  r.spin(fwd, right, volt);
+}
+
+
+float curve(float i, float scale) {
+  if (scale != 0)
+    return (pow(2.718, (scale * ((std::fabs(x) - 100))) / 1000 ) * i);
+  return i;
+}
+
+// intake
+void moveIntake(float volts) { intake.spin(fwd, volts, volt); }
+
+// lift
+void moveLift(float position, float vel) {
+  lift.setVelocity(vel, pct);
+  lift.spinToPosition(position, degrees);
+}
+// lift controls
+void lift_reset() { moveLift(0, 100); }
+void lift_grab() { moveLift(LIFT_GRAB_POS, 100); }
+void lift_score() { moveLift(LIFT_SCORE_POS, 100); }
+

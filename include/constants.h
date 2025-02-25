@@ -18,7 +18,8 @@
 
 // lift
 #define LIFT_VEL 100
-#define LIFT_GRAB_POS 115
+#define LIFT_GRAB_POS 120
+#define LIFT_WALL_STAKE_POS 500
 #define LIFT_SCORE_POS 635
 
 // PID gains

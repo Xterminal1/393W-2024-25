@@ -2,9 +2,9 @@
 
 void filterRing(float intakeTime) {
   wait(intakeTime, msec);//160
-  move_intake(-12);
+  moveIntake(-12);
   wait(100, msec);
-  move_intake(12);
+  moveIntake(12);
 }
 
 void getRing(std::string targetColor, float intakeTime) {
@@ -33,10 +33,10 @@ void getRing(std::string targetColor, float intakeTime) {
 
 void detectStopRing() {
   while (!optic.isNearObject()) {
-    move_intake(12);
+    moveIntake(12);
     wait(5, msec);
   }
-  move_intake(0);
+  moveIntake(0);
 }
 
 void detectRing() {
@@ -45,7 +45,7 @@ void detectRing() {
     if (run_time >= 3000) { // timeout
       break;
     }
-    move_intake(12);
+    moveIntake(12);
     wait(1, msec);
     run_time += 1;
   }
@@ -57,7 +57,7 @@ void detectRedRing() {
     // if (run_time >= 3000) { // timeout
     //   break;
     // }
-    move_intake(12);
+    moveIntake(12);
     //wait(1, msec);
     //run_time += 1;
   }
