@@ -28,15 +28,15 @@
 #include "v5_vcs.h"
 
 #include "robot-config.h"
-#include "JAR-Template/odom.h"
-#include "JAR-Template/drive.h"
-#include "JAR-Template/util.h"
-#include "JAR-Template/PID.h"
+#include "lib/odom.h"
+#include "lib/drive.h"
+#include "lib/util.h"
+#include "lib/PID.h"
 #include "autons.h"
 #include "controls.h"
 #include "optical.h"
 #include "constants.h"
-#include "statesAutons.h"
+#include "states-autons.h"
 
 //using namespace vex;
 using namespace std;

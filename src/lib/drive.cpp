@@ -822,7 +822,14 @@ void moveLift(float position, float vel) {
   lift.spinToPosition(position, degrees);
 }
 // lift controls
-void lift_reset() { moveLift(0, 100); }
-void lift_grab() { moveLift(LIFT_GRAB_POS, 100); }
-void lift_score() { moveLift(LIFT_SCORE_POS, 100); }
+void lift_reset() { 
+  moveLift(0, 100); 
+}
+
+void lift_grab() { 
+  moveLift(LIFT_GRAB_POS, 100); 
+}
+void lift_score() { 
+  moveLift(LIFT_SCORE_POS, 100); 
+}
 

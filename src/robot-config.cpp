@@ -55,16 +55,16 @@ motor_group(rf, rm, rb),
 PORT18,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
-WHEEL_DIAMETER,
+3.25,
 
 //External ratio, must be in decimal, in the format of input teeth/output teeth.
 //If your motor has an 84-tooth gear and your wheel has a 60-tooth gear, this value will be 1.4.
 //If the motor drives the wheel directly, this value is 1:
-GEAR_RATIO,
+0.75,
 
 //Gyro scale, this is what your gyro reads when you spin the robot 360 degrees.
 //For most cases 360 will do fine here, but this scale factor can be very helpful when precision is necessary.
-IMU_SCALE,
+360,
 
 /*---------------------------------------------------------------------------*/
 /*                                  PAUSE!                                   */
@@ -108,7 +108,6 @@ PORT3,     -PORT4,
 );
 #pragma endregion
 
-
 // A global instance of brain used for printing to the V5 Brain screen.
 brain Brain;
 controller controller1;
@@ -138,15 +137,15 @@ controller controller1;
 #define PORT_IMU PORT18
 #define PORT_OPTICAL PORT20
 #define PORT_MOGO Brain.ThreeWirePort.A
-#define PORT_doink Brain.ThreeWirePort.B
+#define PORT_DOINK Brain.ThreeWirePort.B
 
 // motors/motor groups
-motor lf = motor(PORT_LF, BLUE, REVERSE_L);
-motor lm = motor(PORT_LM, BLUE, REVERSE_L);
-motor lb = motor(PORT_LB, BLUE, REVERSE_L);
-motor rf = motor(PORT_RF, BLUE, REVERSE_R);
-motor rm = motor(PORT_RM, BLUE, REVERSE_R);
-motor rb = motor(PORT_RB, BLUE, REVERSE_R);
+motor lf = motor(PORT14, ratio6_1, REVERSE_L);
+motor lm = motor(PORT15, ratio6_1, REVERSE_L);
+motor lb = motor(PORT17, ratio6_1, REVERSE_L);
+motor rf = motor(PORT11, ratio6_1, REVERSE_R);
+motor rm = motor(PORT12, ratio6_1, REVERSE_R);
+motor rb = motor(PORT13, ratio6_1, REVERSE_R);
 motor intake = motor(PORT_INTAKE, BLUE, REVERSE_INTAKE);
 motor lift = motor(PORT_LIFT, GREEN, REVERSE_LIFT);
 motor_group l = motor_group(lf, lm, lb);
@@ -156,7 +155,7 @@ motor_group r = motor_group(rf, rm, rb);
 inertial imu = inertial(PORT_IMU);
 optical optic = optical(PORT_OPTICAL);
 digital_out mogo = digital_out(PORT_MOGO);
-digital_out doink = digital_out(PORT_doink);
+digital_out doink = digital_out(PORT_DOINK);
 
 void vexcodeInit( void ) {
   // nothing to initialize

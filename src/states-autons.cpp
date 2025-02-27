@@ -1,4 +1,4 @@
-#include "statesAutons.h"
+#include "states-autons.h"
 
 void move25_5() { chassis.move(25, 5.5); }
 
@@ -19,7 +19,7 @@ void redLeft() {
     wait(300, msec);
 
     // rings 1 & 2
-    chassis.turn_kd = 3.6;
+    chassis.turn_kd = 3.45;
     chassis.turn(149);
     chassis.move(23);
 
@@ -104,7 +104,7 @@ void SKILLS() {
     wait(500, msec);
 
     // mogo 1
-    chassis.move(-10.2);
+    chassis.move(-9);
     thread resetLift1 = thread(lift_reset);
     chassis.turn(-90);
     chassis.move(-18, 3);
@@ -123,10 +123,10 @@ void SKILLS() {
     chassis.move(32.5, 6);
     chassis.turn(90);
     thread xk = thread(lift_grab);
-    chassis.move(17);
+    chassis.move(16.3, 6);
     wait(1000, msec);
     moveIntake(0);
-    moveLift(450, 100);
+    moveLift(550, 100);
 
     //chassis.set_heading_constants(9, 0.13, 0.003, 1.5, 15);
     // chassis.drive_settle_error = 1.5;
@@ -151,7 +151,7 @@ void SKILLS() {
     moveIntake(12);
     chassis.move(43, 4);
     chassis.move(15, 3);
-    wait(500, msec);
+    wait(700, msec);
 
     // ring 6
     chassis.turn(125, 4);
@@ -168,14 +168,14 @@ void SKILLS() {
     chassis.move(8);//7.5
     
     chassis.turn(90);
-    chassis.move(-60, 8);
+    chassis.move(-60, 6);
     chassis.move(-16.5, 4);
     mogo.set(true);
     wait(200, msec);
 
     // ring 1
     moveIntake(12);
-    chassis.turn(-170);
+    chassis.turn(-163);
     chassis.move(16, 6);
     
     // ring 2
@@ -183,20 +183,20 @@ void SKILLS() {
     chassis.move(35.7, 6);
     chassis.turn(-90);
     thread xk2 = thread(liftGrab2);
-    chassis.move(17);
+    chassis.move(17, 6);
     wait(1000, msec);
     moveIntake(0);
-    moveLift(450, 100);
+    moveLift(550, 100);
 
     // ring 3/4/5
     chassis.heading_kp = .05;
-    chassis.move(-10.5, 6);
+    chassis.move(-11.5, 6);
     thread resetLift26 = thread(lift_reset);
     chassis.turn(0);
     moveIntake(12);
     chassis.move(43, 4);
     chassis.move(15, 3);
-    wait(500, msec);
+    wait(700, msec);
 
     // ring 6
     chassis.turn(-130, 12);

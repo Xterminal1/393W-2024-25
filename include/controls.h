@@ -4,4 +4,6 @@
 void controlMogo();
 void controlDoink();
 
+void arcade();
+
 void controls();
