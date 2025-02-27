@@ -821,15 +821,22 @@ void moveLift(float position, float vel) {
   lift.setVelocity(vel, pct);
   lift.spinToPosition(position, degrees);
 }
+
+void moveLift(float position) {
+  float error = position - Rotation.position(deg);
+  lift.spinFor(error, deg, 100, velocityUnits::pct, false);
+}
+
 // lift controls
 void lift_reset() { 
-  moveLift(0, 100); 
+  moveLift(0);
+  lift.resetPosition();
 }
 
 void lift_grab() { 
-  moveLift(LIFT_GRAB_POS, 100); 
+  moveLift(120); 
 }
 void lift_score() { 
-  moveLift(LIFT_SCORE_POS, 100); 
+  moveLift(647); 
 }
 

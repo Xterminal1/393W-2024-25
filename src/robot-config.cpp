@@ -136,16 +136,17 @@ controller controller1;
 
 #define PORT_IMU PORT18
 #define PORT_OPTICAL PORT20
+#define PORT_ROTATION PORT7
 #define PORT_MOGO Brain.ThreeWirePort.A
 #define PORT_DOINK Brain.ThreeWirePort.B
 
 // motors/motor groups
-motor lf = motor(PORT14, ratio6_1, REVERSE_L);
-motor lm = motor(PORT15, ratio6_1, REVERSE_L);
-motor lb = motor(PORT17, ratio6_1, REVERSE_L);
-motor rf = motor(PORT11, ratio6_1, REVERSE_R);
-motor rm = motor(PORT12, ratio6_1, REVERSE_R);
-motor rb = motor(PORT13, ratio6_1, REVERSE_R);
+motor lf = motor(PORT_LF, BLUE, REVERSE_L);
+motor lm = motor(PORT_LM, BLUE, REVERSE_L);
+motor lb = motor(PORT_LB, BLUE, REVERSE_L);
+motor rf = motor(PORT_RF, BLUE, REVERSE_R);
+motor rm = motor(PORT_RM, BLUE, REVERSE_R);
+motor rb = motor(PORT_RB, BLUE, REVERSE_R);
 motor intake = motor(PORT_INTAKE, BLUE, REVERSE_INTAKE);
 motor lift = motor(PORT_LIFT, GREEN, REVERSE_LIFT);
 motor_group l = motor_group(lf, lm, lb);
@@ -154,6 +155,7 @@ motor_group r = motor_group(rf, rm, rb);
 // sensors/pneumatics
 inertial imu = inertial(PORT_IMU);
 optical optic = optical(PORT_OPTICAL);
+rotation Rotation = rotation(PORT_ROTATION);
 digital_out mogo = digital_out(PORT_MOGO);
 digital_out doink = digital_out(PORT_DOINK);
 

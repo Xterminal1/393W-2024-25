@@ -104,7 +104,7 @@ void SKILLS() {
     wait(500, msec);
 
     // mogo 1
-    chassis.move(-9);
+    chassis.move(-9.5);
     thread resetLift1 = thread(lift_reset);
     chassis.turn(-90);
     chassis.move(-18, 3);
@@ -145,7 +145,7 @@ void SKILLS() {
 
     // ring 4/5/6
     chassis.heading_kp = .05;
-    chassis.move(-12, 6);
+    chassis.move(-11, 6);
     thread resetLift2 = thread(lift_reset);
     chassis.turn(0);
     moveIntake(12);
@@ -190,7 +190,7 @@ void SKILLS() {
 
     // ring 3/4/5
     chassis.heading_kp = .05;
-    chassis.move(-11.5, 6);
+    chassis.move(-12.5, 6);
     thread resetLift26 = thread(lift_reset);
     chassis.turn(0);
     moveIntake(12);
@@ -205,9 +205,34 @@ void SKILLS() {
 
     // unclamp mogo 2 -> corner
     chassis.turn(160, 12);
-    chassis.move(-12);
+    chassis.move(-10);
     moveIntake(-12);
     mogo.set(false);
+
+    // ally stake ring
+    chassis.move(43, 6);
+    moveIntake(12);
+    thread xk3 = thread(liftGrab2);
+    chassis.turn(180);
+    chassis.move(43, 6);
+    wait(500, msec);
+    chassis.turn(-65);
+    chassis.move(-47, 6);
+    mogo.set(true);
+    chassis.move(-6);
+    chassis.turn(180);
+    chassis.move(2.5);
+    lift_score();
+
+
+    // move 43
+    // turn 180
+    // move 43
+    // turn 115 relative to 180
+    // move -47 (-53 after clamping (total))
+    // move 2.5 in
+    // lb -> ally stake
+
 
     // -6, 163
     // 32, 289

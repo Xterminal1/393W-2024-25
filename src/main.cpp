@@ -36,11 +36,11 @@ void pre_auton() {
 
   telemetry();
 
-  // imu.calibrate(3000);
-  // wait(3000, msec);
+  imu.calibrate(3000);
+  wait(3000, msec);
 
-  // optic.setLight(ledState::on);
-  // optic.setLightPower(100);
+  optic.setLight(ledState::on);
+  optic.setLightPower(100);
 }
 
 /**
@@ -51,26 +51,29 @@ void pre_auton() {
  */
 
 void autonomous(void) {
-  // l.resetPosition();
-  // r.resetPosition();
-  // lift.resetPosition();
-  // imu.resetHeading();
-  // imu.resetRotation();
+  l.resetPosition();
+  r.resetPosition();
+  lift.resetPosition();
+  imu.resetHeading();
+  imu.resetRotation();
+  Rotation.resetPosition();
 
-  // int auton = 4;
+  //chassis.move(50);
 
-  // if (auton == 0) {
-  //   redLeft();
-  // } else if (auton == 1) {
-  //   red_right();
-  // } else if (auton == 2) {
-  //   blue_left(); 
-  // } else if (auton == 3) {
-  //   blueRight();
-  // } else if (auton == 4) {
-  //   SKILLS();
-  // } else if (auton == 5)
-  //   test();
+  int auton = 4;
+
+  if (auton == 0) {
+    redLeft();
+  } else if (auton == 1) {
+    red_right();
+  } else if (auton == 2) {
+    blue_left(); 
+  } else if (auton == 3) {
+    blueRight();
+  } else if (auton == 4) {
+    SKILLS();
+  } else if (auton == 5)
+    test();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -84,57 +87,55 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void usercontrol(void) {
-
-  // bool newL1 = false;
-  // bool newL2 = false;
-  // bool newR1 = false;
-  // bool newR2 = false;
+  bool newL1 = false;
+  bool newL2 = false;
+  bool newR1 = false;
+  bool newR2 = false;
+  l.setStopping(coast);
+  r.setStopping(coast);
 
   while (1) {
 
-    float forward = controller1.Axis3.position();
-    float turn = controller1.Axis1.position();
-    l.spin(fwd, to_volt(forward+turn), volt);
-    r.spin(fwd, to_volt(forward - turn), volt);
+    // chassis
+    chassis.control_arcade();
 
+    // intake
+    if (controller1.ButtonL1.pressing()) {
+      newL1 = true;
+    } else {
+      newL1 = false;
+    }
 
-    // // intake
-    // if (controller1.ButtonL1.pressing()) {
-    //   newL1 = true;
-    // } else {
-    //   newL1 = false;
-    // }
-
-    // if (controller1.ButtonL2.pressing()) {
-    //   newL2 = true;
-    // } else {
-    //   newL2 = false;
-    // }
+    if (controller1.ButtonL2.pressing()) {
+      newL2 = true;
+    } else {
+      newL2 = false;
+    }
     
     // lift
-    // if (((controller1.ButtonL1.pressing() && newL2 || (newL1 && controller1.ButtonL2.pressing())) || ((newL1 && newL2) || (controller1.ButtonL1.pressing()) && (controller1.ButtonL2.pressing())))) {
-    //   lift.spin(fwd, 12, volt);
-    //   moveIntake(0);
+    if (((controller1.ButtonL1.pressing() && newL2 || (newL1 && controller1.ButtonL2.pressing())) || ((newL1 && newL2) || (controller1.ButtonL1.pressing()) && (controller1.ButtonL2.pressing())))) {
+      lift.spin(fwd, 12, volt);
+      moveIntake(0);
     // } else if (((controller1.ButtonR1.pressing() && newR2 || (newR1 && controller1.ButtonR2.pressing())) || ((newR1 && newR2) || (controller1.ButtonR1.pressing()) && (controller1.ButtonR2.pressing())))) {
     //   lift.spin(fwd, -6, volt);
     //   moveIntake(0);
     //   doink.set(false);
-    // } else if (controller1.ButtonL1.pressing()) {
-    //   moveIntake(12);
-    // } else if (controller1.ButtonL2.pressing()) {
-    //   moveIntake(-12);
-    // } else {
-    //   moveIntake(0);
-    //   lift.stop(hold);
-    // }
+    } else if (controller1.ButtonL1.pressing()) {
+      moveIntake(12);
+    } else if (controller1.ButtonL2.pressing()) {
+      moveIntake(-12);
+    } else {
+      moveIntake(0);
+      lift.stop(hold);
+    }
 
-    // if (controller1.ButtonA.pressing()) {
-    //   moveLift(0, 100);
-    // } else if (controller1.ButtonX.pressing()) {
-    //   moveLift(115, 100);
-    // } else if (controller1.ButtonY.pressing()) {
-    //   moveLift(635, 100);
-    // }
+    if (controller1.ButtonA.pressing()) {
+      lift_reset();
+    } else if (controller1.ButtonX.pressing()) {
+      lift_grab();
+    } else if (controller1.ButtonY.pressing()) {
+      lift_score();
+    }
 
     wait(20, msec);
   }
