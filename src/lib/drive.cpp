@@ -834,14 +834,14 @@ void moveLift(float position) {
 
 // lift controls
 void lift_reset() { 
-  moveLift(0);
+  moveLift(0, 100);
   lift.resetPosition();
 }
 
 void lift_grab() { 
-  moveLift(120); 
+  moveLift(120, 100); 
 }
 void lift_score() { 
-  moveLift(647); 
+  moveLift(647, 100); 
 }
 

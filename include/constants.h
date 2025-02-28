@@ -35,10 +35,10 @@
 #define DRIVE_TIMEOUT 4000
 
 // heading PID controller
-#define HEADING_MAX 12
-#define HEADING_KP .3
+#define HEADING_MAX 6
+#define HEADING_KP .4
 #define HEADING_KI 0
-#define HEADING_KD 0
+#define HEADING_KD 1
 #define HEADING_STARTI 0
 
 // angular PID controller

@@ -115,15 +115,15 @@ void SKILLS() {
     // ring 2
     chassis.turn_kd = 3.6;
     chassis.turn(163);
-    chassis.move(21, 6);
+    chassis.move(21, 12);
     wait(500, msec);
 
     // ring 3
     chassis.turn(147);
-    chassis.move(32.5, 6);
+    chassis.move(32.5, 12);
     chassis.turn(90);
     thread xk = thread(lift_grab);
-    chassis.move(16.3, 6);
+    chassis.move(16.3, 12);
     wait(1000, msec);
     moveIntake(0);
     moveLift(550, 100);
@@ -144,14 +144,14 @@ void SKILLS() {
     // wait(500, msec);
 
     // ring 4/5/6
-    chassis.heading_kp = .05;
-    chassis.move(-11, 6);
+    //chassis.heading_kp = .05;
+    chassis.move(-11, 12);
     thread resetLift2 = thread(lift_reset);
     chassis.turn(0);
     moveIntake(12);
     chassis.move(43, 4);
     chassis.move(15, 3);
-    wait(700, msec);
+    //wait(700, msec);
 
     // ring 6
     chassis.turn(125, 4);
@@ -165,10 +165,9 @@ void SKILLS() {
     mogo.set(false);
 
     // mogo 2
-    chassis.move(8);//7.5
-    
+    chassis.move(7);//7.5
     chassis.turn(90);
-    chassis.move(-60, 6);
+    chassis.move(-60, 12);
     chassis.move(-16.5, 4);
     mogo.set(true);
     wait(200, msec);
@@ -189,7 +188,7 @@ void SKILLS() {
     moveLift(550, 100);
 
     // ring 3/4/5
-    chassis.heading_kp = .05;
+    //chassis.heading_kp = .05;
     chassis.move(-12.5, 6);
     thread resetLift26 = thread(lift_reset);
     chassis.turn(0);
