@@ -56,24 +56,24 @@ void autonomous(void) {
   lift.resetPosition();
   imu.resetHeading();
   imu.resetRotation();
-  Rotation.resetPosition();
+  rotationSensor.resetPosition();
 
-  //chassis.move(50);
+  chassis.move(50);
 
   int auton = 4;
 
-  if (auton == 0) {
-    redLeft();
-  } else if (auton == 1) {
-    red_right();
-  } else if (auton == 2) {
-    blue_left(); 
-  } else if (auton == 3) {
-    blueRight();
-  } else if (auton == 4) {
-    SKILLS();
-  } else if (auton == 5)
-    test();
+  // if (auton == 0) {
+  //   redLeft();
+  // } else if (auton == 1) {
+  //   red_right();
+  // } else if (auton == 2) {
+  //   blue_left(); 
+  // } else if (auton == 3) {
+  //   blueRight();
+  // } else if (auton == 4) {
+  //   SKILLS();
+  // } else if (auton == 5)
+  //   test();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -112,30 +112,30 @@ void usercontrol(void) {
       newL2 = false;
     }
     
-    // lift
-    if (((controller1.ButtonL1.pressing() && newL2 || (newL1 && controller1.ButtonL2.pressing())) || ((newL1 && newL2) || (controller1.ButtonL1.pressing()) && (controller1.ButtonL2.pressing())))) {
-      lift.spin(fwd, 12, volt);
-      moveIntake(0);
-    // } else if (((controller1.ButtonR1.pressing() && newR2 || (newR1 && controller1.ButtonR2.pressing())) || ((newR1 && newR2) || (controller1.ButtonR1.pressing()) && (controller1.ButtonR2.pressing())))) {
-    //   lift.spin(fwd, -6, volt);
+    // // lift
+    // if (((controller1.ButtonL1.pressing() && newL2 || (newL1 && controller1.ButtonL2.pressing())) || ((newL1 && newL2) || (controller1.ButtonL1.pressing()) && (controller1.ButtonL2.pressing())))) {
+    //   lift.spin(fwd, 12, volt);
     //   moveIntake(0);
-    //   doink.set(false);
-    } else if (controller1.ButtonL1.pressing()) {
-      moveIntake(12);
-    } else if (controller1.ButtonL2.pressing()) {
-      moveIntake(-12);
-    } else {
-      moveIntake(0);
-      lift.stop(hold);
-    }
+    // // } else if (((controller1.ButtonR1.pressing() && newR2 || (newR1 && controller1.ButtonR2.pressing())) || ((newR1 && newR2) || (controller1.ButtonR1.pressing()) && (controller1.ButtonR2.pressing())))) {
+    // //   lift.spin(fwd, -6, volt);
+    // //   moveIntake(0);
+    // //   doink.set(false);
+    // } else if (controller1.ButtonL1.pressing()) {
+    //   moveIntake(12);
+    // } else if (controller1.ButtonL2.pressing()) {
+    //   moveIntake(-12);
+    // } else {
+    //   moveIntake(0);
+    //   lift.stop(hold);
+    // }
 
-    if (controller1.ButtonA.pressing()) {
-      lift_reset();
-    } else if (controller1.ButtonX.pressing()) {
-      lift_grab();
-    } else if (controller1.ButtonY.pressing()) {
-      lift_score();
-    }
+    // if (controller1.ButtonA.pressing()) {
+    //   lift_reset();
+    // } else if (controller1.ButtonX.pressing()) {
+    //   lift_grab();
+    // } else if (controller1.ButtonY.pressing()) {
+    //   lift_score();
+    // }
 
     wait(20, msec);
   }
@@ -149,9 +149,9 @@ int main() {
   controller1.ButtonR1.pressed(controlMogo);
   controller1.ButtonR2.pressed(controlDoink);
 
-  // controller1.ButtonA.pressed(lift_reset);
-  // controller1.ButtonX.pressed(lift_grab);
-  // controller1.ButtonY.pressed(lift_score);
+  //controller1.ButtonA.pressed(lift_reset);
+  //controller1.ButtonX.pressed(lift_grab);
+  //controller1.ButtonY.pressed(lift_score);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);

@@ -23,7 +23,7 @@ extern motor_group r;
 // sensors/pneumatics
 extern inertial imu;
 extern optical optic;
-extern rotation Rotation;
+extern rotation rotationSensor;
 extern digital_out mogo;
 extern digital_out doink;
 

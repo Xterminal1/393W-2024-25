@@ -155,7 +155,7 @@ motor_group r = motor_group(rf, rm, rb);
 // sensors/pneumatics
 inertial imu = inertial(PORT_IMU);
 optical optic = optical(PORT_OPTICAL);
-rotation Rotation = rotation(PORT_ROTATION);
+rotation rotationSensor = rotation(PORT_ROTATION);
 digital_out mogo = digital_out(PORT_MOGO);
 digital_out doink = digital_out(PORT_DOINK);
 

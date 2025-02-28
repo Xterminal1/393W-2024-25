@@ -369,7 +369,7 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
     drive_output = clamp(drive_output, -drive_max_voltage, drive_max_voltage);
     heading_output = clamp(heading_output, -heading_max_voltage, heading_max_voltage);
 
-    drive_with_voltage(drive_output+heading_output, drive_output-heading_output);
+    drive_with_voltage(drive_output + heading_output, drive_output - heading_output);
     //std::cout << "Pos: " << average_position << std::endl;
     //std::cout << "Ang: " << imu.heading() << std::endl;
     //std::cout << "Vel: " << drive_output << std::endl << std::endl;
@@ -759,8 +759,8 @@ void Drive::holonomic_drive_to_pose(float X_position, float Y_position, float an
 void Drive::control_arcade(){
   float throttle = deadband(controller(primary).Axis3.value(), 5);
   float turn = deadband(controller(primary).Axis1.value(), 5);
-  DriveL.spin(fwd, to_volt(throttle+turn), volt);
-  DriveR.spin(fwd, to_volt(throttle-turn), volt);
+  DriveL.spin(fwd, to_volt(throttle), volt);
+  DriveR.spin(fwd, to_volt(throttle), volt);
 }
 
 /**
@@ -823,8 +823,13 @@ void moveLift(float position, float vel) {
 }
 
 void moveLift(float position) {
-  float error = position - Rotation.position(deg);
-  lift.spinFor(error, deg, 100, velocityUnits::pct, false);
+  float kp = 0.5;
+  float error = position - rotationSensor.position(deg);
+  while (error > 1) {
+    error = position - rotationSensor.position(deg);
+    float volts = error * kp;
+  }
+
 }
 
 // lift controls

@@ -701,7 +701,7 @@ void autoSkills() {
 }
 
 void autoskills() {
-  //chassis.Gyro.setRotation(90, deg);
+  //chassis.Gyro.setrotationSensor(90, deg);
 
   chassis.move(-30);
   chassis.move(-20, 4);
