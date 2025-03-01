@@ -286,14 +286,7 @@ void Drive::turn(float angle){
 // }
 
 void Drive::turn(float angle, float type) {
-  if (type == s) {
-    chassis.turn_kd = s;
-  } else if (type == m) {
-    chassis.turn_kd = m;
-  } else if (type == x) {
-    chassis.turn_kd = x;
-  }
-  turn_to_angle(angle, turn_max_voltage, turn_settle_error, turn_settle_time, turn_timeout, turn_kp, turn_ki, turn_kd, turn_starti);
+  turn_to_angle(angle, type, turn_settle_error, turn_settle_time, turn_timeout, turn_kp, turn_ki, turn_kd, turn_starti);
 }
 
 void Drive::turn_to_angle(float angle, float turn_max_voltage, float turn_settle_error, float turn_settle_time, float turn_timeout){
