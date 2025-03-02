@@ -3,6 +3,7 @@
 // mogo / doink
 void controlMogo();
 void controlDoink();
+void controlIntakePiston();
 
 void arcade();
 

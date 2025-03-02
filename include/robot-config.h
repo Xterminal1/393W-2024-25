@@ -20,11 +20,14 @@ extern motor lift;
 extern motor_group l;
 extern motor_group r;
 
-// sensors/pneumatics
+// sensors
 extern inertial imu;
 extern optical optic;
 extern rotation rotationSensor;
+
+// pneumatics
 extern digital_out mogo;
 extern digital_out doink;
+extern digital_out intakePiston;
 
 void  vexcodeInit( void );

@@ -18,7 +18,7 @@ void telemetry() {
     std::cout << "position:         " << pos << std::endl;
     std::cout << "heading:          " << chassis.get_absolute_heading() << std::endl;
     std::cout << "drive:            " << l.voltage() << std::endl;
-    std::cout << "lift:           " << lift.position(degrees) << std::endl << std::endl;
+    std::cout << "intake:           " << intake.temperature(celsius) << std::endl << std::endl;
     //std::cout << "velocity:         " << (l.voltage() + r.voltage()) / 2 << std::endl << std::endl;
     //std::cout << "output:           " << chassis.
     //std::cout << "drive temp:       " << l.temperature() << std::endl;
@@ -27,6 +27,10 @@ void telemetry() {
     //std::cout << "lift position:    " << lift.position(deg) << std::endl;
     wait(500, msec);
   }
+}
+
+void xasda() {
+
 }
 
 void pre_auton() {
@@ -41,6 +45,8 @@ void pre_auton() {
 
   optic.setLight(ledState::on);
   optic.setLightPower(100);
+
+  intakePiston.set(true);
 }
 
 /**
@@ -92,6 +98,8 @@ void usercontrol(void) {
   l.setStopping(coast);
   r.setStopping(coast);
 
+  intakePiston.set(false);
+
   while (1) {
 
     // chassis
@@ -100,7 +108,7 @@ void usercontrol(void) {
     // intake
     if (controller1.ButtonL1.pressing()) {
       newL1 = true;
-    } else {
+    } else { 
       newL1 = false;
     }
 
@@ -146,6 +154,7 @@ int main() {
   // Set up callbacks for autonomous and driver control periods.
   controller1.ButtonR1.pressed(controlMogo);
   controller1.ButtonR2.pressed(controlDoink);
+  controller1.ButtonUp.pressed(controlIntakePiston);
 
   //controller1.ButtonA.pressed(lift_reset);
   //controller1.ButtonX.pressed(lift_grab);

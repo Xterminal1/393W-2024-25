@@ -12,6 +12,11 @@ void controlDoink() {
   doink.set(state);
 }
 
+void controlIntakePiston() {
+  state = !state;
+  intakePiston.set(state);
+}
+
 void arcade() {
   int forward = controller1.Axis3.position();
   int turn = controller1.Axis1.position();

@@ -139,6 +139,7 @@ controller controller1;
 #define PORT_ROTATION PORT7
 #define PORT_MOGO Brain.ThreeWirePort.A
 #define PORT_DOINK Brain.ThreeWirePort.B
+#define PORT_INTAKE_PISTON Brain.ThreeWirePort.C
 
 // motors/motor groups
 motor lf = motor(PORT_LF, BLUE, REVERSE_L);
@@ -152,12 +153,15 @@ motor lift = motor(PORT_LIFT, GREEN, REVERSE_LIFT);
 motor_group l = motor_group(lf, lm, lb);
 motor_group r = motor_group(rf, rm, rb);
 
-// sensors/pneumatics
+// sensors
 inertial imu = inertial(PORT_IMU);
 optical optic = optical(PORT_OPTICAL);
 rotation rotationSensor = rotation(PORT_ROTATION);
+
+// pneumatics
 digital_out mogo = digital_out(PORT_MOGO);
 digital_out doink = digital_out(PORT_DOINK);
+digital_out intakePiston = digital_out(PORT_INTAKE_PISTON);
 
 void vexcodeInit( void ) {
   // nothing to initialize

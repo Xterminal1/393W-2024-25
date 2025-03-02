@@ -88,25 +88,29 @@ void liftGrab2() {
     moveLift(140, 100);
 }
 
+void liftNonReset() {
+    moveLift(350, 100);
+}
+
 void SKILLS() {
 
     chassis.drive_settle_error = 0.5;
     chassis.drive_settle_time = 100;
-    chassis.turn_settle_error = 0.75;
-    chassis.turn_settle_time = 150;
-    intake.setMaxTorque(100, percent);
+    chassis.turn_settle_error = 1;
+    chassis.turn_settle_time = 300;
+    //intake.setMaxTorque(100, percent);
 
     // preload -> ally stake
-    moveLift(LIFT_GRAB_POS, 100);
+    moveLift(LIFT_GRAB_POS, 60);
     moveIntake(12);
     wait(500, msec);
     moveIntake(0);
-    moveLift(LIFT_SCORE_POS, 100);
+    moveLift(LIFT_SCORE_POS, 60);
     wait(500, msec);
 
     // mogo 1
     chassis.move(-8.75);
-    thread resetLift1 = thread(lift_reset);
+    thread lr = thread(liftNonReset);
     chassis.turn(-90);
     chassis.move(-18, 3);
     mogo.set(true);
@@ -114,40 +118,24 @@ void SKILLS() {
     moveIntake(12);
 
     // ring 2
-    chassis.turn_kd = 3.5;
+    chassis.turn_kd = 3.6;
     chassis.turn(163, 6);
     chassis.move(21, 12);
     wait(500, msec);
 
     // ring 3
     chassis.turn(147);
-    chassis.move(32.5, 12);
+    chassis.move(33.5, 12);
     chassis.turn(90);
     thread xk = thread(lift_grab);
     chassis.move(16.3, 12);
     wait(1000, msec);
     moveIntake(0);
-    moveLift(550, 100);
-
-    //chassis.set_heading_constants(9, 0.13, 0.003, 1.5, 15);
-    // chassis.drive_settle_error = 1.5;
-    // chassis.drive_settle_time = 300;
-
-    // chassis.arc(37, 90);
-    // moveLift(140, 100);
-    // chassis.set_heading_constants(12, 0, 0, 0, 0);
-    // chassis.drive_settle_error = 0.5;
-    // chassis.drive_settle_time = 100;
-    // chassis.move(8);
-    // wait(1000, msec);
-    // moveIntake(0);
-    // moveLift(LIFT_WALL_STAKE_POS, 100);
-    // wait(500, msec);
+    moveLift(550, 60);
 
     // ring 4/5/6
-    //chassis.heading_kp = .05;
-    chassis.move(-10, 12);
-    lift_reset();
+    chassis.move(-10.3, 12);
+    thread lr2 = thread(liftNonReset);
     chassis.turn(0);
     moveIntake(12);
     chassis.move(43, 4);
@@ -180,18 +168,17 @@ void SKILLS() {
     
     // ring 2
     chassis.turn(-147);
-    chassis.move(35.7, 12);
+    chassis.move(36.5, 12);
     chassis.turn(-90);
     thread xk2 = thread(liftGrab2);
-    chassis.move(17, 12);
+    chassis.move(16, 12);
     wait(1000, msec);
     moveIntake(0);
-    moveLift(550, 100);
+    moveLift(550, 60);
 
     // ring 3/4/5
-    //chassis.heading_kp = .05;
-    chassis.move(-12.5, 12);
-    lift_reset();
+    chassis.move(-10.5, 12);
+    thread lr3 = thread(liftNonReset);
     chassis.turn(0);
     moveIntake(12);
     chassis.move(43, 4);
