@@ -17,6 +17,7 @@ void blueLeft();
 //void skills();
 void test();
 void arcs();
+void redLeft2();
 
 void autoSkills();
 void autoskills();

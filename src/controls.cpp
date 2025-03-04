@@ -19,7 +19,8 @@ void controlIntakePiston() {
 
 void arcade() {
   int forward = controller1.Axis3.position();
-  int turn = controller1.Axis1.position();
+  int rate = controller1.Axis1.position();
+  int turn = (abs(rate) * rate) / 100;
   l.spin(fwd, to_volt(forward + turn), volt);
   r.spin(fwd, to_volt(forward - turn), volt); 
 }

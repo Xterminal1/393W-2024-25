@@ -64,10 +64,10 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 4;
+  int auton = 0;
 
   if (auton == 0) {
-    redLeft();
+    redLeft2();
   } else if (auton == 1) {
     red_right();
   } else if (auton == 2) {
@@ -75,6 +75,15 @@ void autonomous(void) {
   } else if (auton == 3) {
     blueRight();
   } else if (auton == 4) {
+    // chassis.set_drive_constants(12, 1.2, 0, 10, 0);
+    // chassis.drive_settle_error = 0.5;
+    // chassis.drive_settle_time = 100;
+    // mogo.set(true);
+    // wait(500, msec);
+    // chassis.move(50);
+    //chassis.set_turn_constants(12, 0.4, 0.03, 3.5, 15); // 90
+    //chassis.set_turn_constants(12, 0.4, 0.03, 4.5, 15); // 180
+
     SKILLS();
   } else if (auton == 5)
     test();
