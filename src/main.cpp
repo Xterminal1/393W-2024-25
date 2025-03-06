@@ -38,7 +38,7 @@ void pre_auton() {
   vexcodeInit();
   default_constants();
 
-  telemetry();
+  //telemetry();
 
   imu.calibrate(3000);
   wait(3000, msec);
@@ -46,7 +46,7 @@ void pre_auton() {
   optic.setLight(ledState::on);
   optic.setLightPower(100);
 
-  intakePiston.set(true);
+  //intakePiston.set(true);
 }
 
 /**
@@ -64,7 +64,7 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 0;
+  int auton = 4;
 
   if (auton == 0) {
     redLeft2();

@@ -41,6 +41,7 @@
 		"typeinfo": "cpp",
 		"random": "cpp",
 		"iomanip": "cpp",
-		"string": "cpp"
+		"string": "cpp",
+		"cstddef": "cpp"
 	}
 }

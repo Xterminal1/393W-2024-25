@@ -26,6 +26,7 @@ void turnNGL(float angle) {
   }
 
 void move25_5() { chassis.move(25, 5.5); }
+void move_neg33_6 () { chassis.move(-44, 6); }
 void move5_5() { chassis.move(5.5); }
 void turn58() { turnNGS(58); }
 
@@ -83,24 +84,34 @@ void redLeft2() {
     wait(500, msec);
     moveIntake(0);
     moveLift(LIFT_SCORE_POS, 100);
-    wait(500, msec);
+    wait(150, msec);
 
     // clamp mogo
-    chassis.move(-23);
-    chassis.move(-10, 3.5);
+    thread mng336 = thread(move_neg33_6);
+    wait(1400, msec);
     mogo.set(true);
-    wait(200, msec);
+    
+    //chassis.move(-10, 3.5);
+    // mogo.set(true);.
+    // wait(200, msec);
     moveIntake(12);
-
+    
     // ring 2
-    chassis.turn_kd = 4.5;
-    chassis.turn(167);
-    chassis.move(21);
+    chassis.turn_kd = 4.3;
+    chassis.turn(157);//167
+    thread liftreset = thread(lift_reset);
+    chassis.move(9.5);
 
-    // ring 3
+    // // ring 3
+    chassis.turn_kd = 3.7;
     chassis.turn(129);
     chassis.move(9.5);
 
+    // // ring 4
+    chassis.move(-17);
+    wait(200, msec);
+    chassis.set_heading_constants(12, .6, .001, 4, 0);
+    chassis.arc(20, 50);
 
     // turn 162
     // drive 21
@@ -162,6 +173,10 @@ void intakeMax() {
     moveIntake(12);
 }
 
+float getPos() {     
+    return (chassis.get_left_position_in() + chassis.get_right_position_in()) / 2;
+}
+
 void SKILLS() {
 
     chassis.set_drive_constants(12, 1.2, 0, 10, 0);
@@ -179,7 +194,8 @@ void SKILLS() {
     wait(500, msec);
 
     // mogo 1
-    chassis.move(-5.5);//-8.75
+    chassis.move(-7.1);//-8.75
+    
     thread lr = thread(liftNonReset);
     turnNGS(-90);
     chassis.move(-18, 3);
@@ -195,7 +211,7 @@ void SKILLS() {
 
     // ring 3
     chassis.turn_max_voltage = 12; turnGS(147); //chassis.turn(147);
-    chassis.move(34.5, 12);
+    chassis.move(34.75, 12);
     turnGS(90); //chassis.turn(90);
     thread xk = thread(lift_grab);
     chassis.move(15.5, 12);
@@ -204,7 +220,7 @@ void SKILLS() {
     moveLift(520, 100);
 
     // ring 4/5/6
-    chassis.move(-10.3, 12);
+    chassis.move(-11, 12);//=10.3
     thread lr2 = thread(liftNonReset);
     turnGS(0); //chassis.turn(0);
     moveIntake(12);
@@ -217,14 +233,16 @@ void SKILLS() {
     chassis.move(13);
 
     // unclamp mogo 1 -> corner
-    turnGL(-160); //chassis.turn(-160, 12);
-    chassis.move(-9);
-    moveIntake(-12);
+    turnGL(-165); //chassis.turn(-160, 12);
+    wait(500, msec);
     mogo.set(false);
+    chassis.move(-8.5);
+    moveIntake(-12);
 
     // mogo 2
-    chassis.move(9);//7.5
+    chassis.move(5.5);//7.5
     turnNGL(90); //chassis.turn(90);
+    ///chassis.set_heading_constants(0, 0, 0, 0, 0);
     chassis.move(-60, 12);
     chassis.move(-16.5, 3);
     mogo.set(true);
@@ -233,11 +251,12 @@ void SKILLS() {
     // ring 1
     moveIntake(12);
     turnGL(-170); //chassis.turn(-170);
+    chassis.set_heading_constants(6, .4, 0, 1, 0);
     chassis.move(16, 12);
     
     // ring 2 -> wall stake
     turnGS(-147); //chassis.turn(-147);
-    chassis.move(39, 12);
+    chassis.move(37.8, 12);
     turnGS(-90); //chassis.turn(-90);
     thread xk2 = thread(liftGrab2);
     chassis.move(14.5, 12);
@@ -246,7 +265,7 @@ void SKILLS() {
     moveLift(520, 100);
 
     // ring 3/4/5
-    chassis.move(-9.75, 12);
+    chassis.move(-10.75, 12);
     thread lr3 = thread(liftNonReset);
     turnGS(0); //chassis.turn(0);
     moveIntake(12);
@@ -277,7 +296,7 @@ void SKILLS() {
     // mogo 3 clamp
     turnNGL(-65);
     chassis.move(-35, 12);
-    chassis.move(-12, 3.5);
+    chassis.move(-10, 3.5);
     mogo.set(true);
 
     // ring -> ally stake
@@ -293,6 +312,15 @@ void SKILLS() {
     turnGS(-90);
     thread intakeStart = thread(intakeMax);
     chassis.move(43);
+
+    // unclamp mogo 3
+    chassis.turn(45);
+    moveIntake(-12);
+    mogo.set(true);
+    chassis.move(-19.5);
+
+    // 135
+    // 19.5
 
 
 

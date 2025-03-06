@@ -304,6 +304,7 @@ void Drive::turn_to_angle(float angle, float turn_max_voltage, float turn_settle
     //std::cout << absHeading << '\n';
     task::sleep(10);
   }
+  std::cout << "Ang: " << get_absolute_heading() << std::endl;
 }
 
 /**
@@ -364,10 +365,12 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
 
     drive_with_voltage(drive_output + heading_output, drive_output - heading_output);
     //std::cout << "Pos: " << average_position << std::endl;
-    //std::cout << "Ang: " << imu.heading() << std::endl;
+    
     //std::cout << "Vel: " << drive_output << std::endl << std::endl;
+
     task::sleep(10);
   }
+  std::cout << "Pos: " << average_position << std::endl;
   // l.stop(coast);
   // r.stop(coast);
 }
@@ -832,9 +835,9 @@ void lift_reset() {
 }
 
 void lift_grab() { 
-  moveLift(120, 100); 
+  moveLift(LIFT_GRAB_POS, 100); 
 }
 void lift_score() { 
-  moveLift(647, 100); 
+  moveLift(LIFT_SCORE_POS, 100); 
 }
 
