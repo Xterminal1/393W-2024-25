@@ -75,7 +75,7 @@ void redLeft2() {
     chassis.set_drive_constants(12, 1.2, 0, 10, 0);
     chassis.set_drive_exit_conditions(.75, 100, 5000);
     chassis.set_turn_constants(12, 0.4, 0.03, 3, 15);
-    chassis.set_turn_exit_conditions(.5, 100, 3000);
+    chassis.set_turn_exit_conditions(.5, 50, 3000);
 
     // preload -> alliance stake
     thread liftToLoad = thread(lift_grab);
@@ -102,16 +102,30 @@ void redLeft2() {
     thread liftreset = thread(lift_reset);
     chassis.move(9.5);
 
-    // // ring 3
+    // ring 3
     chassis.turn_kd = 3.7;
     chassis.turn(129);
     chassis.move(9.5);
 
-    // // ring 4
+    // ring 4
     chassis.move(-17);
     wait(200, msec);
     chassis.set_heading_constants(12, .6, .001, 4, 0);
-    chassis.arc(20, 50);
+    chassis.arc(18, 50);
+    wait(500, msec);
+
+    // ring 5
+    chassis.turn(-29.5);
+    intakePiston.set(true);
+    chassis.move(35);
+    chassis.move(8);
+    intakePiston.set(false);
+
+
+    // turn 280
+    // drive 35
+    // drive 6
+
 
     // turn 162
     // drive 21
@@ -158,6 +172,10 @@ void blueRight() {
     thread MOVE_25_IN = thread(move25_5);
     detectRedRing();
     lift_grab();
+}
+
+void soloAWP() {
+    
 }
 
 void liftGrab2() {
@@ -233,10 +251,10 @@ void SKILLS() {
     chassis.move(13);
 
     // unclamp mogo 1 -> corner
-    turnGL(-165); //chassis.turn(-160, 12);
+    turnGL(-155); //chassis.turn(-160, 12);
     wait(500, msec);
     mogo.set(false);
-    chassis.move(-8.5);
+    chassis.move(-6.5);
     moveIntake(-12);
 
     // mogo 2
@@ -256,10 +274,10 @@ void SKILLS() {
     
     // ring 2 -> wall stake
     turnGS(-147); //chassis.turn(-147);
-    chassis.move(37.8, 12);
+    chassis.move(38.1, 12);
     turnGS(-90); //chassis.turn(-90);
     thread xk2 = thread(liftGrab2);
-    chassis.move(14.5, 12);
+    chassis.move(15, 12);
     wait(1000, msec);
     moveIntake(0);
     moveLift(520, 100);

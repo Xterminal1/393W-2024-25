@@ -64,7 +64,10 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 4;
+  int auton = 0;
+
+  // Red Left | 9 | 4R + ally stake
+  // Solo WP | 
 
   if (auton == 0) {
     redLeft2();
