@@ -28,6 +28,47 @@ void default_constants() {
 void arcs() { chassis.set_heading_constants(ARC_MAX, ARC_KP, ARC_KI, ARC_KD, ARC_STARTI); }
 void correction() { chassis.set_heading_constants(HEADING_MAX, HEADING_KP, HEADING_KI, HEADING_KD, HEADING_STARTI); }
 
+void redLeftxxx() {
+    
+
+  chassis.set_drive_constants(12, 1.2, 0, 10, 0);
+  chassis.set_drive_exit_conditions(.75, 100, 5000);
+  chassis.set_turn_constants(12, 0.4, 0.03, 3, 15);
+  chassis.set_turn_exit_conditions(.5, 100, 3000);
+
+  // mogo 1 clamp
+  chassis.move(-18.2);
+  chassis.turn(27);
+  chassis.move(-7);
+  mogo.set(true);
+  moveIntake(12);
+  wait(300, msec);
+
+  // rings 1 & 2
+  //chassis.turn_kd = 3.45;
+  chassis.turn(149);
+  chassis.move(23);
+
+  // ring 3
+  chassis.move(-5);
+  chassis.turn(130);
+  chassis.move(8.5);
+
+  // ring 4
+  chassis.move(-20);
+  arcs();
+  chassis.arc(18, 50);
+
+  // ring 5 -> ally stake
+  // chassis.turn(-57);
+  // chassis.move(38);
+  // COLOR_SORT_FILTER_BLUE.interrupt();
+  // thread COLOR_SORT_FILTER_BLUE_SLOW = thread(filterBlueSlow);
+  // thread MOVE_25_IN = thread(move25_5);
+  // wait(1700, msec);
+  // lift_grab();
+}
+
 // void move10() {chassis.move(25, 5.5); }
 
 // void waitDetect() {detect_ring3();}
@@ -738,4 +779,45 @@ void autoskills() {
   wait(1000, msec);
   moveIntake(-8);
   mogo.set(false);
+}
+
+
+void blueRightxxx() {
+
+  thread COLOR_SORT_FILTER_RED = thread(filterRed);
+
+  chassis.turn_kd = 3.8;
+  chassis.drive_settle_error = 0.5;
+  chassis.drive_settle_time = 100;
+  chassis.turn_settle_time = 150;
+  intake.setMaxTorque(100, percent);
+
+  // mogo 1 clamp
+  chassis.move(-19);
+  chassis.turn(-27);
+  chassis.move(-6);
+  mogo.set(true);
+  moveIntake(12);
+  wait(300, msec);
+
+  // rings 1 & 2
+  chassis.turn(-149);
+  chassis.move(23);
+
+  // ring 3
+  chassis.move(-5);
+  chassis.turn(-130);
+  chassis.move(8.5);
+
+  // ring 4
+  chassis.move(-20);
+  arcs();
+  chassis.arc(18, -50);
+
+  // ring 5 -> ally stake
+  chassis.turn(57);
+  chassis.move(38);
+  //thread MOVE_25_IN = thread(move25_5);
+  detectRedRing();
+  lift_grab();
 }

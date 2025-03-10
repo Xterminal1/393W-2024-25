@@ -1,6 +1,5 @@
 #include "states-autons.h"
 
-
 void turnNGS(float angle) {
     chassis.set_turn_constants(12, 0.4, 0.03, 3.2, 15);
     chassis.set_turn_exit_conditions(.5, 100, 3000);
@@ -13,65 +12,140 @@ void turnNGL(float angle) {
     chassis.turn(angle);
   }
   
-  void turnGS(float angle) {
+void turnGS(float angle) {
     chassis.set_turn_constants(12, 0.4, 0.03, 3.5, 15);
     chassis.set_turn_exit_conditions(.5, 100, 3000);
     chassis.turn(angle);
   }
   
-  void turnGL(float angle) {
+void turnGL(float angle) {
     chassis.set_turn_constants(12, 0.4, 0.03, 4.1, 15);
     chassis.set_turn_exit_conditions(.5, 100, 3000);
     chassis.turn(angle);
   }
 
 void move25_5() { chassis.move(25, 5.5); }
-void move_neg33_6 () { chassis.move(-44, 6); }
+void move_neg44_6 () { chassis.move(-44, 6); }
 void move5_5() { chassis.move(5.5); }
 void turn58() { turnNGS(58); }
 
-void redLeft() {
-    //thread COLOR_SORT_FILTER_BLUE = thread(filterBlue);
+void liftVertical() { moveLift(350, 100); }
 
+void RED_LEFT() {
     chassis.set_drive_constants(12, 1.2, 0, 10, 0);
     chassis.set_drive_exit_conditions(.75, 100, 5000);
     chassis.set_turn_constants(12, 0.4, 0.03, 3, 15);
-    chassis.set_turn_exit_conditions(.5, 100, 3000);
+    chassis.set_turn_exit_conditions(.5, 50, 3000);
 
-    // mogo 1 clamp
-    chassis.move(-18.2);
-    turnNGS(27); //chassis.turn(27);
-    chassis.move(-7);
+    thread COLOR_SORT_FILTER_BLUE = thread(filterBlue);
+
+    // preload -> alliance stake
+    thread liftToLoad = thread(lift_grab);
+    moveIntake(12);
+    thread move_5_5 = thread(move5_5);
+    wait(500, msec);
+    moveIntake(0);
+    moveLift(LIFT_SCORE_POS, 100);
+    wait(150, msec);
+
+    // clamp mogo
+    thread mng446 = thread(move_neg44_6);
+    wait(1400, msec);
     mogo.set(true);
     moveIntake(12);
-    wait(300, msec);
-
-    // rings 1 & 2
-    //chassis.turn_kd = 3.45;
-    turnGL(149); //chassis.turn(149);
-    chassis.move(23);
+    
+    // ring 2
+    chassis.turn_kd = 4.1;
+    chassis.turn(157);//167
+    chassis.move(9.5);//11
 
     // ring 3
-    chassis.move(-5);
-    turnGS(130); //chassis.turn(130);
-    chassis.move(8.5);
+    chassis.turn_kd = 3.7;
+    chassis.turn(129);
+    chassis.move(9.1);
 
     // ring 4
-    chassis.move(-20);
-    arcs();
+    chassis.move(-17);
+    wait(200, msec);
+    chassis.set_heading_constants(12, .6, .001, 8, 0);
     chassis.arc(18, 50);
+    wait(800, msec);
 
-    // ring 5 -> ally stake
-    // chassis.turn(-57);
-    // chassis.move(38);
-    // COLOR_SORT_FILTER_BLUE.interrupt();
-    // thread COLOR_SORT_FILTER_BLUE_SLOW = thread(filterBlueSlow);
-    // thread MOVE_25_IN = thread(move25_5);
-    // wait(1700, msec);
-    // lift_grab();
+    // ring 5
+    chassis.turn(-27.5);
+    intakePiston.set(true);
+    chassis.move(35);
+    chassis.move(9.5);
+    intakePiston.set(false);
+    wait(1000, msec);
+
+    // ladder touch
+    chassis.move(-10, 3.5);
+    thread liftreset = thread(lift_reset);
+    chassis.turn(60.5, 6);
+    wait(500, msec);
+    chassis.move(-17);
 }
 
-void redLeft2() {
+void BLUE_RIGHT() {
+    chassis.set_drive_constants(12, 1.2, 0, 10, 0);
+    chassis.set_drive_exit_conditions(.75, 100, 5000);
+    chassis.set_turn_constants(12, 0.4, 0.03, 3, 15);
+    chassis.set_turn_exit_conditions(.5, 50, 3000);
+
+    thread COLOR_SORT_FILTER_RED = thread(filterRed);
+
+    // preload -> alliance stake
+    thread liftToLoad = thread(lift_grab);
+    moveIntake(12);
+    thread move_5_5 = thread(move5_5);
+    wait(500, msec);
+    moveIntake(0);
+    moveLift(LIFT_SCORE_POS, 100);
+    wait(150, msec);
+
+    // clamp mogo
+    thread mng446 = thread(move_neg44_6);
+    wait(1400, msec);
+    mogo.set(true);
+    moveIntake(12);
+    
+    // ring 2
+    chassis.turn_kd = 4.1;
+    chassis.turn(-157);//167
+    chassis.move(9.5);//11
+
+    // ring 3
+    chassis.turn_kd = 3.7;
+    chassis.turn(-129);
+    chassis.move(9.1);
+
+    // ring 4
+    chassis.move(-17);
+    wait(200, msec);
+    chassis.set_heading_constants(12, .6, .001, 8, 0);
+    chassis.arc(18, -50);
+    wait(800, msec);
+
+    // ring 5
+    chassis.turn(27.5);
+    intakePiston.set(true);
+    chassis.move(35);
+    chassis.move(9.5);
+    intakePiston.set(false);
+    wait(1000, msec);
+
+    // ladder touch
+    chassis.move(-10, 3.5);
+    thread liftreset = thread(lift_reset);
+    chassis.turn(-60.5, 6);
+    wait(500, msec);
+    chassis.move(-17);
+}
+
+void move_neg33_6 () { chassis.move(-27.5, 6); }
+
+void RED_SOLO_AWP() {
     chassis.set_drive_constants(12, 1.2, 0, 10, 0);
     chassis.set_drive_exit_conditions(.75, 100, 5000);
     chassis.set_turn_constants(12, 0.4, 0.03, 3, 15);
@@ -87,95 +161,137 @@ void redLeft2() {
     wait(150, msec);
 
     // clamp mogo
-    thread mng336 = thread(move_neg33_6);
+    thread mng446_2 = thread(move_neg44_6);
     wait(1400, msec);
     mogo.set(true);
-    
-    //chassis.move(-10, 3.5);
-    // mogo.set(true);.
-    // wait(200, msec);
     moveIntake(12);
-    
+    thread lift_vertical = thread(liftVertical);
+
     // ring 2
-    chassis.turn_kd = 4.3;
+    chassis.turn_kd = 4.4;
     chassis.turn(157);//167
-    thread liftreset = thread(lift_reset);
-    chassis.move(9.5);
+    chassis.move(9.5);//11
+
+    // ring 3
+    // chassis.move(-17);
+    // chassis.set_heading_constants(12, .6, .001, 8, 0);
+    // chassis.arc(16.5, 50);
+    // wait(800, msec);
+    // chassis.arc(47, 287);
+    // mogo.set(true);
+    chassis.turn_kd = 3.7;
+    chassis.turn(129);
+    chassis.move(8.2);
+
+    // unclamp mogo 1
+    chassis.set_heading_constants(9, 0.6, .001, 6, 0);
+    chassis.arc(-46.5, 201);
+    chassis.turn_kd = 4.4;
+    chassis.turn(-67, 5);
+    mogo.set(false);
+
+    // mogo 2
+    chassis.move(34);
+    chassis.turn_kd = 3.7;
+    chassis.turn(52);
+    thread mng336 = thread(move_neg33_6);
+    wait(800, msec);
+    mogo.set(true);
+
+    // ring 4
+    chassis.turn_kd = 4.4;
+    chassis.turn(-35);
+    chassis.move(13.5);
+
+    // ladder touch
+    chassis.turn_kd = 3.76;
+    chassis.turn(-46);
+    thread lift_reset2 = thread(lift_reset);
+    chassis.move(-27);
+    wait(200, msec);
+    l.stop();
+    r.stop();
+
+    // NO ARC TURN, CROSSES LINE
+    // chassis.turn(157);
+    // chassis.move(-48);
+    // chassis.turn_kd = 4.4;
+    // chassis.turn(-67);
+    // mogo.set(false);
+
+    // chassis.move(15);
+    // chassis.turn(82);
+    // thread mng336_2 = thread(move_neg33_6);
+    // wait(950, msec);
+    // mogo.set(true);
+    // moveIntake(12);
+
+    // chassis.turn(-54);
+    // chassis.move(11);
+    // wait(500, msec);
+
+}
+
+void BLUE_SOLO_AWP() {
+    chassis.set_drive_constants(12, 1.2, 0, 10, 0);
+    chassis.set_drive_exit_conditions(.75, 100, 5000);
+    chassis.set_turn_constants(12, 0.4, 0.03, 3, 15);
+    chassis.set_turn_exit_conditions(.5, 50, 3000);
+
+    // preload -> alliance stake
+    thread liftToLoad = thread(lift_grab);
+    moveIntake(12);
+    thread move_5_5 = thread(move5_5);
+    wait(500, msec);
+    moveIntake(0);
+    moveLift(LIFT_SCORE_POS, 100);
+    wait(150, msec);
+
+    // clamp mogo
+    thread mng446_2 = thread(move_neg44_6);
+    wait(1400, msec);
+    mogo.set(true);
+    moveIntake(12);
+    thread lift_vertical = thread(liftVertical);
+
+    // ring 2
+    chassis.turn_kd = 4.4;
+    chassis.turn(-157);//167
+    chassis.move(9.5);//11
 
     // ring 3
     chassis.turn_kd = 3.7;
-    chassis.turn(129);
-    chassis.move(9.5);
+    chassis.turn(-129);
+    chassis.move(8.2);
 
-    // ring 4
-    chassis.move(-17);
-    wait(200, msec);
-    chassis.set_heading_constants(12, .6, .001, 4, 0);
-    chassis.arc(18, 50);
-    wait(500, msec);
+    // unclamp mogo 1
+    chassis.set_heading_constants(9, 0.6, .001, 6, 0);
+    chassis.arc(-46.5, -201);
+    chassis.turn_kd = 4.4;
+    chassis.turn(67, 5);
+    mogo.set(false);
 
-    // ring 5
-    chassis.turn(-29.5);
-    intakePiston.set(true);
-    chassis.move(35);
-    chassis.move(8);
-    intakePiston.set(false);
-
-
-    // turn 280
-    // drive 35
-    // drive 6
-
-
-    // turn 162
-    // drive 21
-
-    // drive 7
-    // turn 58
-}
-
-void blueRight() {
-
-    thread COLOR_SORT_FILTER_RED = thread(filterRed);
-  
-    chassis.turn_kd = 3.8;
-    chassis.drive_settle_error = 0.5;
-    chassis.drive_settle_time = 100;
-    chassis.turn_settle_time = 150;
-    intake.setMaxTorque(100, percent);
-  
-    // mogo 1 clamp
-    chassis.move(-19);
-    chassis.turn(-27);
-    chassis.move(-6);
+    // mogo 2
+    chassis.move(34);
+    chassis.turn_kd = 3.7;
+    chassis.turn(-52);
+    thread mng336 = thread(move_neg33_6);
+    wait(800, msec);
     mogo.set(true);
-    moveIntake(12);
-    wait(300, msec);
-  
-    // rings 1 & 2
-    chassis.turn(-149);
-    chassis.move(23);
-  
-    // ring 3
-    chassis.move(-5);
-    chassis.turn(-130);
-    chassis.move(8.5);
-  
-    // ring 4
-    chassis.move(-20);
-    arcs();
-    chassis.arc(18, -50);
-  
-    // ring 5 -> ally stake
-    chassis.turn(57);
-    chassis.move(38);
-    thread MOVE_25_IN = thread(move25_5);
-    detectRedRing();
-    lift_grab();
-}
 
-void soloAWP() {
-    
+    // ring 4
+    chassis.turn_kd = 4.4;
+    chassis.turn(35);
+    chassis.move(13.5);
+
+    // ladder touch
+    chassis.turn_kd = 3.3;
+    chassis.turn(46);
+    thread lift_reset2 = thread(lift_reset);
+    chassis.move(-27);
+    wait(200, msec);
+    l.stop();
+    r.stop();
 }
 
 void liftGrab2() {

@@ -183,3 +183,8 @@ void moveLift(float position, float vel);
 void lift_reset();
 void lift_grab();
 void lift_score();
+void liftMax();
+void intakeMaxFWD();
+void intakeMaxREV();
+void intakeStop();
+void liftCoast();

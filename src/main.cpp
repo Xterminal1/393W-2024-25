@@ -29,10 +29,6 @@ void telemetry() {
   }
 }
 
-void xasda() {
-
-}
-
 void pre_auton() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
@@ -45,8 +41,6 @@ void pre_auton() {
 
   optic.setLight(ledState::on);
   optic.setLightPower(100);
-
-  //intakePiston.set(true);
 }
 
 /**
@@ -64,32 +58,20 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 0;
-
-  // Red Left | 9 | 4R + ally stake
-  // Solo WP | 
+  int auton = 5;
 
   if (auton == 0) {
-    redLeft2();
+    RED_LEFT();
   } else if (auton == 1) {
-    red_right();
+    //red_right();
   } else if (auton == 2) {
-    blue_left(); 
+    //blue_left(); 
   } else if (auton == 3) {
-    blueRight();
+    BLUE_RIGHT();
   } else if (auton == 4) {
-    // chassis.set_drive_constants(12, 1.2, 0, 10, 0);
-    // chassis.drive_settle_error = 0.5;
-    // chassis.drive_settle_time = 100;
-    // mogo.set(true);
-    // wait(500, msec);
-    // chassis.move(50);
-    //chassis.set_turn_constants(12, 0.4, 0.03, 3.5, 15); // 90
-    //chassis.set_turn_constants(12, 0.4, 0.03, 4.5, 15); // 180
-
-    SKILLS();
+    RED_SOLO_AWP();
   } else if (auton == 5)
-    test();
+    BLUE_SOLO_AWP();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -102,14 +84,34 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void usercontrol(void) {
-  bool newL1 = false;
-  bool newL2 = false;
-  bool newR1 = false;
-  bool newR2 = false;
-  l.setStopping(coast);
-  r.setStopping(coast);
+bool liftOverride = false;
 
+void moveLiftTo(float position, float PCT) {
+  liftOverride = true;
+  lift.setVelocity(PCT, percent);
+  lift.spinToPosition(position, degrees);
+
+  while (fabs(lift.position(degrees) - position) > 5) {
+    wait(20, msec);
+  }
+
+  lift.stop(hold);
+  liftOverride = false;
+}
+
+void lr() { moveLiftTo(0, 100); lift.resetPosition(); }
+void lg() { moveLiftTo(LIFT_GRAB_POS, 100); }
+void ls() { moveLiftTo(LIFT_SCORE_POS, 100); }
+
+void liftResetMacro() { thread liftReset = thread(lr); }
+void liftGrabMacro() { thread liftGrab = thread(lg); }
+void liftScoreMacro() { thread liftScore = thread(ls); }
+
+void usercontrol(void) {
+  bool newL1 = false; bool newL2 = false; bool newR1 = false; bool newR2 = false;
+
+  l.setStopping(coast); 
+  r.setStopping(coast);
   intakePiston.set(false);
 
   while (1) {
@@ -117,42 +119,33 @@ void usercontrol(void) {
     // chassis
     arcade();
 
-    // intake
-    if (controller1.ButtonL1.pressing()) {
+    // intake fwd
+    if (controller1.ButtonL1.pressing()) 
       newL1 = true;
-    } else { 
+    else 
       newL1 = false;
-    }
 
-    if (controller1.ButtonL2.pressing()) {
+    // intake rev
+    if (controller1.ButtonL2.pressing())
       newL2 = true;
-    } else {
+    else
       newL2 = false;
-    }
     
     // lift
-    if (((controller1.ButtonL1.pressing() && newL2 || (newL1 && controller1.ButtonL2.pressing())) || ((newL1 && newL2) || (controller1.ButtonL1.pressing()) && (controller1.ButtonL2.pressing())))) {
-      lift.spin(fwd, 12, volt);
-      moveIntake(0);
-    // } else if (((controller1.ButtonR1.pressing() && newR2 || (newR1 && controller1.ButtonR2.pressing())) || ((newR1 && newR2) || (controller1.ButtonR1.pressing()) && (controller1.ButtonR2.pressing())))) {
-    //   lift.spin(fwd, -6, volt);
-    //   moveIntake(0);
-    //   doink.set(false);
-    } else if (controller1.ButtonL1.pressing()) {
-      moveIntake(12);
-    } else if (controller1.ButtonL2.pressing()) {
-      moveIntake(-12);
-    } else {
-      moveIntake(0);
-      lift.stop(hold);
-    }
+    if (!liftOverride) {
 
-    if (controller1.ButtonA.pressing()) {
-      lift_reset();
-    } else if (controller1.ButtonX.pressing()) {
-      lift_grab();
-    } else if (controller1.ButtonY.pressing()) {
-      lift_score();
+      if (((controller1.ButtonL1.pressing() && newL2) || (newL1 && controller1.ButtonL2.pressing())) ||
+          ((newL1 && newL2) || (controller1.ButtonL1.pressing() && controller1.ButtonL2.pressing()))) {
+        lift.spin(fwd, 12, volt);
+        moveIntake(0);
+      } else if (controller1.ButtonL1.pressing()) {
+        moveIntake(12);
+      } else if (controller1.ButtonL2.pressing()) {
+        moveIntake(-12);
+      } else {
+        moveIntake(0);
+        lift.stop(hold);
+      }
     }
 
     wait(20, msec);
@@ -164,13 +157,14 @@ void usercontrol(void) {
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
+  
   controller1.ButtonR1.pressed(controlMogo);
   controller1.ButtonR2.pressed(controlDoink);
-  controller1.ButtonUp.pressed(controlIntakePiston);
+  controller1.ButtonDown.pressed(controlIntakePiston);
 
-  //controller1.ButtonA.pressed(lift_reset);
-  //controller1.ButtonX.pressed(lift_grab);
-  //controller1.ButtonY.pressed(lift_score);
+  controller1.ButtonA.pressed(liftResetMacro);
+  controller1.ButtonX.pressed(liftGrabMacro);
+  controller1.ButtonY.pressed(liftScoreMacro);
 
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);

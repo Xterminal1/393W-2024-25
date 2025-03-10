@@ -819,26 +819,17 @@ void moveLift(float position, float vel) {
   lift.spinToPosition(position, degrees);
 }
 
-void moveLift(float position) {
-  float kp = 0.5;
-  float error = position - rotationSensor.position(deg);
-  while (error > 1) {
-    error = position - rotationSensor.position(deg);
-    float volts = error * kp;
-  }
-
-}
-
 // lift controls
 void lift_reset() { 
   moveLift(0, 100);
   lift.resetPosition();
 }
 
-void lift_grab() { 
-  moveLift(LIFT_GRAB_POS, 100); 
-}
-void lift_score() { 
-  moveLift(LIFT_SCORE_POS, 100); 
-}
+void lift_grab() { moveLift(LIFT_GRAB_POS, 100); }
+void lift_score() { moveLift(LIFT_SCORE_POS, 100); }
+void liftMax() { lift.spin(fwd, 12, volt); }
 
+void intakeMaxFWD() { moveIntake(12); }
+void intakeMaxREV() { moveIntake(-12); }
+void intakeStop() { moveIntake(0); }
+void liftCoast() { lift.stop(hold); }
