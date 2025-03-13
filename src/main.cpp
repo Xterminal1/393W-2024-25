@@ -58,20 +58,26 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 5;
+  int auton = 6;
 
   if (auton == 0) {
     RED_LEFT();
   } else if (auton == 1) {
     //red_right();
   } else if (auton == 2) {
-    //blue_left(); 
+    BLUE_LEFT();
   } else if (auton == 3) {
     BLUE_RIGHT();
   } else if (auton == 4) {
     RED_SOLO_AWP();
-  } else if (auton == 5)
+  } else if (auton == 5) {
     BLUE_SOLO_AWP();
+  } else if (auton == 6) {
+    SKILLS();
+  }
+  // } else if (auton == 7) {
+  //   SKILLS();S
+  // }
 }
 
 /*---------------------------------------------------------------------------*/
@@ -84,24 +90,28 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+float liftRotation = rotationSensor.angle(deg);
+
 bool liftOverride = false;
 
-void moveLiftTo(float position, float PCT) {
+void moveLiftTo(float position) {
   liftOverride = true;
-  lift.setVelocity(PCT, percent);
-  lift.spinToPosition(position, degrees);
 
-  while (fabs(lift.position(degrees) - position) > 5) {
-    wait(20, msec);
-  }
+  lift.setVelocity(100, percent);
+  float error = position - liftRotation;
+  lift.spinToPosition(error, degrees);
 
   lift.stop(hold);
   liftOverride = false;
 }
 
-void lr() { moveLiftTo(0, 100); lift.resetPosition(); }
-void lg() { moveLiftTo(LIFT_GRAB_POS, 100); }
-void ls() { moveLiftTo(LIFT_SCORE_POS, 100); }
+// void lr() { moveLiftTo(0, 100); lift.resetPosition(); }
+// void lg() { moveLiftTo(LIFT_GRAB_POS, 100); }
+// void ls() { moveLiftTo(LIFT_SCORE_POS, 100); }
+
+void lr() { moveLiftTo(0); rotationSensor.resetPosition(); }
+void lg() { moveLiftTo(120); }
+void ls() { moveLiftTo(647); }
 
 void liftResetMacro() { thread liftReset = thread(lr); }
 void liftGrabMacro() { thread liftGrab = thread(lg); }

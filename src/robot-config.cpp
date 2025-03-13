@@ -136,7 +136,7 @@ controller controller1;
 
 #define PORT_IMU PORT18
 #define PORT_OPTICAL PORT20
-#define PORT_ROTATION PORT7
+#define PORT_ROTATION PORT8
 #define PORT_MOGO Brain.ThreeWirePort.A
 #define PORT_DOINK Brain.ThreeWirePort.B
 #define PORT_INTAKE_PISTON Brain.ThreeWirePort.C
@@ -156,7 +156,7 @@ motor_group r = motor_group(rf, rm, rb);
 // sensors
 inertial imu = inertial(PORT_IMU);
 optical optic = optical(PORT_OPTICAL);
-rotation rotationSensor = rotation(PORT_ROTATION);
+rotation rotationSensor = rotation(PORT_ROTATION, false);
 
 // pneumatics
 digital_out mogo = digital_out(PORT_MOGO);
