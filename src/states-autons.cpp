@@ -379,16 +379,18 @@ void SKILLS() {
 
     // ring 3
     chassis.turn_max_voltage = 12; turnGS(147); //chassis.turn(147);
-    chassis.move(34, 12);//34.75
+    chassis.move(34.75, 12);//34
     turnGS(90); //chassis.turn(90);
     thread xk = thread(lift_grab);
+    chassis.drive_timeout = 1000;
     chassis.move(15.8, 12);
+    chassis.drive_timeout = 5000;
     wait(1000, msec);
     moveIntake(0);
     moveLift(520, 100);
 
     // ring 4/5/6
-    chassis.move(-11, 12);//=10.3
+    chassis.move(-10.3, 12);//=11
     thread lr2 = thread(liftNonReset);
     turnGS(0); //chassis.turn(0);
     moveIntake(12);
@@ -404,7 +406,7 @@ void SKILLS() {
     turnGL(-155); //chassis.turn(-160, 12);
     wait(500, msec);
     mogo.set(false);
-    chassis.move(-10);//-6.5
+    chassis.move(-6.5);//-10
     moveIntake(-12);
 
     // mogo 2
@@ -424,10 +426,14 @@ void SKILLS() {
     
     // ring 2 -> wall stake
     turnGS(-147); //chassis.turn(-147);
-    chassis.move(37.1, 12);//38.1
+    chassis.move(39, 12);//38.1//37.1
     turnGS(-90); //chassis.turn(-90);
     thread xk2 = thread(liftGrab2);
-    chassis.move(15.5, 12);
+    chassis.drive_timeout = 1000;
+    lift.setTimeout(1500, msec);
+    chassis.move(16.2, 12);
+    chassis.drive_timeout = 5000;
+    //lift.setTimeout(1500, msec);
     wait(1000, msec);
     moveIntake(0);
     moveLift(520, 100);
@@ -476,15 +482,15 @@ void SKILLS() {
     wait(500, msec);
 
     // ring 1 -> mogo 3
-    chassis.move(-7);
+    chassis.move(-5.7);
     turnGS(-90);
     thread intakeStart = thread(intakeMax);
     chassis.move(44);
     wait(1000, msec);
     
     // unclamp mogo 3
-    chassis.turn(45);
-    wait(1000, msec);
+    chassis.turn(50);
+    wait(500, msec);
     moveIntake(-12);
     mogo.set(false);
     chassis.drive_timeout = 600;
@@ -494,7 +500,7 @@ void SKILLS() {
     chassis.drive_timeout = 5000;
     chassis.move(25);
     chassis.turn(-70);
-    chassis.move(-80);
+    chassis.move(-100);
 
     // 135
     // 19.5 
