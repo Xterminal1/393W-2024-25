@@ -94,10 +94,31 @@ float liftRotation = rotationSensor.angle(deg);
 
 bool liftOverride = false;
 
+// const int numStates = 3;
+// int states[numStates] = {0, 120, 647};
+
+// int currState = 0;
+// int target = 0;
+
+// void nextState() {
+//   currState += 1;
+//   if (currState == numStates) {
+//       currState = 0;
+//   }
+//   target = states[currState];
+// }
+
+// void liftControl() {
+//   float kp = 0.5;
+//   float error = target - rotationSensor.angle();
+//   float volts = kp * error;
+//   lift.spin(fwd, volts, volt);
+// }
+
 void moveLiftTo(float position) {
   liftOverride = true;
 
-  lift.setVelocity(100, percent);
+  //lift.setVelocity(100, percent);
   float error = position - liftRotation;
   lift.spinToPosition(error, degrees);
 

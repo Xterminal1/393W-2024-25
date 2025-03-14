@@ -348,7 +348,7 @@ float getPos() {
 void SKILLS() {
 
     chassis.set_drive_constants(12, 1.2, 0, 10, 0);
-    chassis.set_drive_exit_conditions(.75, 100, 5000);
+    chassis.set_drive_exit_conditions(.75, 100, 1300);
 
     chassis.set_turn_constants(12, 0.4, 0.03, 3, 15);
     chassis.set_turn_exit_conditions(.5, 100, 3000);
@@ -497,9 +497,10 @@ void SKILLS() {
     chassis.move(-19.5);
 
     // push mogo 4 -> corner
-    chassis.drive_timeout = 5000;
+    chassis.drive_timeout = 1000;
     chassis.move(25);
     chassis.turn(-70);
+    chassis.drive_timeout = 5000;
     chassis.move(-100);
 
     // 135
