@@ -156,27 +156,98 @@ void BLUE_LEFT() {
     thread COLOR_SORT_FILTER_RED = thread(filterRed);
 
     // clamp mogo
+    //thread lift_vertical = thread(liftVertical);
     thread mng44612 = thread(threaddistance);
-    wait(1300, msec);
+    wait(1150, msec);
     mogo.set(true);
-    wait(500, msec);
-    moveIntake(12); // score preload
-
+    wait(100, msec);
+    
     // ring 2
-    chassis.turn_kd = 3.6;
-    chassis.turn(45);
+    chassis.turn_kd = 3.3;
+    chassis.turn(67);
+    moveIntake(12); // score preload
+    wait(500, msec);
     chassis.move(25);
+    wait(500, msec);
 
     // ring 3
-    // chassis.turn(-89);
-    // intakePiston.set(true);
-    // chassis.move(35.5);
-    // chassis.move(9, 3.5);
-    // intakePiston.set(false);
-    // wait(2000, msec);
+    chassis.turn(-64);
+    intakePiston.set(true);
+    chassis.move(35.5);
+    chassis.move(11, 6);
+    intakePiston.set(false);
+    wait(1000, msec);
+    chassis.move(-15, 3.5);
+    wait(1000, msec);
 
-    // chassis.move(-10, 3.5);
-    // thread liftreset = thread(lift_reset);
+    // ladder touch
+    chassis.move(-10);
+    //thread liftreset = thread(lift_reset);
+    chassis.turn(40);
+    chassis.move(-27);
+    wait(200, msec);
+    l.stop();
+    r.stop();
+    moveIntake(0);
+
+    // sweep corner part
+    // chassis.move(-10);
+    // chassis.turn(45);
+    // doink.set(true);
+    // chassis.move(38.5);
+    // chassis.turn(0);
+    // wait(500, msec);
+    // chassis.turn(45);
+    // chassis.move(-47);
+    // wait(200, msec);
+    // l.stop();
+    // r.stop();
+    // moveIntake(0);
+}
+
+void RED_RIGHT() {
+    chassis.set_drive_constants(12, 1.2, 0, 10, 0);
+    chassis.set_drive_exit_conditions(.75, 100, 5000);
+    chassis.set_turn_constants(12, 0.4, 0.03, 3, 15);
+    chassis.set_turn_exit_conditions(.5, 50, 3000);
+
+    thread COLOR_SORT_FILTER_BLUE = thread(filterBlue);
+
+    // clamp mogo
+    //thread lift_vertical = thread(liftVertical);
+    thread mng44612 = thread(threaddistance);
+    wait(1150, msec);
+    mogo.set(true);
+    wait(100, msec);
+    
+    // ring 2
+    chassis.turn_kd = 3.3;
+    chassis.turn(-67);
+    moveIntake(12); // score preload
+    wait(500, msec);
+    chassis.move(25);
+    wait(500, msec);
+
+    // ring 3
+    chassis.turn(64);
+    intakePiston.set(true);
+    chassis.move(35.5);
+    chassis.move(9.5, 3.8);
+    intakePiston.set(false);
+    wait(1000, msec);
+    chassis.move(-15, 3.5);
+    wait(1000, msec);
+
+    // ladder touch
+    chassis.move(-10);
+    //thread liftreset = thread(lift_reset);
+    chassis.turn(-40);
+    chassis.move(-24);
+    wait(200, msec);
+    l.stop();
+    r.stop();
+    moveIntake(0);
+
 }
 
 void move_neg33_6 () { chassis.move(-27.5, 6); }

@@ -58,12 +58,12 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 0;
+  int auton = 1;
 
   if (auton == 0) {
     RED_LEFT();
   } else if (auton == 1) {
-    //red_right();
+    RED_RIGHT();
   } else if (auton == 2) {
     BLUE_LEFT();
   } else if (auton == 3) {
