@@ -57,6 +57,7 @@ void RED_LEFT() {
     // ring 2
     chassis.turn_kd = 4.1;
     chassis.turn(157);//167
+    thread lift_vertical = thread(liftVertical);
     chassis.move(9.5);//11
 
     // ring 3
@@ -113,6 +114,7 @@ void BLUE_RIGHT() {
     // ring 2
     chassis.turn_kd = 4.1;
     chassis.turn(-157);//167
+    thread lift_vertical = thread(liftVertical);
     chassis.move(9.5);//11
 
     // ring 3
@@ -166,15 +168,15 @@ void BLUE_LEFT() {
     chassis.move(25);
 
     // ring 3
-    chassis.turn(-89);
-    intakePiston.set(true);
-    chassis.move(35.5);
-    chassis.move(9, 3.5);
-    intakePiston.set(false);
-    wait(2000, msec);
+    // chassis.turn(-89);
+    // intakePiston.set(true);
+    // chassis.move(35.5);
+    // chassis.move(9, 3.5);
+    // intakePiston.set(false);
+    // wait(2000, msec);
 
-    chassis.move(-10, 3.5);
-    thread liftreset = thread(lift_reset);
+    // chassis.move(-10, 3.5);
+    // thread liftreset = thread(lift_reset);
 }
 
 void move_neg33_6 () { chassis.move(-27.5, 6); }
@@ -363,7 +365,6 @@ void SKILLS() {
 
     // mogo 1
     chassis.move(-7.1);//-8.75
-    
     thread lr = thread(liftNonReset);
     turnNGS(-90);
     chassis.move(-18, 3);
