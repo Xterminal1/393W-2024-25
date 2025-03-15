@@ -58,7 +58,7 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 1;
+  int auton = 4;
 
   if (auton == 0) {
     RED_LEFT();
@@ -143,7 +143,7 @@ void usercontrol(void) {
 
   l.setStopping(coast); 
   r.setStopping(coast);
-  intakePiston.set(false);
+  intakePiston.set(false); 
 
   while (1) {
 
@@ -191,7 +191,7 @@ int main() {
   
   controller1.ButtonR1.pressed(controlMogo);
   controller1.ButtonR2.pressed(controlDoink);
-  controller1.ButtonDown.pressed(controlIntakePiston);
+  //controller1.ButtonDown.pressed(controlIntakePiston);
 
   controller1.ButtonA.pressed(liftResetMacro);
   controller1.ButtonX.pressed(liftGrabMacro);

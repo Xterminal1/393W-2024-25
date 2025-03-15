@@ -57,7 +57,8 @@ void RED_LEFT() {
     // ring 2
     chassis.turn_kd = 4.1;
     chassis.turn(157);//167
-    thread lift_vertical = thread(liftVertical);
+    //thread lift_vertical = thread(liftVertical);
+    thread liftreset = thread(lift_reset);
     chassis.move(9.5);//11
 
     // ring 3
@@ -82,10 +83,14 @@ void RED_LEFT() {
 
     // ladder touch
     chassis.move(-10, 3.5);
-    thread liftreset = thread(lift_reset);
+    //thread liftreset = thread(lift_reset);
     chassis.turn(60.5, 6);
     wait(500, msec);
     chassis.move(-17);
+    wait(200, msec);
+    l.stop();
+    r.stop();
+    moveIntake(0);
 }
 
 void BLUE_RIGHT() {
@@ -114,7 +119,8 @@ void BLUE_RIGHT() {
     // ring 2
     chassis.turn_kd = 4.1;
     chassis.turn(-157);//167
-    thread lift_vertical = thread(liftVertical);
+    //thread lift_vertical = thread(liftVertical);
+    thread liftreset = thread(lift_reset);
     chassis.move(9.5);//11
 
     // ring 3
@@ -139,7 +145,7 @@ void BLUE_RIGHT() {
 
     // ladder touch
     chassis.move(-10, 3.5);
-    thread liftreset = thread(lift_reset);
+    //thread liftreset = thread(lift_reset);
     chassis.turn(-60.5, 6);
     wait(500, msec);
     chassis.move(-17);
@@ -193,7 +199,7 @@ void BLUE_LEFT() {
     // sweep corner part
     // chassis.move(-10);
     // chassis.turn(45);
-    // doink.set(true);
+    // doink.set(true);vvvv
     // chassis.move(38.5);
     // chassis.turn(0);
     // wait(500, msec);
@@ -264,7 +270,7 @@ void RED_SOLO_AWP() {
     thread move_5_5 = thread(move5_5);
     wait(500, msec);
     moveIntake(0);
-    moveLift(LIFT_SCORE_POS, 100);
+    moveLift(LIFT_SCORE_POS, 50);
     wait(150, msec);
 
     // clamp mogo
@@ -272,7 +278,8 @@ void RED_SOLO_AWP() {
     wait(1400, msec);
     mogo.set(true);
     moveIntake(12);
-    thread lift_vertical = thread(liftVertical);
+    //thread lift_vertical = thread(liftVertical);
+    thread liftreset = thread(lift_reset);
 
     // ring 2
     chassis.turn_kd = 4.4;
@@ -313,7 +320,7 @@ void RED_SOLO_AWP() {
     // ladder touch
     chassis.turn_kd = 3.76;
     chassis.turn(-46);
-    thread lift_reset2 = thread(lift_reset);
+    //thread lift_reset2 = thread(lift_reset);
     chassis.move(-27);
     wait(200, msec);
     l.stop();
@@ -359,7 +366,8 @@ void BLUE_SOLO_AWP() {
     wait(1400, msec);
     mogo.set(true);
     moveIntake(12);
-    thread lift_vertical = thread(liftVertical);
+    //thread lift_vertical = thread(liftVertical);
+    thread liftreset = thread(lift_reset);
 
     // ring 2
     chassis.turn_kd = 4.4;
@@ -394,11 +402,15 @@ void BLUE_SOLO_AWP() {
     // ladder touch
     chassis.turn_kd = 3.3;
     chassis.turn(46);
-    thread lift_reset2 = thread(lift_reset);
+    //thread lift_reset2 = thread(lift_reset);
     chassis.move(-27);
     wait(200, msec);
     l.stop();
     r.stop();
+}
+
+void RED_LEFT_ELIMS() {
+
 }
 
 void liftGrab2() {
@@ -436,7 +448,7 @@ void SKILLS() {
 
     // mogo 1
     chassis.move(-7.1);//-8.75
-    thread lr = thread(liftNonReset);
+    thread liftreset = thread(lift_reset); //thread lr = thread(liftNonReset);
     turnNGS(-90);
     chassis.move(-18, 3);
     mogo.set(true);
@@ -456,7 +468,7 @@ void SKILLS() {
     thread xk = thread(lift_grab);
     chassis.drive_timeout = 1000;
     chassis.move(15.8, 12);
-    chassis.drive_timeout = 5000;
+    chassis.drive_timeout = 2000;
     wait(1000, msec);
     moveIntake(0);
     moveLift(520, 100);
@@ -472,6 +484,7 @@ void SKILLS() {
 
     // ring 6
     turnGL(125); //chassis.turn(125);
+    thread liftreset2 = thread(lift_reset);
     chassis.move(13);
 
     // unclamp mogo 1 -> corner
@@ -504,7 +517,7 @@ void SKILLS() {
     chassis.drive_timeout = 1000;
     lift.setTimeout(1500, msec);
     chassis.move(16.2, 12);
-    chassis.drive_timeout = 5000;
+    chassis.drive_timeout = 2000;
     //lift.setTimeout(1500, msec);
     wait(1000, msec);
     moveIntake(0);
@@ -519,10 +532,9 @@ void SKILLS() {
     chassis.move(15, 3);
     wait(700, msec);
 
-    // 41 seconds
-
     // ring 6
     turnGL(-130); //chassis.turn(-130, 12);
+    thread liftreset3 = thread(lift_reset);
     chassis.move(15);
 
     // unclamp mogo 2 -> corner
@@ -556,6 +568,7 @@ void SKILLS() {
     // ring 1 -> mogo 3
     chassis.move(-5.7);
     turnGS(-90);
+    thread liftreset4 = thread(lift_reset);
     thread intakeStart = thread(intakeMax);
     chassis.move(44);
     wait(1000, msec);
