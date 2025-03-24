@@ -1,46 +1,26 @@
 #include "vex.h"
 
 using namespace vex;
+using namespace std;
 competition Competition;
-
-/**
- * Function before autonomous. It prints the current auton number on the screen
- * and tapping the screen cycles the selected auton by 1. Add anything else you
- * may need, like resetting pneumatic components. You can rename these autons to
- * be more descriptive, if you like.
- */
 
 int auton = 0;
 
 void telemetry() {
-  while (1) {
-    float pos = (chassis.get_right_position_in() + chassis.get_left_position_in()) / 2;
-    std::cout << "position:         " << pos << std::endl;
-    std::cout << "heading:          " << chassis.get_absolute_heading() << std::endl;
-    std::cout << "drive:            " << l.voltage() << std::endl;
-    std::cout << "intake:           " << intake.temperature(celsius) << std::endl << std::endl;
-    //std::cout << "velocity:         " << (l.voltage() + r.voltage()) / 2 << std::endl << std::endl;
-    //std::cout << "output:           " << chassis.
-    //std::cout << "drive temp:       " << l.temperature() << std::endl;
-    //std::cout << "intake temp:      " << intake.temperature(celsius) << std::endl;
-    //std::cout << "intake vel:       " << intake.voltage() << std::endl;
-    //std::cout << "lift position:    " << lift.position(deg) << std::endl;
-    wait(500, msec);
-  }
-}
-
-void pre_auton() {
-  // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
-  default_constants();
-
-  //telemetry();
-
-  imu.calibrate(3000);
-  wait(3000, msec);
-
-  optic.setLight(ledState::on);
-  optic.setLightPower(100);
+    while (1) {
+        float pos = (chassis.get_right_position_in() + chassis.get_left_position_in()) / 2;
+        cout << "position:         " << pos << endl;
+        cout << "heading:          " << chassis.get_absolute_heading() << endl;
+        cout << "drive:            " << l.voltage() << endl;
+        cout << "intake:           " << intake.temperature(celsius) << endl << endl;
+        //std::cout << "velocity:         " << (l.voltage() + r.voltage()) / 2 << std::endl << std::endl;
+        //std::cout << "output:           " << chassis.
+        //std::cout << "drive temp:       " << l.temperature() << std::endl;
+        //std::cout << "intake temp:      " << intake.temperature(celsius) << std::endl;
+        //std::cout << "intake vel:       " << intake.voltage() << std::endl;
+        //std::cout << "lift position:    " << lift.position(deg) << std::endl;
+        wait(500, msec);
+    }
 }
 
 /**
@@ -51,160 +31,65 @@ void pre_auton() {
  */
 
 void autonomous(void) {
-  l.resetPosition();
-  r.resetPosition();
-  lift.resetPosition();
-  imu.resetHeading();
-  imu.resetRotation();
-  rotationSensor.resetPosition();
+    l.resetPosition();
+    r.resetPosition();
+    lift.resetPosition();
+    imu.resetHeading();
+    imu.resetRotation();
+    rotationSensor.resetPosition();
+    int auton = 3;
 
-  int auton = 4;
-
-  if (auton == 0) {
-    RED_LEFT();
-  } else if (auton == 1) {
-    RED_RIGHT();
-  } else if (auton == 2) {
-    BLUE_LEFT();
-  } else if (auton == 3) {
-    BLUE_RIGHT();
-  } else if (auton == 4) {
-    RED_SOLO_AWP();
-  } else if (auton == 5) {
-    BLUE_SOLO_AWP();
-  } else if (auton == 6) {
-    SKILLS();
-  }
-  // } else if (auton == 7) {
-  //   SKILLS();S
-  // }
-}
-
-/*---------------------------------------------------------------------------*/
-/*                                                                           */
-/*                              User Control Task                            */
-/*                                                                           */
-/*  This task is used to control your robot during the user control phase of */
-/*  a VEX Competition.                                                       */
-/*                                                                           */
-/*  You must modify the code to add your own robot specific commands here.   */
-/*---------------------------------------------------------------------------*/
-
-float liftRotation = rotationSensor.angle(deg);
-
-bool liftOverride = false;
-
-// const int numStates = 3;
-// int states[numStates] = {0, 120, 647};
-
-// int currState = 0;
-// int target = 0;
-
-// void nextState() {
-//   currState += 1;
-//   if (currState == numStates) {
-//       currState = 0;
-//   }
-//   target = states[currState];
-// }
-
-// void liftControl() {
-//   float kp = 0.5;
-//   float error = target - rotationSensor.angle();
-//   float volts = kp * error;
-//   lift.spin(fwd, volts, volt);
-// }
-
-void moveLiftTo(float position) {
-  liftOverride = true;
-
-  //lift.setVelocity(100, percent);
-  float error = position - liftRotation;
-  lift.spinToPosition(error, degrees);
-
-  lift.stop(hold);
-  liftOverride = false;
-}
-
-// void lr() { moveLiftTo(0, 100); lift.resetPosition(); }
-// void lg() { moveLiftTo(LIFT_GRAB_POS, 100); }
-// void ls() { moveLiftTo(LIFT_SCORE_POS, 100); }
-
-void lr() { moveLiftTo(0); rotationSensor.resetPosition(); }
-void lg() { moveLiftTo(120); }
-void ls() { moveLiftTo(647); }
-
-void liftResetMacro() { thread liftReset = thread(lr); }
-void liftGrabMacro() { thread liftGrab = thread(lg); }
-void liftScoreMacro() { thread liftScore = thread(ls); }
-
-void usercontrol(void) {
-  bool newL1 = false; bool newL2 = false; bool newR1 = false; bool newR2 = false;
-
-  l.setStopping(coast); 
-  r.setStopping(coast);
-  intakePiston.set(false); 
-
-  while (1) {
-
-    // chassis
-    arcade();
-
-    // intake fwd
-    if (controller1.ButtonL1.pressing()) 
-      newL1 = true;
-    else 
-      newL1 = false;
-
-    // intake rev
-    if (controller1.ButtonL2.pressing())
-      newL2 = true;
-    else
-      newL2 = false;
-    
-    // lift
-    if (!liftOverride) {
-
-      if (((controller1.ButtonL1.pressing() && newL2) || (newL1 && controller1.ButtonL2.pressing())) ||
-          ((newL1 && newL2) || (controller1.ButtonL1.pressing() && controller1.ButtonL2.pressing()))) {
-        lift.spin(fwd, 12, volt);
-        moveIntake(0);
-      } else if (controller1.ButtonL1.pressing()) {
-        moveIntake(12);
-      } else if (controller1.ButtonL2.pressing()) {
-        moveIntake(-12);
-      } else {
-        moveIntake(0);
-        lift.stop(hold);
-      }
+    if (auton == 0) {
+        RED_LEFT();
+    } else if (auton == 1) {
+        RED_RIGHT();
+    } else if (auton == 2) {
+        BLUE_LEFT();
+    } else if (auton == 3) {
+        BLUE_RIGHT();
+    } else if (auton == 4) {
+        RED_SOLO_AWP();
+    } else if (auton == 5) {
+        BLUE_SOLO_AWP();
+    } else if (auton == 6) {
+        SKILLS();
     }
-
-    wait(20, msec);
-  }
+    // } else if (auton == 7) {
+    //   SKILLS();S
+    // }
 }
 
-//
-// Main will set up the competition functions and callbacks.
-//
 int main() {
-  // Set up callbacks for autonomous and driver control periods.
-  
-  controller1.ButtonR1.pressed(controlMogo);
-  controller1.ButtonR2.pressed(controlDoink);
-  //controller1.ButtonDown.pressed(controlIntakePiston);
+    controller1.ButtonR1.pressed(macroMogo);
+    controller1.ButtonR2.pressed(macroDoink);
+    controller1.ButtonA.pressed(macroLiftReset);
+    controller1.ButtonX.pressed(macroLiftLoad);
+    controller1.ButtonY.pressed(macroLiftScore);
 
-  controller1.ButtonA.pressed(liftResetMacro);
-  controller1.ButtonX.pressed(liftGrabMacro);
-  controller1.ButtonY.pressed(liftScoreMacro);
+    Competition.autonomous(autonomous);
+    Competition.drivercontrol(usercontrol);
 
-  Competition.autonomous(autonomous);
-  Competition.drivercontrol(usercontrol);
+    vexcodeInit();
 
-  // Run the pre-autonomous function.
-  pre_auton();
+    //telemetry();
+    imu.calibrate(3000);
+    wait(3000, msec);
 
-  // Prevent main from exiting with an infinite loop.
-  while (true) {
-    wait(100, msec);
-  }
+    l.resetPosition();
+    r.resetPosition();
+    lift.resetPosition();
+    
+    imu.resetHeading();
+    imu.resetRotation();
+    rotationSensor.resetPosition();
+
+    opticalSensor.setLight(ledState::on);
+    opticalSensor.setLightPower(100);
+
+    defaultConstants();
+    
+    // Prevent main from exiting with an infinite loop.
+    while (true) {
+        wait(100, msec);
+    }
 }

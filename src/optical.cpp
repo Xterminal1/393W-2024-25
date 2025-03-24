@@ -8,22 +8,22 @@ void filterRing(float intakeTime) {
 }
 
 void getRing(std::string targetColor, float intakeTime) {
-  optic.integrationTime(5);
+  opticalSensor.integrationTime(5);
   while (1) {
-    optic.setLight(ledState::on);
-    optic.setLightPower(100);
+    opticalSensor.setLight(ledState::on);
+    opticalSensor.setLightPower(100);
   
     
-    if (optic.isNearObject()) {
+    if (opticalSensor.isNearObject()) {
       // if we are on blue team
       if (targetColor == "red") {
-        if ((optic.hue() > RED_LOWER_LIM) && (optic.hue() < RED_UPPER_LIM)) {
+        if ((opticalSensor.hue() > RED_LOWER_LIM) && (opticalSensor.hue() < RED_UPPER_LIM)) {
           filterRing(intakeTime);
         }
       }
       // if we are on red team
       else if (targetColor == "blue") {
-        if ((optic.hue() > BLUE_LOWER_LIM) && (optic.hue() < BLUE_UPPER_LIM)) {
+        if ((opticalSensor.hue() > BLUE_LOWER_LIM) && (opticalSensor.hue() < BLUE_UPPER_LIM)) {
           filterRing(intakeTime);
         }
       }
@@ -32,7 +32,7 @@ void getRing(std::string targetColor, float intakeTime) {
 }
 
 void detectStopRing() {
-  while (!optic.isNearObject()) {
+  while (!opticalSensor.isNearObject()) {
     moveIntake(12);
     wait(5, msec);
   }
@@ -41,7 +41,7 @@ void detectStopRing() {
 
 void detectRing() {
   int run_time = 0;
-  while (!optic.isNearObject()) {
+  while (!opticalSensor.isNearObject()) {
     if (run_time >= 3000) { // timeout
       break;
     }
@@ -53,7 +53,7 @@ void detectRing() {
 
 void detectRedRing() {
   int run_time = 0;
-  while (!((optic.hue() > RED_LOWER_LIM) && (optic.hue() < RED_UPPER_LIM))) {
+  while (!((opticalSensor.hue() > RED_LOWER_LIM) && (opticalSensor.hue() < RED_UPPER_LIM))) {
     // if (run_time >= 3000) { // timeout
     //   break;
     // }

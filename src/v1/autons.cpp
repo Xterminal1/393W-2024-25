@@ -12,29 +12,17 @@
 // Converting encoder units to inches: https://www.desmos.com/calculator/5xmwm3qp4b
 // Calculating Euclidean distances: https://www.desmos.com/calculator/mh9umhcuo3
 
-void default_constants() {
-  // PID gains
-  chassis.set_drive_constants(DRIVE_MAX, DRIVE_KP, DRIVE_KI, DRIVE_KD, DRIVE_STARTI);  
-  chassis.set_heading_constants(HEADING_MAX, HEADING_KP, HEADING_KI, HEADING_KD, HEADING_STARTI);
-  chassis.set_turn_constants(TURN_MAX, TURN_KP, TURN_KI, TURN_KD, TURN_STARTI);
-  chassis.set_swing_constants(SWING_MAX, SWING_KP, SWING_KI, SWING_KD, SWING_STARTI);
 
-  // exit conditions
-  chassis.set_drive_exit_conditions(DRIVE_SETTLE_ERROR, DRIVE_SETTLE_TIME, DRIVE_TIMEOUT);
-  chassis.set_turn_exit_conditions(TURN_SETTLE_ERROR, TURN_SETTLE_TIME, TURN_TIMEOUT);
-  chassis.set_swing_exit_conditions(SWING_SETTLE_ERROR, SWING_SETTLE_TIME, SWING_TIMEOUT);
-}
 
-void arcs() { chassis.set_heading_constants(ARC_MAX, ARC_KP, ARC_KI, ARC_KD, ARC_STARTI); }
-void correction() { chassis.set_heading_constants(HEADING_MAX, HEADING_KP, HEADING_KI, HEADING_KD, HEADING_STARTI); }
+void arcs() { chassis.setHeadingPID(ARC_MAX, ARC_KP, ARC_KI, ARC_KD, ARC_STARTI); }
+void correction() { chassis.setHeadingPID(HEADING_MAX, HEADING_KP, HEADING_KI, HEADING_KD, HEADING_STARTI); }
 
 void redLeftxxx() {
-    
 
-  chassis.set_drive_constants(12, 1.2, 0, 10, 0);
-  chassis.set_drive_exit_conditions(.75, 100, 5000);
-  chassis.set_turn_constants(12, 0.4, 0.03, 3, 15);
-  chassis.set_turn_exit_conditions(.5, 100, 3000);
+  chassis.setLateralPID(12, 1.2, 0, 10, 0);
+  chassis.setLateralExits(.75, 100, 5000);
+  chassis.setAngularPID(12, 0.4, 0.03, 3, 15);
+  chassis.setAngularExits(.5, 100, 3000);
 
   // mogo 1 clamp
   chassis.move(-18.2);
@@ -409,13 +397,13 @@ void test() {
 
 void red_left() {
   // preload -> alliance stake
-  lift_grab();
+  liftLoad();
   moveIntake(12);
   wait(500, msec);
   chassis.turn(-50);
   moveIntake(0);
   chassis.move(4.5);
-  moveLift(620, 100);
+  moveLift(620);
   wait(500, msec);
 
   // clamp mogo
@@ -423,7 +411,7 @@ void red_left() {
   chassis.turn(-19, 6);
   //thread wc = thread(wait_and_clamp);
   chassis.move(-32, 6);
-  thread liftReset = thread(lift_reset);
+  thread liftReset = thread(liftReset);
   mogo.set(true);
   wait(500, msec);
   moveIntake(12);
@@ -445,7 +433,7 @@ void red_left() {
 
   // ring 4
   chassis.move(-17, 10); // drive bwd -> align w/ ring 4
-  chassis.set_heading_constants(ARC_MAX, ARC_KP, ARC_KI, ARC_KD, ARC_STARTI); // enable arc turns
+  chassis.setHeadingPID(ARC_MAX, ARC_KP, ARC_KI, ARC_KD, ARC_STARTI); // enable arc turns
   chassis.arc(31, 33); // swing -> intake ring 4
   //wait(500, msec);
 
@@ -610,16 +598,16 @@ void moveIntake() {
 
 void autoSkills() {
   // preload -> ally stake
-  moveLift(LIFT_GRAB_POS, 100);
+  moveLift(LIFT_GRAB_POS);
   moveIntake(12);
   wait(500, msec);
   moveIntake(0);
-  moveLift(LIFT_SCORE_POS, 100);
+  moveLift(LIFT_SCORE_POS);
   wait(500, msec);
 
   // mogo 1
   chassis.move(-9.75);
-  thread resetLift = thread(lift_reset);
+  thread resetLift = thread(liftReset);
   chassis.turn(-90);
   chassis.move(-18, 3);
   mogo.set(true);
@@ -819,5 +807,5 @@ void blueRightxxx() {
   chassis.move(38);
   //thread MOVE_25_IN = thread(move25_5);
   detectRedRing();
-  lift_grab();
+  liftLoad();
 }
