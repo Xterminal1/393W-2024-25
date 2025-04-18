@@ -43,5 +43,6 @@
 		"iomanip": "cpp",
 		"string": "cpp",
 		"cstddef": "cpp"
-	}
+	},
+	"C_Cpp.errorSquiggles": "disabled"
 }

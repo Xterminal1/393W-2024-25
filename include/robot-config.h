@@ -22,7 +22,7 @@ extern motor_group r;
 
 // sensors
 extern inertial imu;
-extern optical opticalSensor;
+extern optical optic;
 extern rotation rotationSensor;
 
 // pneumatics

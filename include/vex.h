@@ -32,12 +32,10 @@
 #include "lib/drive.h"
 #include "lib/util.h"
 #include "lib/PID.h"
-#include "v1/autons.h"
+#include "autons.h"
 #include "controls.h"
 #include "optical.h"
 #include "constants.h"
-#include "v1/states-autons.h"
-#include "v2-autos.cpp"
 
 //using namespace vex;
 using namespace std;
