@@ -58,22 +58,24 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 4;
+  int auton = 0;
 
-  if (auton == 0) {
-    //RED_LEFT();
+  if (auton == -1) {
+    test();
+  } else if (auton == 0) {
+    red_left_stake_5_ring();
   } else if (auton == 1) {
-    //RED_RIGHT();
+    // RED_RIGHT();
   } else if (auton == 2) {
-    //BLUE_LEFT();
+    // BLUE_LEFT();
   } else if (auton == 3) {
-    //BLUE_RIGHT();
+    // BLUE_RIGHT();
   } else if (auton == 4) {
-    //RED_SOLO_AWP();
+    // RED_SOLO_AWP();
   } else if (auton == 5) {
-    //BLUE_SOLO_AWP();
+    // BLUE_SOLO_AWP();
   } else if (auton == 6) {
-    //SKILLS();
+    // SKILLS();
   }
   // } else if (auton == 7) {
   //   SKILLS();S
@@ -94,28 +96,10 @@ float liftRotation = rotationSensor.angle(deg);
 
 bool liftOverride = false;
 
-// const int numStates = 3;
-// int states[numStates] = {0, 120, 647};
-
-// int currState = 0;
-// int target = 0;
-
-// void nextState() {
-//   currState += 1;
-//   if (currState == numStates) {
-//       currState = 0;
-//   }
-//   target = states[currState];
-// }
-
-// void liftControl() {
-//   float kp = 0.5;
-//   float error = target - rotationSensor.angle();
-//   float volts = kp * error;
-//   lift.spin(fwd, volts, volt);
-// }
-
 void moveLiftTo(float position) {
+
+  lift.setVelocity(100, pct);
+
   liftOverride = true;
 
   //lift.setVelocity(100, percent);
@@ -126,12 +110,8 @@ void moveLiftTo(float position) {
   liftOverride = false;
 }
 
-// void lr() { moveLiftTo(0, 100); lift.resetPosition(); }
-// void lg() { moveLiftTo(LIFT_GRAB_POS, 100); }
-// void ls() { moveLiftTo(LIFT_SCORE_POS, 100); }
-
 void lr() { moveLiftTo(0); rotationSensor.resetPosition(); }
-void lg() { moveLiftTo(120); }
+void lg() { moveLiftTo(135); }
 void ls() { moveLiftTo(647); }
 
 void liftResetMacro() { thread liftReset = thread(lr); }
@@ -139,11 +119,11 @@ void liftGrabMacro() { thread liftGrab = thread(lg); }
 void liftScoreMacro() { thread liftScore = thread(ls); }
 
 void usercontrol(void) {
-  bool newL1 = false; bool newL2 = false; bool newR1 = false; bool newR2 = false;
+  bool newL1 = false; bool newL2 = false;
 
   l.setStopping(coast); 
   r.setStopping(coast);
-  intakePiston.set(false); 
+  intakePiston.set(false);
 
   while (1) {
 
@@ -191,7 +171,7 @@ int main() {
   
   controller1.ButtonR1.pressed(controlMogo);
   controller1.ButtonR2.pressed(controlDoink);
-  //controller1.ButtonDown.pressed(controlIntakePiston);
+  controller1.ButtonDown.pressed(controlIntakePiston);
 
   controller1.ButtonA.pressed(liftResetMacro);
   controller1.ButtonX.pressed(liftGrabMacro);

@@ -371,6 +371,9 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
     task::sleep(10);
   }
   std::cout << "Pos: " << average_position << std::endl;
+
+  l.resetPosition();
+  r.resetPosition();
   // l.stop(coast);
   // r.stop(coast);
 }

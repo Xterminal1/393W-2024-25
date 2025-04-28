@@ -6,5 +6,3 @@ void controlDoink();
 void controlIntakePiston();
 
 void arcade();
-
-void controls();

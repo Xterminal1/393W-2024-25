@@ -37,6 +37,9 @@
 #include "optical.h"
 #include "constants.h"
 
+class Drive;
+extern Drive chassis;
+
 //using namespace vex;
 using namespace std;
 
