@@ -61,7 +61,7 @@ void autonomous(void) {
   int auton = 0;
 
   if (auton == -1) {
-    test();
+    //test();
   } else if (auton == 0) {
     red_left_stake_5_ring();
   } else if (auton == 1) {
