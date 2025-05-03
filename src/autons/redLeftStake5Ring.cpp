@@ -33,14 +33,23 @@ void red_left_stake_5_ring() {
     moveIntake(12);
 
     // rings 1/2
+    // chassis.drive_settle_error = 1.2; //
+    // chassis.drive_settle_time = 50;
+    // chassis.turn_settle_error = 3; 
+    // chassis.turn_settle_time = 50; 
+    // chassis.turn(164);
+    // chassis.move(14);
+    // wait(300, msec);
+    // chassis.set_heading_constants(11, 1, 0, 6.5, 0);
+    // chassis.arc(17, 120);
+
     chassis.drive_settle_error = 1.2; //
     chassis.drive_settle_time = 50;
-
+    chassis.turn_settle_error = 3; 
+    chassis.turn_settle_time = 50; 
     chassis.turn(164);
-    chassis.move(14);
-    wait(300, msec);
     chassis.set_heading_constants(11, 1, 0, 6.5, 0);
-    chassis.arc(17, 120);
+    chassis.arc(31, 120);
 
     // ring 3
     chassis.drive_kd = 10;
@@ -51,26 +60,28 @@ void red_left_stake_5_ring() {
     chassis.turn_settle_error = 3; 
     chassis.turn_settle_time = 50; 
     chassis.turn(119);
-    chassis.drive_settle_error = 1.2; 
-    chassis.drive_settle_time = 50; 
-    chassis.move(13);
+    chassis.drive_settle_error = 1; //1.2
+    chassis.drive_settle_time = 200;//50 
+    chassis.move(10.5);
 
     // rings 4/5
     chassis.turn_settle_error = 1;
     chassis.turn_settle_time = 200;
-    chassis.turn(58);
+    chassis.turn(59.5);
     moveIntake(0);
-    chassis.drive_settle_error = 1; 
-    chassis.drive_settle_time = 200;
-    chassis.drive_timeout = 5000;
     
-    auto moveToCorner = []() { chassis.move(45, 6); }; 
-    thread t_moveToCorner = thread(moveToCorner);
-    wait(2200, msec);
+    chassis.move(40, 6);
     moveIntake(12);
-
+    //thread t_moveToCorner = thread(moveToCorner);
+    chassis.move(7, 12);
+    
     wait(200, msec);
-    chassis.move(-7, 12);
+    chassis.move(-18, 12);
+    wait(500, msec);
+
+    chassis.move(17, 12);
+    wait(500, msec);
+    chassis.arc(-30, 80);
 
     //wait(300, msec);
     // chassis.move(7, 12);

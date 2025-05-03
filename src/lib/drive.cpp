@@ -374,8 +374,8 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
 
   l.resetPosition();
   r.resetPosition();
-  // l.stop(coast);
-  // r.stop(coast);
+//   l.stop(coast);
+//   r.stop(coast);
 }
 
 /**
