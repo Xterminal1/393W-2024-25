@@ -57,7 +57,6 @@ void autonomous(void) {
   imu.resetHeading();
   imu.resetRotation();
   rotationSensor.resetPosition();
-  default_constants();
 
   int auton = 0;
 
@@ -70,9 +69,7 @@ void autonomous(void) {
   } else if (auton == 2) {
     blue_right_stake_5_ring();
   } else if (auton == 3) {
-    mogo.set(true);
-    thread x1 = thread(filterBlue);
-    moveIntake(12);
+    red_left_stake_5_ring_elims();
   } else if (auton == 4) {
     // RED_SOLO_AWP();
   } else if (auton == 5) {
