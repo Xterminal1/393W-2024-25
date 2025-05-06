@@ -1,0 +1,99 @@
+#include <vex.h>
+
+void red_left_1_6_elims() {
+    std::cout << "AUTON BEGIN" << endl;
+
+    chassis.turn_kd = 3.8;
+    chassis.turn_settle_error = 1;//1
+    chassis.turn_settle_time = 200;//200
+
+    intake.setMaxTorque(100, pct);
+    thread COLOR_SORT_FILTER_BLUE = thread(filterBlue);
+
+    // PRELOAD -> ALLIANCE STAKE
+    thread liftGrabThread = thread(lift_grab);
+    moveIntake(12);
+    
+    auto move_5_5in = []() { chassis.move(7.5); }; 
+    thread move_5_5 = thread(move_5_5in);
+
+    wait(500, msec);
+    moveIntake(0);
+    moveLift(LIFT_SCORE_POS, 100);
+    wait(150, msec);
+
+    // preload -> alliance stake
+    // lift.setPosition(135, deg);
+
+    // chassis.move(7.5);
+
+    // CLAMP MOGO
+    // auto move_neg_42_6v = []() { chassis.move(-41, 5); }; 
+    // thread move_neg_42_6 = thread(move_neg_42_6v);
+    chassis.move(-41, 5);
+    thread liftResetThread = thread(lift_reset);
+    mogo.set(true);
+    wait(500, msec);
+    moveIntake(12);
+
+    // rings 1/2
+    chassis.drive_settle_error = 1.2; //
+    chassis.drive_settle_time = 50;
+    chassis.turn_settle_error = 3; 
+    chassis.turn_settle_time = 50; 
+    chassis.turn(164);
+    chassis.move(14);
+    wait(300, msec);
+    chassis.set_heading_constants(11, 1, 0, 6.5, 0);
+    chassis.arc(17, 120);
+
+    // ring 3
+    chassis.drive_kd = 10;
+    chassis.set_heading_constants(11, 0.5, 0, 6.5, 0);
+    chassis.arc(-29, 180);
+    chassis.drive_kd = 8;
+    chassis.turn_kd = 3.2;
+    chassis.turn_settle_error = 3; 
+    chassis.turn_settle_time = 25; 
+    chassis.turn(119);
+    chassis.drive_settle_error = 1; //1.2
+    chassis.drive_settle_time = 200;//50 
+    chassis.move(10.5);
+
+    // corner ring 1
+    chassis.turn_settle_error = 0.5;
+    chassis.turn_settle_time = 100;
+    chassis.turn(59.5);
+    moveIntake(0);
+    chassis.drive_timeout = 3000;
+    chassis.move(36, 8);
+    moveIntake(12);
+    chassis.move(7, 8);//4.5, 5, 7
+
+    // corner ring 2
+    chassis.move(-6.5, 12);//-4.5
+    intakePiston.set(true);
+    wait(250, msec);
+    chassis.drive_timeout = 3000;
+    chassis.move(6.75, 3);//5.5
+    // wait(500, msec);
+    chassis.drive_timeout = 4000;
+    intakePiston.set(false);    
+
+    // ring 6
+    chassis.move(-12.5, 12);
+    chassis.turn(-60);
+    intakePiston.set(true);
+    chassis.move(40);
+    chassis.move(5, 6);
+    intakePiston.set(false);
+    chassis.move(-10, 6);
+
+    // end
+    wait(200, msec);
+    l.stop();
+    r.stop();
+    COLOR_SORT_FILTER_BLUE.interrupt();
+    
+    //COLOR_SORT_FILTER_BLUE.interrupt();
+}

@@ -2,6 +2,7 @@
 
 void filterRing(float intakeTime) {
   wait(intakeTime, msec);//160
+
   moveIntake(-12);
   wait(100, msec);
   moveIntake(12);
@@ -61,6 +62,9 @@ void detectRedRing() {
     //wait(1, msec);
     //run_time += 1;
   }
+
+
+  // URBAD
 }
 
 void filterRed() { getRing("red", 100); }

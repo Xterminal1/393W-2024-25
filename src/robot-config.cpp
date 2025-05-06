@@ -138,7 +138,7 @@ controller controller1;
 #define PORT_OPTICAL PORT20
 #define PORT_ROTATION PORT8
 #define PORT_MOGO Brain.ThreeWirePort.A
-#define PORT_DOINK Brain.ThreeWirePort.B
+#define PORT_DOINK Brain.ThreeWirePort.D
 #define PORT_INTAKE_PISTON Brain.ThreeWirePort.C
 
 // motors/motor groups

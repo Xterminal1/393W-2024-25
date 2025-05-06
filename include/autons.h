@@ -2,7 +2,15 @@
 
 void default_constants();
 
-void red_left_stake_5_ring();
-void red_left_stake_5_ring_elims();
+void red_left_1_5_ladder();
+
+void blue_right_1_5_ladder();
+void red_left_1_6_elims();
 void red_left_6_ring();
-void blue_right_stake_5_ring();
+
+// goal side
+void blue_left_5_ladder(); 
+void red_right_5_ladder();
+
+// awp
+void red_sawp();

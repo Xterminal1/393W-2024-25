@@ -1,7 +1,6 @@
 #include <vex.h>
 
-void red_left_stake_5_ring() {
-
+void blue_right_1_5_ladder() {
     std::cout << "AUTON BEGIN" << endl;
 
     chassis.turn_kd = 3.8;
@@ -9,7 +8,7 @@ void red_left_stake_5_ring() {
     chassis.turn_settle_time = 200;//200
 
     intake.setMaxTorque(100, pct);
-    thread COLOR_SORT_FILTER_BLUE = thread(filterBlue);
+    thread COLOR_SORT_FILTER_RED = thread(filterRed);
 
     // PRELOAD -> ALLIANCE STAKE
     thread liftGrabThread = thread(lift_grab);
@@ -33,23 +32,15 @@ void red_left_stake_5_ring() {
     moveIntake(12);
 
     // rings 1/2
-    // chassis.drive_settle_error = 1.2; //
-    // chassis.drive_settle_time = 50;
-    // chassis.turn_settle_error = 3; 
-    // chassis.turn_settle_time = 50; 
-    // chassis.turn(164);
-    // chassis.move(14);
-    // wait(300, msec);
-    // chassis.set_heading_constants(11, 1, 0, 6.5, 0);
-    // chassis.arc(17, 120);
-
     chassis.drive_settle_error = 1.2; //
     chassis.drive_settle_time = 50;
     chassis.turn_settle_error = 3; 
     chassis.turn_settle_time = 50; 
-    chassis.turn(164);
+    chassis.turn(-164);
+    chassis.move(14);
+    wait(300, msec);
     chassis.set_heading_constants(11, 1, 0, 6.5, 0);
-    chassis.arc(31, 120);
+    chassis.arc(17, -120);
 
     // ring 3
     chassis.drive_kd = 10;
@@ -58,45 +49,42 @@ void red_left_stake_5_ring() {
     chassis.drive_kd = 8;
     chassis.turn_kd = 3.2;
     chassis.turn_settle_error = 3; 
-    chassis.turn_settle_time = 50; 
-    chassis.turn(119);
+    chassis.turn_settle_time = 25; 
+    chassis.turn(-119);
     chassis.drive_settle_error = 1; //1.2
     chassis.drive_settle_time = 200;//50 
     chassis.move(10.5);
 
-    // rings 4/5
-    chassis.turn_settle_error = 1;
-    chassis.turn_settle_time = 200;
-    chassis.turn(59.5);
-    moveIntake(0);
-    
-    chassis.move(40, 6);
-    moveIntake(12);
-    //thread t_moveToCorner = thread(moveToCorner);
-    chassis.move(7, 12);
-    
+    // corner ring 1
+    chassis.turn_settle_error = 0.5;
+    chassis.turn_settle_time = 100;
+    chassis.turn(-59.5);
+    chassis.drive_settle_error = 1.2; //1.2
+    chassis.drive_settle_time = 50;//50 
+    chassis.drive_timeout = 1300;
+    chassis.move(36, 8);
+    chassis.drive_timeout = 860;
+    chassis.move(12, 12);//4.5, 5, 7
+
+    // corner ring 2
+    chassis.move(-8.5, 12);//-4.5, -5.5
     wait(200, msec);
-    chassis.move(-18, 12);
-    wait(500, msec);
+    intakePiston.set(true);
+    chassis.drive_timeout = 1200;
+    wait(300, msec);
+    chassis.move(6.75, 3);//5.5
+    // wait(500, msec);
+    intakePiston.set(false);
 
-    chassis.move(17, 12);
-    wait(500, msec);
-    chassis.arc(-30, 80);
+    // ladder touch
+    chassis.set_heading_constants(5, 1, 0, 6.5, 0);
+    chassis.drive_max_voltage = 6;
+    chassis.arc(-55, -80);
+    moveIntake(0);
 
-    //wait(300, msec);
-    // chassis.move(7, 12);
-    // wait(200, msec);
-    // chassis.move(-7, 12);
-    // wait(200, msec);
-    // chassis.move(7, 12);
-    // wait(200, msec);
-    
-    // // ladder touch
-    // chassis.arc(-65, 80);
-
-    // // end
-    // wait(200, msec);
-    // l.stop();
-    // r.stop();
-    // COLOR_SORT_FILTER_BLUE.interrupt();
+    // end
+    wait(200, msec);
+    l.stop();
+    r.stop();
+    COLOR_SORT_FILTER_RED.interrupt();
 }
