@@ -50,6 +50,45 @@ void pre_auton() {
  * autons.cpp and declared in autons.h.
  */
 
+/**
+ * red-left 1+5+L quals
+ * red-left 6+L quals
+ * red-left 1+6 elims
+ * 
+ * blue-right 1+5+L quals
+ * blue-right 6+L quals
+ * blue-right 1+6 elims
+ * 
+ * red-right 5+L quals
+ * red-right 1+4+L quals
+ * red-right 1+4 elims
+ * red-right 1+1+1 goal rush?
+ * 
+ * blue-left 5+L quals
+ * blue-left 1+4+L quals
+ * blue-left 1+4 elims
+ * blue-left 1+1+1 goal rush?
+ * 
+
+ * * COMPLETED ONES
+ * red-left 1+5+L quals
+ * blue-right 1+5+L quals
+ * red-right 5+L quals
+ * blue-left 5+L quals
+ * sawp
+
+ * TODO:
+ * no alliance stake versions for ring side quals (PRETTY EASY)
+ *  -  red-left 6+L quals
+ *  -  blue-right 6+L quals
+ * goal rush autos
+ * - red right
+ * - blue left
+ * elims
+ * -  red-left 1+6 elims
+ * -  blue-right 1+6 elims
+ */
+
 void autonomous(void) {
   l.resetPosition();
   r.resetPosition();
@@ -58,7 +97,7 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 6;
+  int auton = 8;
 
   if (auton == -1) {
     
@@ -70,7 +109,7 @@ void autonomous(void) {
   } else if (auton == 0) {
     red_left_1_5_ladder();
   } else if (auton == 1) {
-    red_left_6_ring();
+    red_left_6_ladder();
   } else if (auton == 2) {
     blue_right_1_5_ladder();
   } else if (auton == 3) {
@@ -81,6 +120,10 @@ void autonomous(void) {
     red_right_5_ladder();
   } else if (auton == 6) {
     red_sawp();
+  } else if (auton == 7) {
+    blue_sawp();
+  } else if (auton == 8) {
+    blue_right_6_ladder();
   }
   // } else if (auton == 7) 
   //   SKILLS();S
