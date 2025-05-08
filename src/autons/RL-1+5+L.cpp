@@ -41,10 +41,10 @@ void red_left_1_5_ladder() {
     chassis.drive_settle_error = 1.2; //
     chassis.drive_settle_time = 50;
     chassis.turn_settle_error = 3; 
-    chassis.turn_settle_time = 50; 
+    chassis.turn_settle_time = 50;
+    chassis.turn_kd = 4.1; 
     chassis.turn(164);
     chassis.move(14);
-    wait(300, msec);
     chassis.set_heading_constants(11, 1, 0, 6.5, 0);
     chassis.arc(17, 120);
 
@@ -71,25 +71,46 @@ void red_left_1_5_ladder() {
     moveIntake(12);
     chassis.move(36, 8);
     //moveIntake(12);
-    chassis.drive_timeout = 860;
+    chassis.drive_timeout = 700;
     chassis.move(12, 12);//4.5, 5, 7, 6.2 (latest) 10.5, 6
     
     // corner ring 2
-    chassis.move(-8.5, 12);//-4.5, -4.75(latest) -6,6
-    wait(200, msec);
+    // chassis.move(-8.5, 12);//-4.5, -4.75(latest) -6,6
+    // wait(200, msec);
+    // intakePiston.set(true);
+    // chassis.drive_timeout = 1200;
+    // wait(300, msec);
+    // chassis.move(6.75, 3);//5.5, 6, 6 (latest) 9.2,3
+    // // wait(500, msec);
+    // //chassis.drive_timeout = 4000;
+    // intakePiston.set(false);
+
+    // ring next to ally stake
+    chassis.move(-13.5, 12);
+    chassis.turn(-60, 6);
     intakePiston.set(true);
-    chassis.drive_timeout = 1200;
-    wait(300, msec);
-    chassis.move(6.75, 3);//5.5, 6, 6 (latest) 9.2,3
-    // wait(500, msec);
-    //chassis.drive_timeout = 4000;
+    chassis.move(30);
+    chassis.move(15, 3);
+    chassis.set_drive_constants(8.5, 1.2, 0, 8, 0);
+    chassis.set_heading_constants(12, 0.5, 0, 6.5, 0);
     intakePiston.set(false);
+    lift.setStopping(brake);
+    auto liftToLadder = []() { moveLift(500, 100); };
+    thread liftThread = thread(liftToLadder);
+    chassis.move(-10, 8);
+    chassis.set_drive_constants(10, 1.2, 0, 8, 0);
+    chassis.set_heading_constants(12, 0.5, 0, 6.5, 0);
+    chassis.arc(17, -128);
 
     // ladder touch
-    chassis.set_heading_constants(5, 1, 0, 6.5, 0);
-    chassis.drive_max_voltage = 6;
-    chassis.arc(-55, 80);
-    moveIntake(0);
+    
+    //chassis.arc(-34, 46);
+    //moveIntake(0);
+    // // ladder touch
+    // chassis.set_heading_constants(5, 1, 0, 6.5, 0);
+    // chassis.drive_max_voltage = 6;
+    // chassis.arc(-55, 80);
+    // moveIntake(0);
 
     // end
     wait(200, msec);

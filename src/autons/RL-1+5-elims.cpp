@@ -1,6 +1,6 @@
 #include <vex.h>
 
-void red_left_1_6_elims() {
+void red_left_1_5_elims() {
     std::cout << "AUTON BEGIN" << endl;
 
     chassis.turn_kd = 3.8;
@@ -41,6 +41,7 @@ void red_left_1_6_elims() {
     chassis.drive_settle_time = 50;
     chassis.turn_settle_error = 3; 
     chassis.turn_settle_time = 50; 
+    chassis.turn_kd = 4.1;
     chassis.turn(164);
     chassis.move(14);
     wait(300, msec);
@@ -60,34 +61,61 @@ void red_left_1_6_elims() {
     chassis.drive_settle_time = 200;//50 
     chassis.move(10.5);
 
+    // // corner ring 1
+    // chassis.turn_settle_error = 0.5;
+    // chassis.turn_settle_time = 100;
+    // chassis.turn(59.5);
+    // moveIntake(0);
+    // chassis.drive_timeout = 3000;
+    // chassis.move(36, 8);
+    // moveIntake(12);
+    // chassis.move(7, 8);//4.5, 5, 7
+
+    // // corner ring 2
+    // chassis.move(-6.5, 12);//-4.5
+    // intakePiston.set(true);
+    // wait(250, msec);
+    // chassis.drive_timeout = 3000;
+    // chassis.move(6.75, 3);//5.5
+    // // wait(500, msec);
+    // chassis.drive_timeout = 4000;
+    // intakePiston.set(false);    
+
     // corner ring 1
     chassis.turn_settle_error = 0.5;
     chassis.turn_settle_time = 100;
     chassis.turn(59.5);
-    moveIntake(0);
-    chassis.drive_timeout = 3000;
-    chassis.move(36, 8);
+    chassis.drive_settle_error = 1.2; //1.2
+    chassis.drive_settle_time = 50;//50 
+    chassis.drive_timeout = 1300;
     moveIntake(12);
-    chassis.move(7, 8);//4.5, 5, 7
-
+    chassis.move(36, 8);
+    //moveIntake(12);
+    chassis.drive_timeout = 700;
+    chassis.move(12, 12);//4.5, 5, 7, 6.2 (latest) 10.5, 6
+    
     // corner ring 2
-    chassis.move(-6.5, 12);//-4.5
-    intakePiston.set(true);
-    wait(250, msec);
-    chassis.drive_timeout = 3000;
-    chassis.move(6.75, 3);//5.5
-    // wait(500, msec);
-    chassis.drive_timeout = 4000;
-    intakePiston.set(false);    
+    // chassis.move(-8.5, 12);//-4.5, -4.75(latest) -6,6
+    // wait(200, msec);
+    // intakePiston.set(true);
+    // chassis.drive_timeout = 1200;
+    // wait(300, msec);
+    // chassis.move(6.75, 3);//5.5, 6, 6 (latest) 9.2,3
+    // // wait(500, msec);
+    // //chassis.drive_timeout = 4000;
+    // intakePiston.set(false);
 
-    // ring 6
-    chassis.move(-12.5, 12);
-    chassis.turn(-60);
+    // ring next to ally stake
+    chassis.move(-13.5, 12);
+    chassis.turn(-60, 6);
     intakePiston.set(true);
-    chassis.move(40);
-    chassis.move(5, 6);
+    chassis.move(30); 
+    chassis.move(15, 3);
+    chassis.set_drive_constants(8.5, 1.2, 0, 8, 0);
+    chassis.set_heading_constants(12, 0.5, 0, 6.5, 0);
     intakePiston.set(false);
-    chassis.move(-10, 6);
+    wait(80, msec);
+    chassis.move(-10, 8);
 
     // end
     wait(200, msec);

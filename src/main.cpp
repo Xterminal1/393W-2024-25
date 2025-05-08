@@ -34,7 +34,7 @@ void pre_auton() {
   vexcodeInit();
   default_constants();
 
-  //telemetry();
+  ///telemetry();
 
   imu.calibrate(3000);
   wait(3000, msec);
@@ -60,16 +60,9 @@ void pre_auton() {
  * blue-right 1+6 elims
  * 
  * red-right 5+L quals
- * red-right 1+4+L quals
- * red-right 1+4 elims
- * red-right 1+1+1 goal rush?
  * 
  * blue-left 5+L quals
- * blue-left 1+4+L quals
- * blue-left 1+4 elims
- * blue-left 1+1+1 goal rush?
  * 
-
  * * COMPLETED ONES
  * red-left 1+5+L quals
  * blue-right 1+5+L quals
@@ -78,15 +71,13 @@ void pre_auton() {
  * sawp
 
  * TODO:
- * no alliance stake versions for ring side quals (PRETTY EASY)
- *  -  red-left 6+L quals
- *  -  blue-right 6+L quals
  * goal rush autos
  * - red right
  * - blue left
  * elims
  * -  red-left 1+6 elims
  * -  blue-right 1+6 elims
+ * alliance stake versions for goal side
  */
 
 void autonomous(void) {
@@ -97,7 +88,7 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = 8;
+  int auton = -1;
 
   if (auton == -1) {
     
@@ -113,7 +104,7 @@ void autonomous(void) {
   } else if (auton == 2) {
     blue_right_1_5_ladder();
   } else if (auton == 3) {
-    red_left_1_6_elims();
+    red_left_1_5_elims();
   } else if (auton == 4) {
     blue_left_5_ladder();
   } else if (auton == 5) {
@@ -124,6 +115,8 @@ void autonomous(void) {
     blue_sawp();
   } else if (auton == 8) {
     blue_right_6_ladder();
+  } else if (auton == 9) {
+    blue_right_1_5_elims();
   }
   // } else if (auton == 7) 
   //   SKILLS();S

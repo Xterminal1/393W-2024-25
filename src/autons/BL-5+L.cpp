@@ -26,7 +26,7 @@ void blue_left_5_ladder() {
     chassis.turn(22);
     chassis.drive_timeout = 1500;
     chassis.move(36, 8);
-    chassis.drive_timeout = 980;
+    chassis.drive_timeout = 700;
     moveIntake(12);
     chassis.move(12, 12);//4.5, 5, 7
 
@@ -45,20 +45,40 @@ void blue_left_5_ladder() {
     chassis.move(6.75, 3);
     intakePiston.set(false);
 
-    // 2 stack ring
-    chassis.move(-12.5, 12);
-    chassis.turn(-90);
-    intakePiston.set(true);
-    chassis.move(40);
-    chassis.move(5, 6);
-    intakePiston.set(false);
-    chassis.move(-10, 8);
+    // // 2 stack ring
+    // chassis.move(-12.5, 12);
+    // chassis.turn(-90);
+    // intakePiston.set(true);
+    // chassis.move(40);
+    // chassis.move(5, 6);
+    // intakePiston.set(false);
+    // chassis.move(-10, 8);
 
-    // ladder touch
-    chassis.set_drive_constants(9, 1.2, 0, 8, 0);
+    chassis.move(-11.5, 12);
+    //doink.set(true);
+    chassis.turn(-90, 12);
+    intakePiston.set(true);
+    chassis.move(30);
+    //doink.set(false);
+    chassis.move(15, 3);
+    chassis.set_drive_constants(8.5, 1.2, 0, 8, 0);
     chassis.set_heading_constants(12, 0.5, 0, 6.5, 0);
-    chassis.arc(-37, 40);
-    moveIntake(0);
+    intakePiston.set(false);
+    lift.setStopping(brake);
+    auto liftToLadder = []() { moveLift(500, 100); };
+    thread liftThread = thread(liftToLadder);
+    chassis.move(-10, 8);
+    
+    // ladder touch
+    chassis.set_drive_constants(10, 1.2, 0, 8, 0);
+    chassis.set_heading_constants(12, 0.5, 0, 6.5, 0);
+    chassis.arc(17, -158);
+
+    // // ladder touch
+    // chassis.set_drive_constants(9, 1.2, 0, 8, 0);
+    // chassis.set_heading_constants(12, 0.5, 0, 6.5, 0);
+    // chassis.arc(-37, 40);
+    // moveIntake(0);
 
     // end
     wait(200, msec);

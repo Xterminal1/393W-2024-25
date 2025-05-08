@@ -1,6 +1,6 @@
 #include <vex.h>
 
-void blue_right_1_5_ladder() {
+void blue_right_1_5_elims() {
     std::cout << "AUTON BEGIN" << endl;
 
     chassis.turn_kd = 3.8;
@@ -23,8 +23,6 @@ void blue_right_1_5_ladder() {
     wait(150, msec);
 
     // CLAMP MOGO
-    // auto move_neg_42_6v = []() { chassis.move(-41, 5); }; 
-    // thread move_neg_42_6 = thread(move_neg_42_6v);
     chassis.move(-41, 5);
     thread liftResetThread = thread(lift_reset);
     mogo.set(true);
@@ -66,16 +64,6 @@ void blue_right_1_5_ladder() {
     chassis.drive_timeout = 700;
     chassis.move(12, 12);//4.5, 5, 7
 
-    // // corner ring 2
-    // chassis.move(-8.5, 12);//-4.5, -5.5
-    // wait(200, msec);
-    // intakePiston.set(true);
-    // chassis.drive_timeout = 1200;
-    // wait(300, msec);
-    // chassis.move(6.75, 3);//5.5
-    // // wait(500, msec);
-    // intakePiston.set(false);
-
     // ring next to ally stake
     chassis.move(-13.5, 12);
     chassis.turn(60, 6);
@@ -85,15 +73,8 @@ void blue_right_1_5_ladder() {
     chassis.set_drive_constants(8.5, 1.2, 0, 8, 0);
     chassis.set_heading_constants(12, 0.5, 0, 6.5, 0);
     intakePiston.set(false);
-    lift.setStopping(brake);
-    auto liftToLadder = []() { moveLift(500, 100); };
-    thread liftThread = thread(liftToLadder);
+    wait(80, msec);
     chassis.move(-10, 8);
-    
-    // ladder touch
-    chassis.set_drive_constants(10, 1.2, 0, 8, 0);
-    chassis.set_heading_constants(12, 0.5, 0, 6.5, 0);
-    chassis.arc(17, 128);
 
     // end
     wait(200, msec);
