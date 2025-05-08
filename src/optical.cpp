@@ -4,7 +4,7 @@ void filterRing(float intakeTime) {
   wait(intakeTime, msec);//160
 
   moveIntake(-12);
-  wait(100, msec);
+  wait(250, msec);
   moveIntake(12);
 }
 
@@ -67,6 +67,6 @@ void detectRedRing() {
   // URBAD
 }
 
-void filterRed() { getRing("red", 100); }
-void filterBlue() { getRing("blue", 100); }
+void filterRed() { getRing("red", 130); }
+void filterBlue() { getRing("blue", 130); }
 void filterBlueSlow() { getRing("blue", 370); }

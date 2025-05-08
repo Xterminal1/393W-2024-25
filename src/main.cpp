@@ -88,14 +88,29 @@ void autonomous(void) {
   imu.resetRotation();
   rotationSensor.resetPosition();
 
-  int auton = -1;
+  int auton = 7;
 
   if (auton == -1) {
     
-    thread t_filter = thread(filterBlue);
+    thread t_filter = thread(filterRed);
     mogo.set(true);
     wait(500, msec);
     moveIntake(12);
+
+    /*
+
+    red left 1-5-l
+    red left 6-l
+
+    blue right 1-5-l
+    blue right 6-l
+
+    red right 5-l
+    blue left 5-l
+
+    bsawp
+    rsawp
+     */
 
   } else if (auton == 0) {
     red_left_1_5_ladder();

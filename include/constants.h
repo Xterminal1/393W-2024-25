@@ -12,7 +12,7 @@
 
 // color signatures
 #define RED_LOWER_LIM 0
-#define RED_UPPER_LIM 20
+#define RED_UPPER_LIM 15
 #define BLUE_LOWER_LIM 203
 #define BLUE_UPPER_LIM 230
 
